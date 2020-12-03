@@ -1,11 +1,11 @@
 import { get, startCase, camelCase, omit, merge } from 'lodash';
 import { resolver as _resolver } from 'graphql-sequelize';
-// import { EXPECTED_OPTIONS_KEY } from 'dataloader-sequelize';
+import { EXPECTED_OPTIONS_KEY } from 'dataloader-sequelize';
 import pluralize from 'pluralize';
 
-// _resolver.contextToOptions = {
-//   dataloaderContext: [EXPECTED_OPTIONS_KEY],
-// };
+_resolver.contextToOptions = {
+  dataloaderContext: [EXPECTED_OPTIONS_KEY],
+};
 
 export function resolver(model, options = {}) {
   return async function (root, args, ctx, info) {
