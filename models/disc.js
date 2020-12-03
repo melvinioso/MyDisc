@@ -1,5 +1,5 @@
 import { Model } from 'sequelize';
-import { isString } from './validators';
+import { isString, isNumber } from './validators';
 
 export default (sequelize, DataTypes) => {
   class Disc extends Model {
@@ -39,35 +39,35 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isNumeric: true,
+          isNumber
         },
       },
       speed: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isNumeric: true,
+          isNumber
         },
       },
       glide: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isNumeric: true,
+          isNumber
         },
       },
       turn: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isNumeric: true,
+          isNumber
         },
       },
       fade: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isNumeric: true,
+          isNumber
         },
       },
     },
