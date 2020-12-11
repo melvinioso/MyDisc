@@ -9,9 +9,9 @@ describe('Model - Disc', () => {
   it('should create a disc', async() => {
     await factory.create('Disc', {
       brand: 'Innova',
-      mold: 'Colt',
+      mold: 'Roc',
       plastic: 'DX',
-      weight: 163,
+      weight: 175,
       speed: 3,
       glide: 4,
       turn: -1,
