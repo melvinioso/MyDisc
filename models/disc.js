@@ -14,6 +14,13 @@ export default (sequelize, DataTypes) => {
   }
   Disc.init(
     {
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          isNumber,
+        },
+      },
       brand: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -39,35 +46,35 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isNumber
+          isNumber,
         },
       },
       speed: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isNumber
+          isNumber,
         },
       },
       glide: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isNumber
+          isNumber,
         },
       },
       turn: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isNumber
+          isNumber,
         },
       },
       fade: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isNumber
+          isNumber,
         },
       },
     },

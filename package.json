@@ -30,7 +30,8 @@
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
     "pluralize": "^8.0.0",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "umzug": "^2.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.8",

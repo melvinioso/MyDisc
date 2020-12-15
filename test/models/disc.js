@@ -7,7 +7,9 @@ chai.use(chaiAsPromised);
 
 describe('Model - Disc', () => {
   it('should create a disc', async() => {
+    const user = await factory.create('User');
     await factory.create('Disc', {
+      userId: user.id,
       brand: 'Innova',
       mold: 'Roc',
       plastic: 'DX',
@@ -20,6 +22,16 @@ describe('Model - Disc', () => {
   });
 
   describe('Validations', () => {
+    it('should require a valid userId', async () => {
+      const user = await factory.create('User');
+      await factory.create('Disc', { userId: null }).should.be.rejectedWith(/notNull/);
+      await factory.create('Disc', { userId: false }).should.be.rejectedWith(/number/);
+      await factory.create('Disc', { userId: true }).should.be.rejectedWith(/number/);
+      await factory.create('Disc', { userId: '163' }).should.be.rejectedWith(/number/);
+      await factory.create('Disc', { userId: { foo: 'bar' } }).should.be.rejectedWith(/number/);
+      await factory.create('Disc', { userId: user.id }).should.be.fulfilled;
+    });
+
     it('should require a valid brand', async () => {
       await factory.create('Disc', { brand: null }).should.be.rejectedWith(/notNull/);
       await factory.create('Disc', { brand: false }).should.be.rejectedWith(/string/);
