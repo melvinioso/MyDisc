@@ -2,11 +2,13 @@ import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from './sequelize';
 
 import Disc from './disc';
+import User from './user';
 
 const db = {};
 
 const Models = {
   Disc,
+  User,
 };
 
 Object.keys(Models).forEach((key) => {

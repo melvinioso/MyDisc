@@ -1,44 +1,24 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Disc', {
+    await queryInterface.createTable('User', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      brand: {
+      provider: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      mold: {
+      providerId: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      plastic: {
+      providerKey: {
         allowNull: false,
         type: Sequelize.STRING
-      },
-      weight: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      speed: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      glide: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      turn: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      fade: {
-        allowNull: false,
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -51,6 +31,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Disc');
+    await queryInterface.dropTable('User');
   }
 };

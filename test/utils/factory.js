@@ -5,7 +5,10 @@ import DB from '../../models';
 
 Factory.setAdapter(new SequelizeAdapter());
 
+const { seq } = Factory;
+
 Factory.define('Disc', DB.Disc, {
+  userId: Factory.assoc('User', 'id'),
   brand: faker.company.companyName,
   mold: faker.lorem.word,
   plastic: faker.lorem.word,
@@ -29,6 +32,12 @@ Factory.define('Disc', DB.Disc, {
     min: 0,
     max: 5,
   }),
+});
+
+Factory.define('User', DB.User, {
+  provider: 'gmail',
+  providerId: seq('User.providerId', (n) => `user-${n}@example.com`),
+  providerKey: 'some-api-key',
 });
 
 export const factory = Factory;

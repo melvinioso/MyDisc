@@ -22,3 +22,10 @@ export function isJSON(value) {
     throw new Error('Not valid JSON');
   }
 }
+
+export function isValidEmail(value) {
+  const mail = /\S+@\S+\.\S+/;
+  if (mail.test(value)) {
+    throw new Error('Not a valid email');
+  }
+}

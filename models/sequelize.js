@@ -1,7 +1,8 @@
 import configs from '../config/config';
 import { Sequelize } from 'sequelize';
 
-const config = configs.db.primary;
+const config =
+  process.env.NODE_ENV === 'test' ? configs.db.test : configs.db.primary;
 
 export const sequelize = new Sequelize(
   config.database,
@@ -11,9 +12,9 @@ export const sequelize = new Sequelize(
     dialect: 'postgres',
     host: config.host,
     port: config.port || 5432,
-    // dialectOptions: {
-    //   ssl: configs.ssl,
-    // },
+    dialectOptions: {
+      ssl: configs.ssl,
+    },
     define: {
       freezeTableName: true,
     },

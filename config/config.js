@@ -22,6 +22,16 @@ const config = {
       ...postgresPrimary,
       logging: () => process.env.LOG_SQL,
     },
+    test: {
+      username: process.env.SQL_USERNAME_TEST || '',
+      password: process.env.SQL_PASSWORD_TEST || '',
+      database: process.env.SQL_DATABASE_TEST || '',
+      host: process.env.SQL_HOST_TEST || '',
+      port: parseInt(process.env.SQL_PORT_TEST || '', 10),
+      dialect: process.env.SQL_DIALECT_TEST || 'postgres',
+      ssl: false,
+      logging: () => process.env.LOG_SQL,
+    },
   },
 };
 
