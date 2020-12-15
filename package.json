@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run migrate && nodemon --ignore './test/' --exec babel-node server/index.js",
-    "migrate": "npx sequelize-cli db:migrate --url postgresql://root@localhost:5432/discsDB-test",
+    "start": "nodemon --ignore './test/' --exec babel-node server/index.js",
+    "migrate": "npx sequelize-cli db:migrate --url postgresql://root@localhost:5432/discsDB",
     "test": "NODE_ENV=test mocha --exit"
   },
   "author": "",
