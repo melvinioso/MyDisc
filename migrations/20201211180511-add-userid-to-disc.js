@@ -1,7 +1,16 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.addColumn('Disc', 'userId', {
+    await queryInterface.addColumn('Disc', 'userId', {
+      allowNull: true,
+      type: Sequelize.INTEGER,
+    });
+
+    await queryInterface.bulkUpdate('Disc', {
+      userId: 1,
+    });
+
+    await queryInterface.changeColumn('Disc', 'userId', {
       allowNull: false,
       type: Sequelize.INTEGER,
     });

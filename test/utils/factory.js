@@ -35,7 +35,7 @@ Factory.define('Disc', DB.Disc, {
 });
 
 Factory.define('User', DB.User, {
-  provider: 'gmail',
+  provider: 'email',
   providerId: seq('User.providerId', (n) => `user-${n}@example.com`),
   providerKey: 'some-api-key',
 });

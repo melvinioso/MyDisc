@@ -43,6 +43,9 @@ const server = new ApolloServer({
 server.applyMiddleware({ app, path: '/graphql' });
 
 const listener = app.listen(config.port, () => {
+  process.on('SIGINT', () => {
+    process.exit(0);
+  });
   console.log(`🚀  GraphQL is now running on ${endpoint}`);
 });
 
