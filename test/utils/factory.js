@@ -52,5 +52,10 @@ Factory.define('Profile', DB.Profile, {
   name: () => `${faker.name.firstName()} ${faker.name.lastName()}`,
 });
 
+Factory.define('Email', DB.Email, {
+  userId: Factory.assoc('User', 'id'),
+  email: seq('Email.email', n => `email-${n}@example.com`),
+});
+
 export const factory = Factory;
 export const db = DB;
