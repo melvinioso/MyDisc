@@ -1,6 +1,4 @@
-require('dotenv-safe').config({
-  allowEmptyValues: true,
-});
+require('../services/env');
 
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';

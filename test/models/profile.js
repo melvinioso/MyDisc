@@ -1,9 +1,4 @@
 import { factory } from '../utils/factory';
-const chai = require('chai');
-const expect = chai.expect;
-const should = require('chai').should();
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
 
 describe('Model - Profile', () => {
   it('should create a profile', async() => {
