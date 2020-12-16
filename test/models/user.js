@@ -8,7 +8,7 @@ chai.use(chaiAsPromised);
 describe('Model - User', () => {
   it('should create a user', async() => {
     await factory.create('User', {
-      provider: 'gmail',
+      provider: 'email',
       providerId: 'test@example.com',
       providerKey: 'some-api-key',
     }).should.be.fulfilled;

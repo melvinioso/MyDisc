@@ -36,8 +36,15 @@ Factory.define('Disc', DB.Disc, {
 
 Factory.define('User', DB.User, {
   provider: 'email',
-  providerId: seq('User.providerId', (n) => `user-${n}@example.com`),
+  providerId: seq('User.providerId', n => `user-${n}@example.com`),
   providerKey: 'some-api-key',
+});
+
+Factory.define('Bag', DB.Bag, {
+  userId: Factory.assoc('User', 'id'),
+  name: 'My Bag Name',
+  capacity: 18,
+  filled: 17,
 });
 
 export const factory = Factory;
