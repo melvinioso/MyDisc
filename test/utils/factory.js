@@ -57,5 +57,10 @@ Factory.define('Email', DB.Email, {
   email: seq('Email.email', n => `email-${n}@example.com`),
 });
 
+Factory.define('DiscBag', DB.DiscBag, {
+  discId: Factory.assoc('Disc', 'id'),
+  bagId: Factory.assoc('Bag', 'id'),
+});
+
 export const factory = Factory;
 export const db = DB;
