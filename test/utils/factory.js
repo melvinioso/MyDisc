@@ -47,5 +47,10 @@ Factory.define('Bag', DB.Bag, {
   filled: 17,
 });
 
+Factory.define('Profile', DB.Profile, {
+  userId: Factory.assoc('User', 'id'),
+  name: () => `${faker.name.firstName()} ${faker.name.lastName()}`,
+});
+
 export const factory = Factory;
 export const db = DB;

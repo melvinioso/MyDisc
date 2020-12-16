@@ -4,6 +4,7 @@ import sequelize from './sequelize';
 import Disc from './disc';
 import User from './user';
 import Bag from './bag';
+import Profile from './profile';
 
 const db = {};
 
@@ -11,6 +12,7 @@ const Models = {
   Disc,
   User,
   Bag,
+  Profile,
 };
 
 Object.keys(Models).forEach(key => {
