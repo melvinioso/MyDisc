@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { factory } from '../utils/factory';
 
 describe('Model - User', () => {
@@ -32,6 +33,53 @@ describe('Model - User', () => {
       await factory.create('User', { providerKey: true }).should.be.rejectedWith(/string/);
       await factory.create('User', { providerKey: 123 }).should.be.rejectedWith(/string/);
       await factory.create('User', { providerKey: { foo: 'bar' } }).should.be.rejectedWith(/string/);
+    });
+  });
+
+  describe('Relationships', () => {
+    let user;
+
+    before(async () => {
+      user = await factory.create('User');
+    });
+
+    it('hasMany Bag', async () => {
+      const record = await factory.create('Bag', {
+        userId: user.id,
+      });
+      
+      const found = await user.getBags();
+      expect(found.length).to.equal(1);
+      expect(found[0].id).to.equal(record.id);
+    });
+
+    it('hasMany Disc', async () => {
+      const record = await factory.create('Disc', {
+        userId: user.id,
+      });
+      
+      const found = await user.getDiscs();
+      expect(found.length).to.equal(1);
+      expect(found[0].id).to.equal(record.id);
+    });
+
+    it('hasOne Profile', async () => {
+      const record = await factory.create('Profile', {
+        userId: user.id
+      });
+
+      const found = await user.getProfile();
+      expect(found.id).to.equal(record.id);
+    });
+
+    it('hasMany Email', async () => {
+      const record = await factory.create('Email', {
+        userId: user.id,
+      });
+      
+      const found = await user.getEmails();
+      expect(found.length).to.equal(1);
+      expect(found[0].id).to.equal(record.id);
     });
   });
 });
