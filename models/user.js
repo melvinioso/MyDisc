@@ -10,6 +10,27 @@ export default (sequelize, DataTypes) => {
      */
     static associate() {
       // define association here
+      const { User, Bag, Disc, Profile, Email } = this.sequelize?.models;
+
+      User.hasMany(Bag, {
+        foreignKey: 'userId',
+        constraints: false,
+      });
+
+      User.hasMany(Disc, {
+        foreignKey: 'userId',
+        constraints: false,
+      });
+
+      User.hasOne(Profile, {
+        foreignKey: 'userId',
+        constraints: false,
+      });
+
+      User.hasMany(Email, {
+        foreignKey: 'userId',
+        constraints: false,
+      });
     }
   }
   User.init(
@@ -39,6 +60,13 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'User',
+      indexes: [
+        {
+          name: 'user_provider_providerId',
+          unique: true,
+          fields: ['provider', 'providerId'],
+        },
+      ],
     }
   );
   return User;

@@ -1,6 +1,4 @@
-require('dotenv-safe').config({
-  allowEmptyValues: true,
-});
+require('../services/env');
 
 let postgresPrimary = {
   username: process.env.SQL_USERNAME || '',
