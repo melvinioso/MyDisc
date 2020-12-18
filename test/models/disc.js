@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { factory } from '../utils/factory';
 
 describe('Model - Disc', () => {
@@ -89,6 +90,32 @@ describe('Model - Disc', () => {
       await factory.create('Disc', { fade: true }).should.be.rejectedWith(/number/);
       await factory.create('Disc', { fade: '163' }).should.be.rejectedWith(/number/);
       await factory.create('Disc', { fade: { foo: 'bar' } }).should.be.rejectedWith(/number/);
+    });
+  });
+
+  describe('Relationships', () => {
+    it('belongsTo User', async () => {
+      const user = await factory.create('User');
+      const record = await factory.create('Disc');
+
+      await record.setUser(user);
+
+      const found = await record.getUser();
+      expect(found.id).to.equal(user.id);
+    });
+
+    it('belongsToMany Bag through DiscBag', async () => {
+      const disc = await factory.create('Disc');
+      const bag = await factory.create('Bag');
+
+      await factory.create('DiscBag', {
+        discId: disc.id,
+        bagId: bag.id,
+      });
+
+      const found = await disc.getBags();
+      expect(found.length).to.equal(1);
+      expect(found[0].id).to.equal(bag.id);
     });
   });
 });

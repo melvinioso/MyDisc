@@ -10,6 +10,18 @@ export default (sequelize, DataTypes) => {
      */
     static associate() {
       // define association here
+      const { Bag, Disc, DiscBag, User } = this.sequelize?.models;
+
+      Bag.belongsTo(User, {
+        foreignKey: 'userId',
+        constraints: false,
+      });
+
+      Bag.belongsToMany(Disc, {
+        through: DiscBag,
+        foreignKey: 'bagId',
+        constraints: false,
+      });
     }
   }
   Bag.init(

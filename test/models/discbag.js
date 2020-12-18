@@ -26,4 +26,27 @@ describe('Model - DiscBag', () => {
       await factory.create('DiscBag', { bagId: bag.id }).should.be.fulfilled;
     });
   });
+
+  describe('Relationships', () => {
+    let disc, bag, record;
+
+    before(async () => {
+      disc = await factory.create('Disc');
+      bag = await factory.create('Bag');
+      record = await factory.create('DiscBag', {
+        discId: disc.id,
+        bagId: bag.id,
+      });
+    });
+
+    it('belongsTo Disc', async () => {
+      const found = await record.getDisc();
+      expect(found.id).to.equal(disc.id);
+    });
+
+    it('belongsTo Bag', async () => {
+      const found = await record.getBag();
+      expect(found.id).to.equal(bag.id);
+    });
+  });
 });
