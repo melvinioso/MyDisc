@@ -10,6 +10,12 @@ export default (sequelize, DataTypes) => {
      */
     static associate() {
       // define association here
+      const { Profile, User } = this.sequelize?.models;
+
+      Profile.belongsTo(User, {
+        foreignKey: 'userId',
+        constraints: false,
+      });
     }
   }
   Profile.init(
