@@ -46,4 +46,30 @@ describe('Model - Bag', () => {
       await factory.create('Bag', { filled: { foo: 'bar' } }).should.be.rejectedWith(/number/);
     });
   });
+
+  describe('Relationships', () => {
+    it('belongsTo User', async () => {
+      const user = await factory.create('User');
+      const record = await factory.create('Bag');
+
+      await record.setUser(user);
+
+      const found = await record.getUser();
+      expect(found.id).to.equal(user.id);
+    });
+
+    it('belongsToMany Disc through DiscBag', async () => {
+      const bag = await factory.create('Bag');
+      const disc = await factory.create('Disc');
+
+      await factory.create('DiscBag', {
+        discId: disc.id,
+        bagId: bag.id,
+      });
+
+      const found = await bag.getDiscs();
+      expect(found.length).to.equal(1);
+      expect(found[0].id).to.equal(disc.id);
+    });
+  });
 });
