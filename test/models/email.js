@@ -31,4 +31,16 @@ describe('Model - Email', () => {
       await factory.create('Email', { email: 'testuser@example com' }).should.be.rejectedWith(/email/);
     });
   });
+
+  describe('Relationships', () => {
+    it('belongsTo User', async () => {
+      const user = await factory.create('User');
+      const record = await factory.create('Email');
+
+      await record.setUser(user);
+
+      const found = await record.getUser();
+      expect(found.id).to.equal(user.id);
+    });
+  });
 });
