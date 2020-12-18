@@ -64,9 +64,10 @@ describe('Model - User', () => {
     });
 
     it('hasOne Profile', async () => {
-      const record = await factory.create('Profile', {
-        userId: user.id
-      });
+      const user = await factory.create('User');
+      const record = await factory.create('Profile');
+
+      await user.setProfile(record);
 
       const found = await user.getProfile();
       expect(found.id).to.equal(record.id);

@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { factory } from '../utils/factory';
 
 describe('Model - Profile', () => {
@@ -26,6 +27,18 @@ describe('Model - Profile', () => {
       await factory.create('Profile', { name: true }).should.be.rejectedWith(/string/);
       await factory.create('Profile', { name: 123 }).should.be.rejectedWith(/string/);
       await factory.create('Profile', { name: { foo: 'bar' } }).should.be.rejectedWith(/string/);
+    });
+  });
+
+  describe('Relationships', () => {
+    it('belongsTo User', async () => {
+      const user = await factory.create('User');
+      const record = await factory.create('Profile');
+
+      await record.setUser(user);
+
+      const found = await record.getUser();
+      expect(found.id).to.equal(user.id);
     });
   });
 });
