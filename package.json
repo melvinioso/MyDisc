@@ -6,7 +6,9 @@
   "scripts": {
     "start": "nodemon --ignore './test/' --exec babel-node server/index.js",
     "migrate": "npx sequelize-cli db:migrate --url postgresql://root@localhost:5432/discsDB",
-    "test": "NODE_ENV=test mocha --exit"
+    "test": "NODE_ENV=test mocha --exit",
+    "pretty-quick": "pretty-quick --staged",
+    "pretty:all": "prettier --config .prettierrc --write \"**/*.{js,jsx}\""
   },
   "author": "",
   "license": "ISC",
@@ -47,9 +49,12 @@
     "chai-as-promised": "^7.1.1",
     "factory-girl": "^5.0.4",
     "faker": "^5.1.0",
+    "husky": "^4.3.6",
     "jasmine-fail-fast": "^2.0.1",
     "mocha": "^8.2.1",
     "nodemon": "^2.0.6",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0",
     "sequelize-cli": "^6.2.0",
     "sinon": "^9.2.2",
     "sinon-chai": "^3.5.0",

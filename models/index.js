@@ -19,12 +19,12 @@ const Models = {
   DiscBag,
 };
 
-Object.keys(Models).forEach(key => {
+Object.keys(Models).forEach((key) => {
   const model = Models[key](sequelize, DataTypes);
   db[model.name] = model;
 });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }

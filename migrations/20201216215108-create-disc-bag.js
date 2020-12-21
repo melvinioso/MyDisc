@@ -25,6 +25,38 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+
+    await queryInterface.addConstraint('DiscBag', {
+      fields: ['discId'],
+      type: 'FOREIGN KEY',
+      name: 'DiscBag_discId_fkey',
+      references: {
+        table: 'Disc',
+        field: 'id',
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    });
+
+    await queryInterface.addConstraint('DiscBag', {
+      fields: ['bagId'],
+      type: 'FOREIGN KEY',
+      name: 'DiscBag_bagId_fkey',
+      references: {
+        table: 'Bag',
+        field: 'id',
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    });
+
+    await queryInterface.addConstraint('DiscBag', {
+      fields: ['discId', 'bagId'],
+      type: 'unique',
+      name: 'DiscBag_discId_bagId_fkey',
+      primary: false,
+      unique: true,
+    });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('DiscBag');

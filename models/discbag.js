@@ -45,6 +45,13 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'DiscBag',
+      indexes: [
+        {
+          name: 'DiscBag_discId_bagId',
+          unique: true,
+          fields: ['discId', 'bagId'],
+        },
+      ],
     }
   );
   return DiscBag;
