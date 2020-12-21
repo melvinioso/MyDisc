@@ -40,11 +40,10 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path: '/graphql' });
 
-const listener = app.listen(config.port, () => {
-  process.on('SIGINT', () => {
-    process.exit(0);
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(config.port, () => {
+    console.log(`🚀  GraphQL is now running on ${endpoint}`);
   });
-  console.log(`🚀  GraphQL is now running on ${endpoint}`);
-});
+}
 
-export default listener;
+export default app;
