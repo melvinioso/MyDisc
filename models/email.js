@@ -38,6 +38,13 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Email',
+      indexes: [
+        {
+          name: 'email_userId_email',
+          unique: true,
+          fields: ['userId', 'email'],
+        },
+      ],
     }
   );
   return Email;

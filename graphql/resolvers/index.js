@@ -9,9 +9,6 @@ const scalars = {
   DateTime: GraphQLDateTime,
 };
 
-const resolvers = merge(
-  scalars,
-  Disc,
-);
+const resolvers = merge(scalars, Disc);
 
 export default resolvers;

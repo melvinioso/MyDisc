@@ -26,11 +26,6 @@ const Subscription = gql`
   }
 `;
 
-const typeDefs = [
-  Query,
-  Mutation,
-  Subscription,
-  Disc,
-];
+const typeDefs = [Query, Mutation, Subscription, Disc];
 
 export default typeDefs;
