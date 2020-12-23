@@ -29,3 +29,9 @@ export function isValidEmail(value) {
     throw new Error('Not a valid email');
   }
 }
+
+export function isValidProvider(value) {
+  if (['email'].indexOf(value) < 0) {
+    throw new Error('Not a valid provider type');
+  }
+}
