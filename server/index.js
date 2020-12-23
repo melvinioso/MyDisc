@@ -7,6 +7,8 @@ import compression from 'compression';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
+import { useAuthentication } from '../authentication';
+
 import schema from '../graphql/schema';
 import context from '../graphql/context';
 
@@ -19,6 +21,8 @@ const app = express();
 app.use('*', cors());
 app.use(compression());
 app.use(bodyParser.json());
+
+useAuthentication(app);
 
 const server = new ApolloServer({
   schema,

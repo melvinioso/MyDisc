@@ -12,17 +12,14 @@ describe('Model - Profile', () => {
 
   describe('Validations', () => {
     it('should require a valid userId', async () => {
-      const user = await factory.create('User');
       await factory.create('Profile', { userId: null }).should.be.rejectedWith(/notNull/);
       await factory.create('Profile', { userId: false }).should.be.rejectedWith(/number/);
       await factory.create('Profile', { userId: true }).should.be.rejectedWith(/number/);
       await factory.create('Profile', { userId: '163' }).should.be.rejectedWith(/number/);
       await factory.create('Profile', { userId: { foo: 'bar' } }).should.be.rejectedWith(/number/);
-      await factory.create('Profile', { userId: user.id }).should.be.fulfilled;
     });
 
-    it('should require a valid name', async () => {
-      await factory.create('Profile', { name: null }).should.be.rejectedWith(/notNull/);
+    it('should reject invalid name', async () => {
       await factory.create('Profile', { name: false }).should.be.rejectedWith(/string/);
       await factory.create('Profile', { name: true }).should.be.rejectedWith(/string/);
       await factory.create('Profile', { name: 123 }).should.be.rejectedWith(/string/);

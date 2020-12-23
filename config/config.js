@@ -15,6 +15,9 @@ const config = {
   api: {
     host: process.env.API_HOST,
   },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
   db: {
     primary: {
       ...postgresPrimary,
