@@ -13,10 +13,10 @@ describe('Model - User', () => {
   describe('Validations', () => {
     it('should require a valid provider', async () => {
       await factory.create('User', { provider: null }).should.be.rejectedWith(/notNull/);
-      await factory.create('User', { provider: false }).should.be.rejectedWith(/string/);
-      await factory.create('User', { provider: true }).should.be.rejectedWith(/string/);
-      await factory.create('User', { provider: 123 }).should.be.rejectedWith(/string/);
-      await factory.create('User', { provider: { foo: 'bar' } }).should.be.rejectedWith(/string/);
+      await factory.create('User', { provider: false }).should.be.rejectedWith(/provider/);
+      await factory.create('User', { provider: true }).should.be.rejectedWith(/provider/);
+      await factory.create('User', { provider: 123 }).should.be.rejectedWith(/provider/);
+      await factory.create('User', { provider: { foo: 'bar' } }).should.be.rejectedWith(/provider/);
     });
 
     it('should require a valid providerId', async () => {

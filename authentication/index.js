@@ -95,7 +95,6 @@ export function useAuthentication(app) {
       }
 
       req.user = user;
-      console.log(req.user);
 
       const token = await user.token();
 
