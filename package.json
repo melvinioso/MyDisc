@@ -6,13 +6,16 @@
   "scripts": {
     "start": "nodemon --ignore './test/' --exec babel-node server/index.js",
     "migrate": "npx sequelize-cli db:migrate --url postgresql://root@localhost:5432/discsDB",
-    "test": "NODE_ENV=test mocha --exit",
+    "test": "NODE_ENV=test mocha 'test/{,!(infrastructure)/**/}*.spec.js'",
+    "test:migrate": "NODE_ENV=test mocha 'test/infrastructure/**/*.spec.js'",
+    "test:all": "NODE_ENV=test npm run test && npm run test:migrate",
     "pretty-quick": "pretty-quick --staged",
     "pretty:all": "prettier --config .prettierrc --write \"**/*.{js,jsx}\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "apollo-server-express": "^2.19.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
@@ -53,7 +56,7 @@
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.12.7",
-    "@babel/register": "^7.12.1",
+    "@babel/register": "^7.12.10",
     "@babel/runtime": "^7.12.5",
     "babel-loader": "^8.2.2",
     "chai": "^4.2.0",

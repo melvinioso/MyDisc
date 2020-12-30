@@ -19,52 +19,49 @@ export default (sequelize, DataTypes) => {
       }
       return comparePassword(password, this.providerKey);
     }
-  
+
     async accessCode() {
       const token = await this.token();
       const accessCode = v4();
-  
+
       lru.set(accessCode, token);
-  
+
       return accessCode;
     }
-  
+
     async token() {
-      const [record] = await Promise.all([
-        this,
-      ]);
-  
+      const [record] = await Promise.all([this]);
+
       let payload = {
         permissions: [],
       };
-  
+
       const modelName = this.modelName();
-  
+
       payload[modelName] = pick(record, 'id', 'providerId');
-  
+
       const token = jwt.sign(payload, config.jwt.secret, {
         expiresIn: '30d',
       });
-  
+
       return token;
     }
-  
+
     async hashPassword() {
       const localProviders = ['email'];
-      const isLocalProvider =
-        localProviders.indexOf(this.get('provider')) > -1;
-  
+      const isLocalProvider = localProviders.indexOf(this.get('provider')) > -1;
+
       if (isLocalProvider && this.changed('providerKey')) {
         let val = this.get('providerKey');
-  
+
         if (!val || val === '') {
           throw new Error('Password can not be empty');
         }
-  
+
         if (isLocalProvider) {
           this.set('providerId', this.providerId.toLowerCase());
         }
-  
+
         const hash = await hashPassword(val);
         this.set('providerKey', hash);
       }
@@ -76,26 +73,22 @@ export default (sequelize, DataTypes) => {
      */
     static associate() {
       // define association here
-      const { User, Bag, Disc, Profile, Email } = this.sequelize?.models;
+      const { User, Bag, Disc, Profile, Email } = this.sequelize.models;
 
       User.hasMany(Bag, {
         foreignKey: 'userId',
-        constraints: false,
       });
 
       User.hasMany(Disc, {
         foreignKey: 'userId',
-        constraints: false,
       });
 
       User.hasOne(Profile, {
         foreignKey: 'userId',
-        constraints: false,
       });
 
       User.hasMany(Email, {
         foreignKey: 'userId',
-        constraints: false,
       });
     }
   }

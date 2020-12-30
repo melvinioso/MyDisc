@@ -108,14 +108,11 @@ describe('Model - Disc', () => {
       const disc = await factory.create('Disc');
       const bag = await factory.create('Bag');
 
-      await factory.create('DiscBag', {
-        discId: disc.id,
-        bagId: bag.id,
-      });
+      await disc.addToBag(bag);
 
-      const found = await disc.getBags();
+      const found = await bag.getDiscs();
       expect(found.length).to.equal(1);
-      expect(found[0].id).to.equal(bag.id);
+      expect(found[0].id).to.equal(disc.id);
     });
   });
 });

@@ -3,20 +3,16 @@ import { factory } from '../utils/factory';
 
 describe('Model - User', () => {
   it('should create a user', async() => {
-    await factory.create('User', {
-      provider: 'email',
-      providerId: 'test@example.com',
-      providerKey: 'some-api-key',
-    }).should.be.fulfilled;
+    await factory.create('User').should.be.fulfilled;
   });
 
   describe('Validations', () => {
     it('should require a valid provider', async () => {
       await factory.create('User', { provider: null }).should.be.rejectedWith(/notNull/);
-      await factory.create('User', { provider: false }).should.be.rejectedWith(/string/);
-      await factory.create('User', { provider: true }).should.be.rejectedWith(/string/);
-      await factory.create('User', { provider: 123 }).should.be.rejectedWith(/string/);
-      await factory.create('User', { provider: { foo: 'bar' } }).should.be.rejectedWith(/string/);
+      await factory.create('User', { provider: false }).should.be.rejectedWith(/provider/);
+      await factory.create('User', { provider: true }).should.be.rejectedWith(/provider/);
+      await factory.create('User', { provider: 123 }).should.be.rejectedWith(/provider/);
+      await factory.create('User', { provider: { foo: 'bar' } }).should.be.rejectedWith(/provider/);
     });
 
     it('should require a valid providerId', async () => {
