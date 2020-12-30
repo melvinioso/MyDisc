@@ -3,11 +3,7 @@ import { factory } from '../utils/factory';
 
 describe('Model - User', () => {
   it('should create a user', async() => {
-    await factory.create('User', {
-      provider: 'email',
-      providerId: 'test@example.com',
-      providerKey: 'some-api-key',
-    }).should.be.fulfilled;
+    await factory.create('User').should.be.fulfilled;
   });
 
   describe('Validations', () => {

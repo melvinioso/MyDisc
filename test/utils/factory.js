@@ -7,6 +7,12 @@ Factory.setAdapter(new SequelizeAdapter());
 
 const { seq } = Factory;
 
+Factory.define('User', DB.User, {
+  provider: 'email',
+  providerId: seq('User.providerId', n => `user-${n}@example.com`),
+  providerKey: 'some-api-key',
+});
+
 Factory.define('Disc', DB.Disc, {
   userId: Factory.assoc('User', 'id'),
   brand: faker.company.companyName,
@@ -34,12 +40,6 @@ Factory.define('Disc', DB.Disc, {
   }),
 });
 
-Factory.define('User', DB.User, {
-  provider: 'email',
-  providerId: seq('User.providerId', n => `user-${n}@example.com`),
-  providerKey: 'some-api-key',
-});
-
 Factory.define('Bag', DB.Bag, {
   userId: Factory.assoc('User', 'id'),
   name: 'My Bag Name',
@@ -57,10 +57,10 @@ Factory.define('Email', DB.Email, {
   email: seq('Email.email', n => `email-${n}@example.com`),
 });
 
-Factory.define('DiscBag', DB.DiscBag, {
-  discId: Factory.assoc('Disc', 'id'),
-  bagId: Factory.assoc('Bag', 'id'),
-});
+// Factory.define('DiscBag', DB.DiscBag, {
+//   discId: Factory.assoc('Disc', 'id'),
+//   bagId: Factory.assoc('Bag', 'id'),
+// });
 
 export const factory = Factory;
 export const db = DB;

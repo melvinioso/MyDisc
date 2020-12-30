@@ -10,11 +10,10 @@ export default (sequelize, DataTypes) => {
      */
     static associate() {
       // define association here
-      const { Email, User } = this.sequelize?.models;
+      const { Email, User } = this.sequelize.models;
 
       Email.belongsTo(User, {
         foreignKey: 'userId',
-        constraints: false,
       });
     }
   }

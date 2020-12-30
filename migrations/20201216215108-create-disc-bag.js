@@ -2,18 +2,14 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('DiscBag', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
       discId: {
         allowNull: false,
+        primaryKey: true,
         type: Sequelize.INTEGER,
       },
       bagId: {
         allowNull: false,
+        primaryKey: true,
         type: Sequelize.INTEGER,
       },
       createdAt: {
@@ -48,14 +44,6 @@ module.exports = {
       },
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
-    });
-
-    await queryInterface.addConstraint('DiscBag', {
-      fields: ['discId', 'bagId'],
-      type: 'unique',
-      name: 'DiscBag_discId_bagId_fkey',
-      primary: false,
-      unique: true,
     });
   },
   down: async (queryInterface, Sequelize) => {
