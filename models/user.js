@@ -73,7 +73,11 @@ export default (sequelize, DataTypes) => {
      */
     static associate() {
       // define association here
-      const { User, Bag, Disc, Profile, Email } = this.sequelize.models;
+      const { User, Permission, Bag, Disc, Profile, Email } = this.sequelize.models;
+
+      User.hasMany(Permission, {
+        foreignKey: 'userId',
+      })
 
       User.hasMany(Bag, {
         foreignKey: 'userId',

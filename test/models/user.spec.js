@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { factory } from '../utils/factory';
 
 describe('Model - User', () => {
@@ -34,8 +35,18 @@ describe('Model - User', () => {
   describe('Relationships', () => {
     let user;
 
-    before(async () => {
+    beforeEach(async () => {
       user = await factory.create('User');
+    });
+
+    it('hasMany Permission', async () => {
+      const record = await factory.create('Permission', {
+        userId: user.id,
+      });
+
+      const found = await user.getPermissions();
+      expect(found.length).to.equal(1);
+      expect(found[0].userId).to.equal(user.id);
     });
 
     it('hasMany Bag', async () => {
