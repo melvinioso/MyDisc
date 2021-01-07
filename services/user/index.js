@@ -7,6 +7,7 @@ const UserServiceOptions = {
   providerKey: '',
   accessToken: '',
   refreshToken: '',
+  permissions: [],
   name: '',
   emails: [],
 };
@@ -16,7 +17,7 @@ export class UserService {
 
   constructor(options) {
     this.options = options;
-    this.include = [db.Profile, db.Email];
+    this.include = [db.Permission, db.Profile, db.Email];
     this.created = false;
   }
 
@@ -47,6 +48,10 @@ export class UserService {
     await this.user.reload({ include });
 
     return this.user;
+  }
+
+  async addPermissions() {
+    await this.user.setStandardPermissions();
   }
 
   async upsertProfile() {
@@ -106,6 +111,7 @@ export class UserService {
   }
 
   async buildCompleteProfile() {
+    await this.addPermissions();
     await this.upsertProfile();
     await this.upsertEmail();
   }
