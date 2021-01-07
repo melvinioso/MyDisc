@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { factory } from '../utils/factory';
 
 describe('Model - Disc', () => {

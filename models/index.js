@@ -6,6 +6,7 @@ import User from './user';
 import Bag from './bag';
 import Profile from './profile';
 import Email from './email';
+import Permission from './permission';
 
 const db = {};
 
@@ -15,6 +16,7 @@ const Models = {
   Bag,
   Profile,
   Email,
+  Permission,
 };
 
 Object.keys(Models).forEach((key) => {
