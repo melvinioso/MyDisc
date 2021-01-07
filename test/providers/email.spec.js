@@ -1,7 +1,7 @@
 import { factory } from '../utils';
 import { handler } from '../../authentication/providers/email';
 
-describe.only('Provider - Email', () => {
+describe('Provider - Email', () => {
   describe('handler', () => {
     it('email provider register route', async () => {
       const record = await factory.create('User', {
