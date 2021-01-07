@@ -30,10 +30,13 @@ export default (sequelize, DataTypes) => {
     }
 
     async token() {
-      const [record] = await Promise.all([this]);
-
+      const [record, permissions] = await Promise.all([
+        this,
+        this.getPermissions(),
+      ]);
+  
       let payload = {
-        permissions: [],
+        permissions: permissions.map(({ key }) => key),
       };
 
       const modelName = this.modelName();
