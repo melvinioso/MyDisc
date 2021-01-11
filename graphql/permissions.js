@@ -39,11 +39,11 @@ const notAllowed = rule()(async () => 'Not allowed.');
 
 const modelKeys = [
   'Disc',
-  'Bag',
-  'Profile',
-  'Email',
-  'User',
-  'Permission',
+  // 'Bag',
+  // 'Profile',
+  // 'Email',
+  // 'User',
+  // 'Permission',
 ];
 
 const defaultPermissions = modelKeys.reduce(
