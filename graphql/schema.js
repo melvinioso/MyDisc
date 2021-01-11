@@ -4,6 +4,7 @@ import { applyMiddleware } from 'graphql-middleware';
 
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
+import { permissions } from './permissions';
 import { listArgs, defaultArgs } from './directives';
 
 const schema = makeExecutableSchema({
@@ -15,4 +16,4 @@ const schema = makeExecutableSchema({
   },
 });
 
-export default applyMiddleware(schema);
+export default applyMiddleware(schema, permissions);

@@ -9,6 +9,7 @@ const fields = `
   glide: Int
   turn: Int
   fade: Int
+  userId: Int
 `;
 
 export default gql`

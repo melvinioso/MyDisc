@@ -30,10 +30,13 @@ export default (sequelize, DataTypes) => {
     }
 
     async token() {
-      const [record] = await Promise.all([this]);
-
+      const [record, permissions] = await Promise.all([
+        this,
+        this.getPermissions(),
+      ]);
+  
       let payload = {
-        permissions: [],
+        permissions: permissions.map(({ key }) => key),
       };
 
       const modelName = this.modelName();
@@ -73,7 +76,11 @@ export default (sequelize, DataTypes) => {
      */
     static associate() {
       // define association here
-      const { User, Bag, Disc, Profile, Email } = this.sequelize.models;
+      const { User, Permission, Bag, Disc, Profile, Email } = this.sequelize.models;
+
+      User.hasMany(Permission, {
+        foreignKey: 'userId',
+      })
 
       User.hasMany(Bag, {
         foreignKey: 'userId',
@@ -90,6 +97,42 @@ export default (sequelize, DataTypes) => {
       User.hasMany(Email, {
         foreignKey: 'userId',
       });
+    }
+
+    async addPermissions(keys) {
+      if (!keys || !keys.length) {
+        return;
+      }
+  
+      const { Permission } = this.sequelize.models;
+  
+      for (const key of keys) {
+        try {
+          const userId = this.id;
+          await Permission.create({ userId, key });
+        } catch (e) {
+          // Swallow the unique constraint error,
+          // bet let PostGres do it's job
+          if (e.name !== 'SequelizeUniqueConstraintError') {
+            console.log(e);
+          }
+        }
+      }
+  
+      return this.reload({
+        include: [Permission],
+      });
+    }
+
+    async setStandardPermissions() {
+      const keys = [
+        'disc.list',
+        'disc.create',
+        'disc.update',
+        'disc.destroy',
+      ];
+
+      return this.addPermissions(keys);
     }
   }
   User.init(

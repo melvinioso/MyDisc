@@ -13,6 +13,11 @@ Factory.define('User', DB.User, {
   providerKey: 'some-api-key',
 });
 
+Factory.define('Permission', DB.Permission, {
+  userId: Factory.assoc('User', 'id'),
+  key: 'no-permission',
+});
+
 Factory.define('Disc', DB.Disc, {
   userId: Factory.assoc('User', 'id'),
   brand: faker.company.companyName,

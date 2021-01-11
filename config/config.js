@@ -11,6 +11,7 @@ let postgresPrimary = {
 };
 
 const config = {
+  environment: process.env.NODE_ENV,
   port: process.env.PORT || 4000,
   api: {
     host: process.env.API_HOST,

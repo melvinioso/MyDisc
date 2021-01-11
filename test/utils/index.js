@@ -2,6 +2,7 @@ import { contentType } from 'mime-types'
 import { extname } from 'path';
 import request from 'supertest';
 import { factory, db } from './factory';
+import app from '../../server/';
 
 async function query(query, variables, token) {
   if (!query) {
@@ -15,13 +16,13 @@ async function query(query, variables, token) {
   }
 
   if (token) {
-    return request(global.listener)
+    return request(app)
       .post('/graphql')
       .set('Authorization', `Bearer ${token}`)
       .send(options)
   }
 
-  return request(global.listener)
+  return request(app)
     .post('/graphql')
     .send(options)
 }
@@ -45,7 +46,7 @@ function formQuery(query, variables = {}, token) {
     Object.keys(uploads).map(key => [`variables.${key}`])
   );
 
-  const req = request(global.listener)
+  const req = request(app)
     .post('/graphql')
     .field('operations', JSON.stringify({ query, variables: vars }))
     .field('map', JSON.stringify(map));
