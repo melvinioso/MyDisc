@@ -69,25 +69,6 @@ export default (sequelize, DataTypes) => {
         this.set('providerKey', hash);
       }
     }
-
-    async addPermissions(keys) {
-      return super.addPermissions(keys);
-    }
-
-    async setStandardPermissions() {
-      const keys = [
-        'disc.list',
-        'disc.create',
-        'disc.update',
-        'disc.destroy',
-        'bag.list',
-        'bag.create',
-        'bag.update',
-        'bag.destroy',
-      ];
-
-      return this.addPermissions(keys);
-    }
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -116,6 +97,42 @@ export default (sequelize, DataTypes) => {
       User.hasMany(Email, {
         foreignKey: 'userId',
       });
+    }
+
+    async addPermissions(keys) {
+      if (!keys || !keys.length) {
+        return;
+      }
+  
+      const { Permission } = this.sequelize.models;
+  
+      for (const key of keys) {
+        try {
+          const userId = this.id;
+          await Permission.create({ userId, key });
+        } catch (e) {
+          // Swallow the unique constraint error,
+          // bet let PostGres do it's job
+          if (e.name !== 'SequelizeUniqueConstraintError') {
+            console.log(e);
+          }
+        }
+      }
+  
+      return this.reload({
+        include: [Permission],
+      });
+    }
+
+    async setStandardPermissions() {
+      const keys = [
+        'disc.list',
+        'disc.create',
+        'disc.update',
+        'disc.destroy',
+      ];
+
+      return this.addPermissions(keys);
     }
   }
   User.init(
