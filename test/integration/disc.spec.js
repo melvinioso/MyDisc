@@ -41,7 +41,7 @@ const DESTROY = `
   }
 `;
 
-describe.only('Integration - Disc', () => {
+describe('Integration - Disc', () => {
   let record;
 
   before(async () => {
