@@ -7,7 +7,6 @@ describe('Model - Bag', () => {
       userId: user.id,
       name: 'Falcon Pointe',
       capacity: 18,
-      filled: 17,
     }).should.be.fulfilled;
   });
 
@@ -36,14 +35,6 @@ describe('Model - Bag', () => {
       await factory.create('Bag', { capacity: true }).should.be.rejectedWith(/number/);
       await factory.create('Bag', { capacity: '163' }).should.be.rejectedWith(/number/);
       await factory.create('Bag', { capacity: { foo: 'bar' } }).should.be.rejectedWith(/number/);
-    });
-
-    it('should require a valid filled', async () => {
-      await factory.create('Bag', { filled: null }).should.be.rejectedWith(/notNull/);
-      await factory.create('Bag', { filled: false }).should.be.rejectedWith(/number/);
-      await factory.create('Bag', { filled: true }).should.be.rejectedWith(/number/);
-      await factory.create('Bag', { filled: '163' }).should.be.rejectedWith(/number/);
-      await factory.create('Bag', { filled: { foo: 'bar' } }).should.be.rejectedWith(/number/);
     });
   });
 

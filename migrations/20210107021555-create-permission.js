@@ -35,7 +35,7 @@ module.exports = {
         field: 'id'
       },
       onDelete: 'NO ACTION',
-      onUpdate: 'CASCADE'
+      onUpdate: 'CASCADE',
     });
 
     await queryInterface.addConstraint('Permission', {

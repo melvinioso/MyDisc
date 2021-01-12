@@ -60,7 +60,6 @@ export function useAuthentication(app) {
   app.use(passport.initialize());
 
   app.post('/auth/user/register', async (req, res) => {
-    console.log(req.body);
     const { providerId, providerKey } = req.body;
 
     if (!providerId || !providerKey) {

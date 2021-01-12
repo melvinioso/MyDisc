@@ -143,8 +143,8 @@ describe('Sequelize migration', function() {
       // ).to.exist;
 
       try {
-        // console.log('SC', sc);
-        // console.log('MIGRATED', migratedFC[sc.constraint_name]);
+        console.log('SC', sc);
+        console.log('MIGRATED', migratedFC[sc.constraint_name]);
         expect(sc).to.deep.equal(migratedFC[sc.constraint_name] || {});
       } catch (e) {
         e.message = `Mismatch FC: ${migrationString}`

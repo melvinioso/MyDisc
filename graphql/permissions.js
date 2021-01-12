@@ -17,14 +17,6 @@ const hasPermission = (permission) =>
     return true;
   });
 
-// const denyPatients = rule({ cache: 'contextual' })(async (_, args, ctx) => {
-//   if (ctx.user.patient) {
-//     return 'Denied.';
-//   }
-
-//   return true;
-// });
-
 const isAuthenticated = rule({ cache: 'contextual' })(
   async (_root, _args, ctx, _info) => {
     if (ctx.user === null || ctx.user === undefined) {
@@ -39,7 +31,7 @@ const notAllowed = rule()(async () => 'Not allowed.');
 
 const modelKeys = [
   'Disc',
-  // 'Bag',
+  'Bag',
   // 'Profile',
   // 'Email',
   // 'User',

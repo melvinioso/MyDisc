@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 import Disc from './disc';
+import Bag from './bag';
 
 const Query = gql`
   scalar JSON
@@ -26,6 +27,6 @@ const Subscription = gql`
   }
 `;
 
-const typeDefs = [Query, Mutation, Subscription, Disc];
+const typeDefs = [Query, Mutation, Subscription, Disc, Bag];
 
 export default typeDefs;

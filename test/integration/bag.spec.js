@@ -2,7 +2,7 @@ import { factory, db, query, mutate } from '../utils';
 
 const LIST = `
   query list {
-    discs {
+    bags {
       id
     }
   }
@@ -10,95 +10,95 @@ const LIST = `
 
 const READ = `
   query read($id: Int!) {
-    disc(id: $id) {
+    bag(id: $id) {
       id
     }
   }
 `;
 
 const CREATE = `
-  mutation create($disc: DiscCreate) {
-    createDisc(disc: $disc) {
+  mutation create($bag: BagCreate) {
+    createBag(bag: $bag) {
       id
     }
   }
 `;
 
 const UPDATE = `
-  mutation update($disc: DiscUpdate) {
-    updateDisc(disc: $disc) {
+  mutation update($bag: BagUpdate) {
+    updateBag(bag: $bag) {
       id
-      brand
+      name
     }
   }
 `;
 
 const DESTROY = `
-  mutation destroy($disc: DiscDestroy) {
-    destroyDisc(disc: $disc) {
+  mutation destroy($bag: BagDestroy) {
+    destroyBag(bag: $bag) {
       id
     }
   }
 `;
 
-describe('Integration - Disc', () => {
+describe('Integration - Bag', () => {
   let record;
 
   before(async () => {
-    record = await factory.create('Disc');
-    await factory.create('Disc');
-    await factory.create('Disc');
+    record = await factory.create('Bag');
+    await factory.create('Bag');
+    await factory.create('Bag');
   });
 
   describe('Anonymous', () => {
     it('should NOT list', async () => {
       const res = await query(LIST);
 
-      expect(res.body.data.discs).to.be.null;
+      expect(res.body.data.bags).to.be.null;
       expect(res.body.errors).to.exist;
       expect(res.body.errors[0].message).to.equal('Not authorized.');
     });
     it('should NOT read', async () => {
       const res = await query(READ, { id: record.id });
 
-      expect(res.body.data.disc).to.be.null;
+      expect(res.body.data.bag).to.be.null;
       expect(res.body.errors).to.exist;
       expect(res.body.errors[0].message).to.equal('Not authorized.');
     });
     it('should NOT create', async () => {
-      const attrs = await factory.attrs('Disc');
+      const attrs = await factory.attrs('Bag');
       const variables = {
-        disc: attrs
+        bag: attrs
       };
 
       const res = await mutate(CREATE, variables);
 
-      expect(res.body.data.createDisc).to.be.null;
+      expect(res.body.data.createBag).to.be.null;
       expect(res.body.errors).to.exist;
       expect(res.body.errors[0].message).to.equal('Not authorized.');
     });
     it('should NOT update', async () => {
       const variables = {
-        disc: {
+        bag: {
           id: record.id,
-          brand: 'new brand',
+          name: 'new name',
         }
       }
       const res = await mutate(UPDATE, variables);
 
-      expect(res.body.data.updateDisc).to.be.null;
+      expect(res.body.data.updateBag).to.be.null;
       expect(res.body.errors).to.exist;
       expect(res.body.errors[0].message).to.equal('Not authorized.');
     });
     it('should NOT destroy', async () => {
       const variables = {
-        disc: {
+        bag: {
           id: record.id,
         }
       }
       const res = await mutate(DESTROY, variables);
 
-      expect(res.body.data.destroyDisc).to.be.null;
+      expect(res.body.data.destroyBag).to.be.null;
       expect(res.body.errors).to.exist;
       expect(res.body.errors[0].message).to.equal('Not authorized.');
     });
@@ -114,53 +114,53 @@ describe('Integration - Disc', () => {
     it('should NOT list', async () => {
       const res = await query(LIST, undefined, token);
 
-      expect(res.body.data.discs).to.be.null;
+      expect(res.body.data.bags).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for disc.list');
+      expect(res.body.errors[0].message).to.equal('Missing permission for bag.list');
     });
     it('should NOT read', async () => {
       const res = await query(READ, { id: record.id }, token);
 
-      expect(res.body.data.disc).to.be.null;
+      expect(res.body.data.bag).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for disc.read');
+      expect(res.body.errors[0].message).to.equal('Missing permission for bag.read');
     });
     it('should NOT create', async () => {
-      const attrs = await factory.attrs('Disc');
+      const attrs = await factory.attrs('Bag');
       const variables = {
-        disc: attrs
+        bag: attrs
       };
 
       const res = await mutate(CREATE, variables, token);
 
-      expect(res.body.data.createDisc).to.be.null;
+      expect(res.body.data.createBag).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for disc.create');
+      expect(res.body.errors[0].message).to.equal('Missing permission for bag.create');
     });
     it('should NOT update', async () => {
       const variables = {
-        disc: {
+        bag: {
           id: record.id,
-          brand: 'new brand',
+          name: 'new name',
         }
       }
       const res = await mutate(UPDATE, variables, token);
 
-      expect(res.body.data.updateDisc).to.be.null;
+      expect(res.body.data.updateBag).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for disc.update');
+      expect(res.body.errors[0].message).to.equal('Missing permission for bag.update');
     });
     it('should NOT destroy', async () => {
       const variables = {
-        disc: {
+        bag: {
           id: record.id,
         }
       }
       const res = await mutate(DESTROY, variables, token);
 
-      expect(res.body.data.destroyDisc).to.be.null;
+      expect(res.body.data.destroyBag).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for disc.destroy');
+      expect(res.body.errors[0].message).to.equal('Missing permission for bag.destroy');
     });
   });
   describe('User: with Permissions', () => {
@@ -169,11 +169,11 @@ describe('Integration - Disc', () => {
     before(async () => {
       const usr = await factory.create('User');
       await usr.addPermissions([
-        'disc.list',
-        'disc.read',
-        'disc.create',
-        'disc.update',
-        'disc.destroy',
+        'bag.list',
+        'bag.read',
+        'bag.create',
+        'bag.update',
+        'bag.destroy',
       ]);
       token = await usr.token();
     });
@@ -181,59 +181,59 @@ describe('Integration - Disc', () => {
     it('should list', async () => {
       const res = await query(LIST, undefined, token);
 
-      expect(res.body.data.discs).to.exist;
-      expect(res.body.data.discs.length).to.exist;
+      expect(res.body.data.bags).to.exist;
+      expect(res.body.data.bags.length).to.exist;
       expect(res.body.errors).to.be.undefined;
     });
     it('should read', async () => {
       const res = await query(READ, { id: record.id }, token);
 
-      expect(res.body.data.disc).to.exist;
-      expect(res.body.data.disc.id).to.equal(record.id);
-      // expect(res.body.data.disc.user.id).to.exist;
+      expect(res.body.data.bag).to.exist;
+      expect(res.body.data.bag.id).to.equal(record.id);
+      // expect(res.body.data.bag.user.id).to.exist;
       expect(res.body.errors).to.be.undefined;
     });
     it('should create', async () => {
-      const attrs = await factory.attrs('Disc');
+      const attrs = await factory.attrs('Bag');
       const variables = {
-        disc: attrs
+        bag: attrs
       }
       const res = await mutate(CREATE, variables, token);
 
-      expect(res.body.data.createDisc).to.exist;
+      expect(res.body.data.createBag).to.exist;
       expect(res.body.errors).to.be.undefined;
 
-      const found = await db.Disc.findByPk(res.body.data.createDisc.id);
+      const found = await db.Bag.findByPk(res.body.data.createBag.id);
       expect(found).to.exist;
     });
     it('should update', async () => {
       const variables = {
-        disc: {
+        bag: {
           id: record.id,
-          brand: 'new brand',
+          name: 'new name',
         }
       }
       const res = await mutate(UPDATE, variables, token);
 
-      expect(res.body.data.updateDisc).to.exist;
-      expect(res.body.data.updateDisc.brand).to.equal('new brand');
+      expect(res.body.data.updateBag).to.exist;
+      expect(res.body.data.updateBag.name).to.equal('new name');
       expect(res.body.errors).to.be.undefined;
     });
     it('should destroy', async () => {
-      const destroy = await factory.create('Disc');
+      const destroy = await factory.create('Bag');
 
       const variables = {
-        disc: {
+        bag: {
           id: destroy.id,
         }
       }
 
       const res = await mutate(DESTROY, variables, token);
 
-      expect(res.body.data.destroyDisc).to.exist;
+      expect(res.body.data.destroyBag).to.exist;
       expect(res.body.errors).to.be.undefined;
 
-      const found = await db.Disc.findByPk(res.body.data.destroyDisc.id);
+      const found = await db.Bag.findByPk(res.body.data.destroyBag.id);
       expect(found).to.be.null;
     });
   });
