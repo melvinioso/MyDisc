@@ -41,7 +41,7 @@ const DESTROY = `
   }
 `;
 
-describe.only('Integration - Email', () => {
+describe('Integration - Email', () => {
   let record;
 
   before(async () => {
