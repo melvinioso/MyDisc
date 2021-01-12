@@ -32,7 +32,7 @@ const notAllowed = rule()(async () => 'Not allowed.');
 const modelKeys = [
   'Disc',
   'Bag',
-  // 'Profile',
+  'Profile',
   // 'Email',
   // 'User',
   // 'Permission',
@@ -74,12 +74,8 @@ const defaultPermissions = modelKeys.reduce(
 
 export const permissions = shield(
   merge(defaultPermissions, {
-    Query: {
-
-    },
-    Mutation: {
-
-    },
+    Query: {},
+    Mutation: {},
   }),
   {
     allowExternalErrors: true,
