@@ -49,7 +49,6 @@ Factory.define('Bag', DB.Bag, {
   userId: Factory.assoc('User', 'id'),
   name: 'My Bag Name',
   capacity: 18,
-  filled: 17,
 });
 
 Factory.define('Profile', DB.Profile, {

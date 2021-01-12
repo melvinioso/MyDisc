@@ -45,13 +45,6 @@ export default (sequelize, DataTypes) => {
           isNumber,
         },
       },
-      filled: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          isNumber,
-        },
-      },
     },
     {
       sequelize,
