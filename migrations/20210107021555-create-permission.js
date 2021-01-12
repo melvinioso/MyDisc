@@ -6,33 +6,34 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       userId: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       key: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
 
     await queryInterface.addConstraint('Permission', {
       fields: ['userId'],
       type: 'FOREIGN KEY',
       name: 'Permission_userId_fkey',
-      references: { //Required field
+      references: {
+        //Required field
         table: 'User',
-        field: 'id'
+        field: 'id',
       },
       onDelete: 'NO ACTION',
       onUpdate: 'CASCADE',
@@ -48,5 +49,5 @@ module.exports = {
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Permission');
-  }
+  },
 };
