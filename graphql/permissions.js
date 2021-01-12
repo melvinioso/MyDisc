@@ -33,7 +33,7 @@ const modelKeys = [
   'Disc',
   'Bag',
   'Profile',
-  // 'Email',
+  'Email',
   // 'User',
   // 'Permission',
 ];
