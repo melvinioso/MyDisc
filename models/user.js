@@ -34,7 +34,7 @@ export default (sequelize, DataTypes) => {
         this,
         this.getPermissions(),
       ]);
-  
+
       let payload = {
         permissions: permissions.map(({ key }) => key),
       };
@@ -76,11 +76,18 @@ export default (sequelize, DataTypes) => {
      */
     static associate() {
       // define association here
-      const { User, Permission, Bag, Disc, Profile, Email } = this.sequelize.models;
+      const {
+        User,
+        Permission,
+        Bag,
+        Disc,
+        Profile,
+        Email,
+      } = this.sequelize.models;
 
       User.hasMany(Permission, {
         foreignKey: 'userId',
-      })
+      });
 
       User.hasMany(Bag, {
         foreignKey: 'userId',
@@ -103,9 +110,9 @@ export default (sequelize, DataTypes) => {
       if (!keys || !keys.length) {
         return;
       }
-  
+
       const { Permission } = this.sequelize.models;
-  
+
       for (const key of keys) {
         try {
           const userId = this.id;
@@ -118,19 +125,14 @@ export default (sequelize, DataTypes) => {
           }
         }
       }
-  
+
       return this.reload({
         include: [Permission],
       });
     }
 
     async setStandardPermissions() {
-      const keys = [
-        'disc.list',
-        'disc.create',
-        'disc.update',
-        'disc.destroy',
-      ];
+      const keys = ['disc.list', 'disc.create', 'disc.update', 'disc.destroy'];
 
       return this.addPermissions(keys);
     }

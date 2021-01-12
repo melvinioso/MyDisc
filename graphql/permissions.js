@@ -35,7 +35,7 @@ const modelKeys = [
   'Profile',
   'Email',
   // 'User',
-  // 'Permission',
+  'Permission',
 ];
 
 const defaultPermissions = modelKeys.reduce(

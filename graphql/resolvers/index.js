@@ -6,12 +6,13 @@ import Disc from './disc';
 import Bag from './bag';
 import Profile from './profile';
 import Email from './email';
+import Permission from './permission';
 
 const scalars = {
   JSON: GraphQLJSON,
   DateTime: GraphQLDateTime,
 };
 
-const resolvers = merge(scalars, Disc, Bag, Profile, Email);
+const resolvers = merge(scalars, Disc, Bag, Profile, Email, Permission);
 
 export default resolvers;

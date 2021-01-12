@@ -4,6 +4,7 @@ import Disc from './disc';
 import Bag from './bag';
 import Profile from './profile';
 import Email from './email';
+import Permission from './permission';
 
 const Query = gql`
   scalar JSON
@@ -29,6 +30,15 @@ const Subscription = gql`
   }
 `;
 
-const typeDefs = [Query, Mutation, Subscription, Disc, Bag, Profile, Email];
+const typeDefs = [
+  Query,
+  Mutation,
+  Subscription,
+  Disc,
+  Bag,
+  Profile,
+  Email,
+  Permission,
+];
 
 export default typeDefs;
