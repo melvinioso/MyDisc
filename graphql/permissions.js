@@ -17,6 +17,14 @@ const hasPermission = (permission) =>
     return true;
   });
 
+const denyUsers = rule({ cache: 'contextual' })(async (_, args, ctx) => {
+  if (ctx.user) {
+    return 'Denied.';
+  }
+
+  return true;
+});
+
 const isAuthenticated = rule({ cache: 'contextual' })(
   async (_root, _args, ctx, _info) => {
     if (ctx.user === null || ctx.user === undefined) {
@@ -29,14 +37,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
 
 const notAllowed = rule()(async () => 'Not allowed.');
 
-const modelKeys = [
-  'Disc',
-  'Bag',
-  'Profile',
-  'Email',
-  // 'User',
-  'Permission',
-];
+const modelKeys = ['Disc', 'Bag', 'Profile', 'Email', 'User', 'Permission'];
 
 const defaultPermissions = modelKeys.reduce(
   (memo, modelName) => {
@@ -74,8 +75,19 @@ const defaultPermissions = modelKeys.reduce(
 
 export const permissions = shield(
   merge(defaultPermissions, {
-    Query: {},
-    Mutation: {},
+    Query: {
+      user: and(isAuthenticated, hasPermission('user.read'), denyUsers),
+      users: and(isAuthenticated, hasPermission('user.list'), denyUsers),
+    },
+    Mutation: {
+      createUser: and(isAuthenticated, hasPermission('user.create'), denyUsers),
+      updateUser: and(isAuthenticated, hasPermission('user.update'), denyUsers),
+      destroyUser: and(
+        isAuthenticated,
+        hasPermission('user.destroy'),
+        denyUsers
+      ),
+    },
   }),
   {
     allowExternalErrors: true,

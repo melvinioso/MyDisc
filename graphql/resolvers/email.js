@@ -1,3 +1,3 @@
 import { generateResolvers } from '../resolver';
 
-export default generateResolvers('Email', []);
+export default generateResolvers('Email', ['user']);

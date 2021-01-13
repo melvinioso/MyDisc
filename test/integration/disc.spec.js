@@ -12,6 +12,9 @@ const READ = `
   query read($id: Int!) {
     disc(id: $id) {
       id
+      user {
+        id
+      }
     }
   }
 `;
@@ -190,7 +193,7 @@ describe('Integration - Disc', () => {
 
       expect(res.body.data.disc).to.exist;
       expect(res.body.data.disc.id).to.equal(record.id);
-      // expect(res.body.data.disc.user.id).to.exist;
+      expect(res.body.data.disc.user.id).to.exist;
       expect(res.body.errors).to.be.undefined;
     });
     it('should create', async () => {

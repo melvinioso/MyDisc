@@ -12,6 +12,9 @@ const READ = `
   query read($id: Int!) {
     email(id: $id) {
       id
+      user {
+        id
+      }
     }
   }
 `;
@@ -190,7 +193,7 @@ describe('Integration - Email', () => {
 
       expect(res.body.data.email).to.exist;
       expect(res.body.data.email.id).to.equal(record.id);
-      // expect(res.body.data.email.user.id).to.exist;
+      expect(res.body.data.email.user.id).to.exist;
       expect(res.body.errors).to.be.undefined;
     });
     it('should create', async () => {

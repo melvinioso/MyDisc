@@ -22,6 +22,8 @@ export default gql`
     id: Int
     ${fields}
 
+    user: User
+
     createdAt: DateTime
     updatedAt: DateTime
   }
