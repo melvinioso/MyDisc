@@ -5,6 +5,7 @@ import Bag from './bag';
 import Profile from './profile';
 import Email from './email';
 import Permission from './permission';
+import User from './user';
 
 const Query = gql`
   scalar JSON
@@ -39,6 +40,7 @@ const typeDefs = [
   Profile,
   Email,
   Permission,
+  User,
 ];
 
 export default typeDefs;

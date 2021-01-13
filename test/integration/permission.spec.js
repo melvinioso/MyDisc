@@ -12,6 +12,9 @@ const READ = `
   query read($id: Int!) {
     permission(id: $id) {
       id
+      user {
+        id
+      }
     }
   }
 `;
@@ -190,7 +193,7 @@ describe('Integration - Permission', () => {
 
       expect(res.body.data.permission).to.exist;
       expect(res.body.data.permission.id).to.equal(record.id);
-      // expect(res.body.data.permission.user.id).to.exist;
+      expect(res.body.data.permission.user.id).to.exist;
       expect(res.body.errors).to.be.undefined;
     });
     it('should create', async () => {

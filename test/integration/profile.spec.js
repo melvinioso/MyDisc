@@ -12,6 +12,9 @@ const READ = `
   query read($id: Int!) {
     profile(id: $id) {
       id
+      user {
+        id
+      }
     }
   }
 `;
@@ -190,7 +193,7 @@ describe('Integration - Profile', () => {
 
       expect(res.body.data.profile).to.exist;
       expect(res.body.data.profile.id).to.equal(record.id);
-      // expect(res.body.data.profile.user.id).to.exist;
+      expect(res.body.data.profile.user.id).to.exist;
       expect(res.body.errors).to.be.undefined;
     });
     it('should create', async () => {

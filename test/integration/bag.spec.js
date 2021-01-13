@@ -12,6 +12,9 @@ const READ = `
   query read($id: Int!) {
     bag(id: $id) {
       id
+      user {
+        id
+      }
     }
   }
 `;
@@ -190,7 +193,7 @@ describe('Integration - Bag', () => {
 
       expect(res.body.data.bag).to.exist;
       expect(res.body.data.bag.id).to.equal(record.id);
-      // expect(res.body.data.bag.user.id).to.exist;
+      expect(res.body.data.bag.user.id).to.exist;
       expect(res.body.errors).to.be.undefined;
     });
     it('should create', async () => {
