@@ -62,7 +62,7 @@ async function listForeignKeys() {
 describe('Sequelize migration', function() {
   let migration;
 
-  beforeEach(async function() {
+  before(async function() {
     migration = new Migration();
     // Setup the database
     await dropTables();

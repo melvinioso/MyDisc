@@ -3,11 +3,7 @@ import { factory } from '../utils/factory';
 describe('Model - Bag', () => {
   it('should create a bag', async() => {
     const user = await factory.create('User');
-    await factory.create('Bag', {
-      userId: user.id,
-      name: 'Falcon Pointe',
-      capacity: 18,
-    }).should.be.fulfilled;
+    await factory.create('Bag', { userId: user.id }).should.be.fulfilled;
   });
 
   describe('Validations', () => {

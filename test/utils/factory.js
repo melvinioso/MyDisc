@@ -23,6 +23,7 @@ Factory.define('Disc', DB.Disc, {
   brand: faker.company.companyName,
   mold: faker.lorem.word,
   plastic: faker.lorem.word,
+  color: faker.commerce.color,
   weight: faker.random.number({
     min: 150,
     max: 175,

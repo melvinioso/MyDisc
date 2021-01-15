@@ -3,10 +3,7 @@ import { factory } from '../utils/factory';
 describe('Model - Profile', () => {
   it('should create a profile', async() => {
     const user = await factory.create('User');
-    await factory.create('Profile', {
-      userId: user.id,
-      name: 'Melvini Oso',
-    }).should.be.fulfilled;
+    await factory.create('Profile', { userId: user.id }).should.be.fulfilled;
   });
 
   describe('Validations', () => {

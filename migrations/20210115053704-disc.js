@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      userId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
       brand: {
         allowNull: false,
         type: Sequelize.STRING,
@@ -17,6 +21,10 @@ module.exports = {
         type: Sequelize.STRING,
       },
       plastic: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      color: {
         allowNull: false,
         type: Sequelize.STRING,
       },
@@ -48,6 +56,18 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+    });
+
+    await queryInterface.addConstraint('Disc', {
+      fields: ['userId'],
+      type: 'FOREIGN KEY',
+      name: 'Disc_userId_fkey',
+      references: {
+        table: 'User',
+        field: 'id',
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     });
   },
   down: async (queryInterface, Sequelize) => {

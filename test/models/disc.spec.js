@@ -3,17 +3,7 @@ import { factory } from '../utils/factory';
 describe('Model - Disc', () => {
   it('should create a disc', async() => {
     const user = await factory.create('User');
-    await factory.create('Disc', {
-      userId: user.id,
-      brand: 'Innova',
-      mold: 'Roc',
-      plastic: 'DX',
-      weight: 175,
-      speed: 3,
-      glide: 4,
-      turn: -1,
-      fade: 1,
-    }).should.be.fulfilled;
+    await factory.create('Disc', { userId: user.id }).should.be.fulfilled;
   });
 
   describe('Validations', () => {
@@ -49,6 +39,14 @@ describe('Model - Disc', () => {
       await factory.create('Disc', { plastic: true }).should.be.rejectedWith(/string/);
       await factory.create('Disc', { plastic: 123 }).should.be.rejectedWith(/string/);
       await factory.create('Disc', { plastic: { foo: 'bar' } }).should.be.rejectedWith(/string/);
+    });
+
+    it('should require a valid color', async () => {
+      await factory.create('Disc', { color: null }).should.be.rejectedWith(/notNull/);
+      await factory.create('Disc', { color: false }).should.be.rejectedWith(/string/);
+      await factory.create('Disc', { color: true }).should.be.rejectedWith(/string/);
+      await factory.create('Disc', { color: 123 }).should.be.rejectedWith(/string/);
+      await factory.create('Disc', { color: { foo: 'bar' } }).should.be.rejectedWith(/string/);
     });
 
     it('should require a valid weight', async () => {

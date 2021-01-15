@@ -3,10 +3,7 @@ import { factory } from '../utils/factory';
 describe('Model - Email', () => {
   it('should create an email', async() => {
     const user = await factory.create('User');
-    await factory.create('Email', {
-      userId: user.id,
-      email: 'test@example.com',
-    }).should.be.fulfilled;
+    await factory.create('Email', { userId: user.id }).should.be.fulfilled;
   });
 
   describe('Validations', () => {
