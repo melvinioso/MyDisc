@@ -31,11 +31,10 @@ module.exports = {
       type: 'FOREIGN KEY',
       name: 'Permission_userId_fkey',
       references: {
-        //Required field
         table: 'User',
         field: 'id',
       },
-      onDelete: 'NO ACTION',
+      onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
 

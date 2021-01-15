@@ -4,6 +4,7 @@ const fields = `
   brand: String
   mold: String
   plastic: String
+  color: String
   weight: Int
   speed: Int
   glide: Int

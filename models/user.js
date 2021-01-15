@@ -132,7 +132,33 @@ export default (sequelize, DataTypes) => {
     }
 
     async setStandardPermissions() {
-      const keys = ['disc.list', 'disc.create', 'disc.update', 'disc.destroy'];
+      const keys = [
+        'disc.list',
+        'disc.read',
+        'disc.create',
+        'disc.update',
+        'disc.destroy',
+        'bag.list',
+        'bag.read',
+        'bag.create',
+        'bag.update',
+        'bag.destroy',
+        'profile.list',
+        'profile.read',
+        'profile.create',
+        'profile.update',
+        'profile.destroy',
+        'email.list',
+        'email.read',
+        'email.create',
+        'email.update',
+        'email.destroy',
+        'permission.list',
+        'permission.read',
+        'permission.create',
+        'permission.update',
+        'permission.destroy',
+      ];
 
       return this.addPermissions(keys);
     }

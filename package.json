@@ -9,7 +9,7 @@
     "test": "NODE_ENV=test mocha 'test/{,!(infrastructure)/**/}*.spec.js'",
     "test:migrate": "NODE_ENV=test mocha 'test/infrastructure/**/*.spec.js'",
     "test:all": "NODE_ENV=test npm run test && npm run test:migrate",
-    "pretty-quick": "pretty-quick --staged",
+    "pretty:quick": "pretty-quick --staged",
     "pretty:all": "prettier --config .prettierrc --write \"**/*.{js,jsx}\""
   },
   "author": "",
@@ -74,5 +74,10 @@
     "sinon": "^9.2.2",
     "sinon-chai": "^3.5.0",
     "supertest": "^6.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pretty:quick"
+    }
   }
 }
