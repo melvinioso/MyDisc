@@ -1,13 +1,13 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "dev": "expo start -c --dev",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject",
-    "storybook": "start-storybook -p 7007",
+    "eject": "echo IF YOU DO THIS YOU DO IT MANUALLY... BEWARE - ./node_modules/.bin/expo eject",
     "build-storybook": "build-storybook",
+    "storybook": "expo start -c --dev --config ./storybook.app.json",
     "storybook:ios": "expo start --ios --config ./storybook.app.json",
     "pretty:quick": "pretty-quick --staged",
     "pretty:all": "prettier --config .prettierrc --write \"**/*.{js,jsx}\""
