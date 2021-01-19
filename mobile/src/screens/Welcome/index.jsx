@@ -1,8 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet } from 'react-native';
+import { View, Text } from 'react-native-ui-lib';
 
-export default function App() {
+// import { PX } from '../../theme';
+
+function Welcome() {
   return (
     <View style={styles.container}>
       <Text>Welcome to MyDisc</Text>
@@ -19,3 +22,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default Welcome;
