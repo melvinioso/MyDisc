@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Colors } from 'react-native-ui-lib';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from '@react-navigation/drawer';
 
-import Welcome from '../Welcome';
+import { ApolloProvider } from '@apollo/client';
+
+import Home from '../Home';
+
+import { AuthContext } from '../../context/auth';
 
 const Drawer = createDrawerNavigator();
 
@@ -10,18 +19,43 @@ const drawerContentOptions = {
   activeTintColor: Colors.blue,
 };
 
-function Main() {
+function CustomDrawerContent(props) {
+  const { logout } = useContext(AuthContext);
+
   return (
-    <Drawer.Navigator
-      initialRouteName="Home"
-      drawerContentOptions={drawerContentOptions}
-      hideStatusBar
-      lazy={false}
-      // DO NOT REMOVE --- FOR REAL
-      sceneContainerStyle={{ backgroundColor: 'transparent' }}
-    >
-      <Drawer.Screen name="Welcome" component={Welcome} />
-    </Drawer.Navigator>
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem
+        label="Sign Out"
+        onPress={async () => {
+          await logout();
+        }}
+      />
+    </DrawerContentScrollView>
+  );
+}
+
+function Main() {
+  const { token, client } = useContext(AuthContext);
+
+  if (!token || !client) {
+    return null;
+  }
+
+  return (
+    <ApolloProvider client={client}>
+      <Drawer.Navigator
+        initialRouteName="Home"
+        drawerContentOptions={drawerContentOptions}
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+        hideStatusBar
+        lazy={false}
+        // DO NOT REMOVE --- FOR REAL
+        sceneContainerStyle={{ backgroundColor: 'transparent' }}
+      >
+        <Drawer.Screen name="Home" component={Home} />
+      </Drawer.Navigator>
+    </ApolloProvider>
   );
 }
 
