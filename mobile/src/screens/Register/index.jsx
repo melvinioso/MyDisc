@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import {
   View,
   Text,
@@ -6,7 +6,7 @@ import {
   Colors,
   Constants,
 } from 'react-native-ui-lib';
-import { StyleSheet, KeyboardAvoidingView, Button } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -32,7 +32,6 @@ const schema = yup.object().shape({
 });
 
 function CreateAccount({ navigation }) {
-  const [serverError, setServerError] = useState(null);
   const { register: reg } = useContext(AuthContext);
   const { register, handleSubmit, setValue, errors } = useForm({
     resolver: yupResolver(schema),
@@ -107,7 +106,6 @@ function CreateAccount({ navigation }) {
               error={get(errors, 'confirm')}
               secureTextEntry
             />
-            {serverError ? <ErrorMessage message={serverError} /> : null}
           </View>
         </View>
       </KeyboardAvoidingView>
