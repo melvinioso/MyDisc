@@ -60,7 +60,7 @@ export function useAuthentication(app) {
   app.use(passport.initialize());
 
   app.post('/auth/user/register', async (req, res) => {
-    const { providerId, providerKey } = req.body;
+    const { name, providerId, providerKey } = req.body;
 
     if (!providerId || !providerKey) {
       return res.status(400).json({ message: 'Missing parameters' });
@@ -69,6 +69,7 @@ export function useAuthentication(app) {
     try {
       const userService = new UserService({
         provider: 'email',
+        name,
         providerId,
         providerKey,
         emails: [{ email: providerId }],
