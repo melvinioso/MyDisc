@@ -68,7 +68,7 @@ function SignIn({ navigation }) {
             style={styles.button}
             marginT-20
             backgroundColor={Colors.mint}
-            onPress={() => alert('Forgot Password pressed')}
+            onPress={() => navigation.navigate('ForgotPassword')}
           />
         </View>
       }
