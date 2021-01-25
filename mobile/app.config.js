@@ -17,6 +17,7 @@ const config = {
     version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
+    userInterfaceStyle: 'automatic',
     splash: {
       image: './assets/splash.png',
       resizeMode: 'contain',
@@ -29,8 +30,14 @@ const config = {
     ios: {
       supportsTablet: true,
     },
+    android: {
+      adaptiveIcon: {
+        foregroundImage: './assets/adaptive-icon.png',
+        backgroundColor: '#FFFFFF',
+      },
+    },
     web: {
-      favicon: './assets/favicon.png',
+      favicon: './assets/images/favicon.png',
     },
     extra: {
       apiHost: envDefault('API_HOST', 'http://localhost:4000'),

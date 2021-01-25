@@ -15,6 +15,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.7",
     "@expo/config": "^3.3.23",
+    "@hookform/resolvers": "^1.3.2",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/datetimepicker": "3.0.4",
@@ -36,13 +37,16 @@
     "react": "16.13.1",
     "react-combine-providers": "^0.9.6",
     "react-dom": "16.13.1",
+    "react-hook-form": "^6.14.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
     "react-native-gesture-handler": "~1.8.0",
+    "react-native-keyboard-aware-scrollview": "^2.1.0",
     "react-native-reanimated": "^1.13.2",
     "react-native-screens": "~2.15.0",
     "react-native-ui-lib": "^5.19.1",
     "react-native-web": "~0.13.12",
-    "sentry-expo": "^3.0.4"
+    "sentry-expo": "^3.0.4",
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
@@ -54,7 +58,6 @@
     "@storybook/react-native": "^5.3.23",
     "@storybook/react-native-server": "^5.3.23",
     "babel-loader": "^8.2.2",
-    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-config-standard-react": "^11.0.1",

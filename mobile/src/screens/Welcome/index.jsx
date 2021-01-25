@@ -1,25 +1,48 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
+import { View, Text, Button as UIButton, Colors } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
-import { View, Text } from 'react-native-ui-lib';
 
-// import { PX } from '../../theme';
+import BaseScreen from '../../components/BaseScreen';
+import useStatusBar from '../../hooks/useStatusBar';
+import { PX } from '../../theme';
 
-function Welcome() {
+function Welcome({ navigation }) {
+  useStatusBar('dark-content', true);
+
   return (
-    <View style={styles.container}>
-      <Text>Welcome to MyDisc</Text>
-      <StatusBar style="auto" />
-    </View>
+    <BaseScreen
+      header={
+        <Text text30M mint marginT-40 style={[styles.text]}>
+          Welcome to MyDisc
+        </Text>
+      }
+      fixedFooter={
+        <View marginB-40>
+          <UIButton
+            label="Existing User"
+            style={styles.button}
+            backgroundColor={Colors.mint}
+            onPress={() => navigation.navigate('SignIn')}
+          />
+          <UIButton
+            label="New User"
+            style={styles.button}
+            marginT-20
+            backgroundColor={Colors.mint}
+            onPress={() => navigation.navigate('Register')}
+          />
+        </View>
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  text: {
+    textAlign: 'center',
+  },
+  button: {
+    borderRadius: 70 * PX,
   },
 });
 

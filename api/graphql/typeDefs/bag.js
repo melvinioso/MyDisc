@@ -3,6 +3,7 @@ import { gql } from 'apollo-server-express';
 const fields = `
   name: String
   capacity: Int
+  color: String
   userId: Int
 `;
 

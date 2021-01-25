@@ -38,6 +38,13 @@ Spacings.loadSpacings({
   gridGutter: 16,
 });
 
+export const HIT_SLOP = {
+  top: 20,
+  right: 20,
+  bottom: 20,
+  left: 20,
+};
+
 export const AssetImages = {
   // logo: require('../../assets/logo.png'),
 };

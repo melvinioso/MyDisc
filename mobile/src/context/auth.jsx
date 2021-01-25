@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react';
 import axios from 'axios';
-import { AsyncStorage } from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
 import decode from 'jwt-decode';
 import Constants from 'expo-constants';
 
@@ -54,23 +54,20 @@ export function AuthProvider({ children }) {
   const isAuthenticated = !!token;
 
   async function login({ providerId, providerKey }) {
-    console.log('i got here');
-    console.log(`${API_HOST}/auth/user/login`);
     try {
       const res = await axios.post(`${API_HOST}/auth/user/login`, {
         providerId,
         providerKey,
       });
-
-      const { token: newToken } = res.data;
-      if (!newToken) {
+      const { token } = res.data;
+      if (!token) {
         throw new Error('Missing token in response.');
       }
 
-      await AsyncStorage.setItem(TOKEN_KEY, newToken);
-      setToken(newToken);
+      await AsyncStorage.setItem(TOKEN_KEY, token);
+      setToken(token);
 
-      const decoded = decode(newToken);
+      const decoded = decode(token);
 
       const { user: usr } = decoded;
 

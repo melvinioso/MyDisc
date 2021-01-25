@@ -45,6 +45,13 @@ export default (sequelize, DataTypes) => {
           isNumber,
         },
       },
+      color: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isString,
+        },
+      },
     },
     {
       sequelize,

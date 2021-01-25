@@ -9,7 +9,7 @@ const { seq } = Factory;
 
 Factory.define('User', DB.User, {
   provider: 'email',
-  providerId: seq('User.providerId', n => `user-${n}@example.com`),
+  providerId: seq('User.providerId', (n) => `user-${n}@example.com`),
   providerKey: 'some-api-key',
 });
 
@@ -50,6 +50,7 @@ Factory.define('Bag', DB.Bag, {
   userId: Factory.assoc('User', 'id'),
   name: 'My Bag Name',
   capacity: 18,
+  color: faker.commerce.color,
 });
 
 Factory.define('Profile', DB.Profile, {
@@ -59,7 +60,7 @@ Factory.define('Profile', DB.Profile, {
 
 Factory.define('Email', DB.Email, {
   userId: Factory.assoc('User', 'id'),
-  email: seq('Email.email', n => `email-${n}@example.com`),
+  email: seq('Email.email', (n) => `email-${n}@example.com`),
 });
 
 // Factory.define('DiscBag', DB.DiscBag, {

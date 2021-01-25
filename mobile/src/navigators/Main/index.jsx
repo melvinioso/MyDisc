@@ -16,7 +16,7 @@ import { AuthContext } from '../../context/auth';
 const Drawer = createDrawerNavigator();
 
 const drawerContentOptions = {
-  activeTintColor: Colors.blue,
+  activeTintColor: Colors.green,
 };
 
 function CustomDrawerContent(props) {
