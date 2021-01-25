@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Button as UIButton, Colors } from 'react-native-ui-lib';
-import { StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { get } from 'lodash';
 
 import TextInput from '../../components/TextInput';
+import BackButton from '../../components/BackButton';
 import BaseScreen from '../../components/BaseScreen';
 import ErrorMessage from '../../components/ErrorMessage';
 import { PX } from '../../theme';
@@ -46,9 +48,12 @@ function SignIn({ navigation }) {
   return (
     <BaseScreen
       header={
-        <Text text30M mint marginT-40 style={[styles.text]}>
-          Welcome to MyDisc
-        </Text>
+        <View>
+          <BackButton onPress={() => navigation.navigate('Welcome')} />
+          <Text text30M mint marginT-40 style={[styles.text]}>
+            Welcome Back
+          </Text>
+        </View>
       }
       fixedFooter={
         <View marginB-40>
@@ -68,7 +73,15 @@ function SignIn({ navigation }) {
         </View>
       }
     >
-      <KeyboardAvoidingView behavior="position" style={styles.avoid}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{
+          // paddingBottom: 200,
+          // height: '100%',
+          // width: '100%',
+          justifyContent: 'center',
+        }}
+        keyboardDismissMode="interactive"
+      >
         <View marginT-80>
           <View>
             <TextInput
@@ -90,7 +103,7 @@ function SignIn({ navigation }) {
             {serverError ? <ErrorMessage message={serverError} /> : null}
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </BaseScreen>
   );
 }

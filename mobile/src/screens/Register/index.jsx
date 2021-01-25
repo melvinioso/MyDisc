@@ -13,6 +13,7 @@ import * as yup from 'yup';
 import { get } from 'lodash';
 
 import TextInput from '../../components/TextInput';
+import BackButton from '../../components/BackButton';
 import BaseScreen from '../../components/BaseScreen';
 import { PX } from '../../theme';
 
@@ -56,9 +57,12 @@ function CreateAccount({ navigation }) {
   return (
     <BaseScreen
       header={
-        <Text text30M mint marginT-40 style={[styles.text]}>
-          Welcome to MyDisc
-        </Text>
+        <View>
+          <BackButton onPress={() => navigation.navigate('Welcome')} />
+          <Text text30M mint marginT-40 style={[styles.text]}>
+            New Account
+          </Text>
+        </View>
       }
       fixedFooter={
         <View marginB-40>
