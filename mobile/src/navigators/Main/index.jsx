@@ -37,6 +37,12 @@ function SettingsButton() {
           }
         );
       }}
+      hitSlop={{
+        top: 10,
+        right: 10,
+        bottom: 10,
+        left: 10,
+      }}
     >
       <MaterialIcons name="settings" size={28} color={Colors.smoke} />
     </TouchableOpacity>
