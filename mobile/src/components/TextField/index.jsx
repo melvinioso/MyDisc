@@ -2,8 +2,6 @@ import React from 'react';
 import { View, Text, Colors } from 'react-native-ui-lib';
 import { StyleSheet, TextInput } from 'react-native';
 
-import ErrorMessage from '../ErrorMessage';
-
 function TextField({ style, title, error, ...props }) {
   return (
     <View style={[style]}>
@@ -11,7 +9,11 @@ function TextField({ style, title, error, ...props }) {
         {title}
       </Text>
       <TextInput style={[styles.input]} {...props} />
-      {error ? <ErrorMessage message={error} /> : null}
+      {error ? (
+        <Text text80 red20 marginT-5 marginL-10>
+          {error}
+        </Text>
+      ) : null}
     </View>
   );
 }
