@@ -25,7 +25,6 @@ function App() {
     return (
       <Background source={{}}>
         <Loading />
-        <StatusBar />
       </Background>
     );
   }
@@ -34,7 +33,6 @@ function App() {
     return (
       <Background source={{}}>
         <Auth />
-        <StatusBar />
       </Background>
     );
   }
@@ -42,7 +40,6 @@ function App() {
   return (
     <Background source={{}}>
       <Main />
-      <StatusBar />
     </Background>
   );
 }
@@ -61,6 +58,7 @@ function AppContainer() {
   return (
     <MasterProvider>
       <App />
+      <StatusBar style="dark" animated={true} />
     </MasterProvider>
   );
 }

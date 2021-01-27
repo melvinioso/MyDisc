@@ -1,15 +1,13 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
-import { View, Text } from 'react-native-ui-lib';
+import { View, Text, Colors } from 'react-native-ui-lib';
 
-// import { PX } from '../../theme';
+import Disc from '../../components/Disc';
 
 function Dashboard() {
   return (
     <View style={styles.container}>
-      <Text>Dashboard Screen</Text>
-      <StatusBar style="auto" />
+      <Disc size={80} color={Colors.mint} brand="Discraft" mold="Buzzz" />
     </View>
   );
 }
