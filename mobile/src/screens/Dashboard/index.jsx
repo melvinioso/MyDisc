@@ -5,10 +5,10 @@ import { View, Text } from 'react-native-ui-lib';
 
 // import { PX } from '../../theme';
 
-function Home() {
+function Dashboard() {
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
+      <Text>Dashboard Screen</Text>
       <StatusBar style="auto" />
     </View>
   );
@@ -23,4 +23,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default Dashboard;

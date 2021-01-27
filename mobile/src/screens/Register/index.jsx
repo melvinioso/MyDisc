@@ -64,11 +64,10 @@ function CreateAccount({ navigation }) {
         keyboardDismissMode="interactive"
       >
         <View paddingH-30>
-          <View>
-            <Text text50BO mint>
-              New Account
-            </Text>
-          </View>
+          <Text text50BO mint>
+            New Account
+          </Text>
+
           <View marginT-20>
             <View marginT-10>
               <TextField
@@ -80,6 +79,7 @@ function CreateAccount({ navigation }) {
                 error={errors?.name?.message}
               />
             </View>
+
             <View marginT-10>
               <TextField
                 title="Email"
@@ -91,6 +91,7 @@ function CreateAccount({ navigation }) {
                 error={errors?.providerId?.message}
               />
             </View>
+
             <View marginT-10>
               <TextField
                 title="Password"

@@ -9,7 +9,7 @@ import ForgotPassword from '../../screens/ForgotPassword';
 
 const Stack = createStackNavigator();
 
-function WelcomeNavigator() {
+function Auth() {
   return (
     <Stack.Navigator
       initialRouteName="SignIn"
@@ -23,4 +23,4 @@ function WelcomeNavigator() {
   );
 }
 
-export default WelcomeNavigator;
+export default Auth;

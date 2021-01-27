@@ -52,11 +52,10 @@ function SignIn({ navigation }) {
         keyboardDismissMode="interactive"
       >
         <View paddingH-30>
-          <View>
-            <Text text50BO mint>
-              Sign In
-            </Text>
-          </View>
+          <Text text50BO mint>
+            Sign In
+          </Text>
+
           <View marginT-20>
             <View marginT-10>
               <TextField
@@ -69,6 +68,7 @@ function SignIn({ navigation }) {
                 error={errors?.providerId?.message}
               />
             </View>
+
             <View marginT-10>
               <TextField
                 title="Password"

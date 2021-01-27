@@ -1,6 +1,9 @@
+import { StatusBar } from 'expo-status-bar';
 import React, { useContext } from 'react';
 import { BaseNavigationContainer } from '@react-navigation/native';
 import { combineProviders } from 'react-combine-providers';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import './theme';
 
@@ -22,6 +25,7 @@ function App() {
     return (
       <Background source={{}}>
         <Loading />
+        <StatusBar />
       </Background>
     );
   }
@@ -30,6 +34,7 @@ function App() {
     return (
       <Background source={{}}>
         <Auth />
+        <StatusBar />
       </Background>
     );
   }
@@ -37,6 +42,7 @@ function App() {
   return (
     <Background source={{}}>
       <Main />
+      <StatusBar />
     </Background>
   );
 }
@@ -45,6 +51,8 @@ const provider = combineProviders();
 provider.push(AppProvider);
 provider.push(AuthProvider);
 provider.push(ToastProvider);
+provider.push(SafeAreaProvider);
+provider.push(ActionSheetProvider);
 provider.push(BaseNavigationContainer);
 
 const MasterProvider = provider.master();
