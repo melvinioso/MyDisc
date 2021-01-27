@@ -1,23 +1,15 @@
 import React, { useEffect, useContext } from 'react';
-import {
-  View,
-  Text,
-  Button as UIButton,
-  Colors,
-  Constants,
-} from 'react-native-ui-lib';
-import { StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Button, Colors } from 'react-native-ui-lib';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { get } from 'lodash';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 
-import TextInput from '../../components/TextInput';
-import BackButton from '../../components/BackButton';
-import BaseScreen from '../../components/BaseScreen';
-import { PX } from '../../theme';
+import TextField from '../../components/TextField';
 
 import { AuthContext } from '../../context/auth';
+import { ToastContext } from '../../context/toast';
 
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -33,8 +25,9 @@ const schema = yup.object().shape({
 });
 
 function CreateAccount({ navigation }) {
-  const { register: reg } = useContext(AuthContext);
-  const { register, handleSubmit, setValue, errors } = useForm({
+  const { notify } = useContext(ToastContext);
+  const { createAccount } = useContext(AuthContext);
+  const { register, handleSubmit, setValue, errors, formState } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -47,87 +40,105 @@ function CreateAccount({ navigation }) {
 
   async function onSubmit(values) {
     console.log(values);
-    await reg({
-      name: values.name,
-      providerId: values.providerId,
-      providerKey: values.providerKey,
-    });
+    try {
+      await createAccount({
+        name: values.name,
+        providerId: values.providerId,
+        providerKey: values.providerKey,
+      });
+    } catch (e) {
+      notify({
+        title: 'Oops',
+        message: e.message,
+      });
+    }
   }
 
   return (
-    <BaseScreen
-      header={
-        <View>
-          <BackButton onPress={() => navigation.navigate('Welcome')} />
-          <Text text30M mint marginT-40 style={[styles.text]}>
-            New Account
-          </Text>
-        </View>
-      }
-      fixedFooter={
-        <View marginB-40>
-          <UIButton
-            label="Create Account"
-            style={styles.button}
-            backgroundColor={Colors.mint}
-            onPress={handleSubmit(onSubmit)}
-          />
-        </View>
-      }
-    >
-      <KeyboardAvoidingView behavior="position" style={styles.avoid}>
-        <View marginT-80>
+    <View flex style={{ width: '100%' }}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{
+          height: '100%',
+          justifyContent: 'center',
+        }}
+        keyboardDismissMode="interactive"
+      >
+        <View paddingH-30>
           <View>
-            <TextInput
-              placeholder="Name"
-              onChangeText={(text) => setValue('name', text)}
-              autoCapitalize="none"
-              error={get(errors, 'name')}
-            />
+            <Text text50BO mint>
+              New Account
+            </Text>
           </View>
           <View marginT-20>
-            <TextInput
-              placeholder="Email"
-              onChangeText={(text) => setValue('providerId', text)}
-              autoCapitalize="none"
-              error={get(errors, 'providerId')}
-            />
+            <View marginT-10>
+              <TextField
+                title="Name"
+                autoCapitalize="words"
+                autoCompleteType="name"
+                clearButtonMode="while-editing"
+                onChangeText={(val) => setValue('name', val)}
+                error={errors?.name?.message}
+              />
+            </View>
+            <View marginT-10>
+              <TextField
+                title="Email"
+                autoCapitalize="none"
+                autoCompleteType="email"
+                keyboardType="email-address"
+                clearButtonMode="while-editing"
+                onChangeText={(val) => setValue('providerId', val)}
+                error={errors?.providerId?.message}
+              />
+            </View>
+            <View marginT-10>
+              <TextField
+                title="Password"
+                secureTextEntry
+                onChangeText={(val) => setValue('providerKey', val)}
+                error={errors?.providerKey?.message}
+              />
+            </View>
+            <View marginT-10>
+              <TextField
+                title="Confirm Password"
+                secureTextEntry
+                onChangeText={(val) => setValue('confirm', val)}
+                error={errors?.confirm?.message}
+              />
+            </View>
           </View>
           <View marginT-20>
-            <TextInput
-              placeholder="Password"
-              onChangeText={(text) => setValue('providerKey', text)}
-              autoCapitalize="none"
-              error={get(errors, 'providerKey')}
-              secureTextEntry
-            />
-          </View>
-          <View marginT-20>
-            <TextInput
-              placeholder="Confirm"
-              onChangeText={(text) => setValue('confirm', text)}
-              autoCapitalize="none"
-              error={get(errors, 'confirm')}
-              secureTextEntry
-            />
+            <View>
+              <Button
+                marginT-30
+                bg-mint
+                style={[{ paddingVertical: 15 }]}
+                onPress={handleSubmit(onSubmit)}
+              >
+                {formState.isSubmitting ? (
+                  <ActivityIndicator color={Colors.white} />
+                ) : (
+                  <Text text60R white>
+                    Create Account
+                  </Text>
+                )}
+              </Button>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('SignIn');
+                }}
+              >
+                <Text text70L indigo center marginT-20>
+                  I already have an account
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </KeyboardAvoidingView>
-    </BaseScreen>
+      </KeyboardAwareScrollView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  avoid: {
-    display: 'flex',
-    height: Constants.screenHeight - 1100 * PX,
-  },
-  text: {
-    textAlign: 'center',
-  },
-  button: {
-    borderRadius: 70 * PX,
-  },
-});
 
 export default CreateAccount;

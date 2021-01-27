@@ -78,7 +78,7 @@ export function AuthProvider({ children }) {
     }
   }
 
-  async function register({ name, providerId, providerKey }) {
+  async function createAccount({ name, providerId, providerKey }) {
     try {
       const res = await axios.post(
         `${API_HOST}/auth/user/register`,
@@ -117,7 +117,7 @@ export function AuthProvider({ children }) {
         permissions,
         login,
         logout,
-        register,
+        createAccount,
       }}
     >
       {children}

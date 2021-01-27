@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react';
-import { View, Text, Button as UIButton, Colors } from 'react-native-ui-lib';
-import { StyleSheet } from 'react-native';
+import React, { useEffect, useContext } from 'react';
+import { View, Text, Button, Colors } from 'react-native-ui-lib';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { get } from 'lodash';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 
-import TextInput from '../../components/TextInput';
-import BackButton from '../../components/BackButton';
-import BaseScreen from '../../components/BaseScreen';
-import { PX } from '../../theme';
+import TextField from '../../components/TextField';
+
+import { ToastContext } from '../../context/toast';
 
 const schema = yup.object().shape({
   email: yup.string().email('Not a valid email').required('Email is required'),
 });
 
 function ForgotPassword({ navigation }) {
-  const { register, handleSubmit, setValue, errors } = useForm({
+  const { notify } = useContext(ToastContext);
+  const { register, handleSubmit, setValue, errors, formState } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -25,61 +25,83 @@ function ForgotPassword({ navigation }) {
   }, [register]);
 
   async function onSubmit(values) {
-    navigation.navigate('EmailSent');
-    console.log(values);
+    try {
+      const { email } = values;
+
+      const options = {
+        email,
+      };
+      notify({
+        title: 'Email:',
+        message: options.email,
+      });
+    } catch (e) {
+      notify({
+        title: 'Oops',
+        message: e.message,
+      });
+    }
   }
 
   return (
-    <BaseScreen
-      header={
-        <View>
-          <BackButton onPress={() => navigation.navigate('SignIn')} />
-          <Text text30M mint marginT-40 style={[styles.text]}>
-            Enter email address below
-          </Text>
+    <View flex style={{ width: '100%' }}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{
+          height: '100%',
+          justifyContent: 'center',
+        }}
+        keyboardDismissMode="interactive"
+      >
+        <View paddingH-30>
+          <View>
+            <Text text50BO mint>
+              Reset Password
+            </Text>
+          </View>
+          <View marginT-20>
+            <View marginT-10>
+              <TextField
+                title="Email"
+                autoCapitalize="none"
+                autoCompleteType="email"
+                keyboardType="email-address"
+                clearButtonMode="while-editing"
+                onChangeText={(val) => setValue('email', val)}
+                error={errors?.email?.message}
+              />
+            </View>
+          </View>
+          <View marginT-20>
+            <View>
+              <Button
+                marginT-30
+                bg-mint
+                style={[{ paddingVertical: 15 }]}
+                onPress={handleSubmit(onSubmit)}
+              >
+                {formState.isSubmitting ? (
+                  <ActivityIndicator color={Colors.white} />
+                ) : (
+                  <Text text60R white>
+                    Send Instructions
+                  </Text>
+                )}
+              </Button>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('SignIn');
+                }}
+              >
+                <Text text70L indigo center marginT-20>
+                  Nevermind
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      }
-      fixedFooter={
-        <View marginB-40>
-          <UIButton
-            label="Send email"
-            style={styles.button}
-            backgroundColor={Colors.mint}
-            onPress={handleSubmit(onSubmit)}
-          />
-        </View>
-      }
-    >
-      <View marginT-80>
-        <View>
-          <TextInput
-            placeholder="Email"
-            onChangeText={(text) => setValue('email', text)}
-            autoCapitalize="none"
-            error={get(errors, 'email')}
-            keyboardType="email-address"
-          />
-        </View>
-        <View marginT-20>
-          <Text text80M indigo marginT-40 style={[styles.text]}>
-            We will email you a link on how to change your password.
-          </Text>
-        </View>
-      </View>
-    </BaseScreen>
+      </KeyboardAwareScrollView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  avoid: {
-    display: 'flex',
-  },
-  text: {
-    textAlign: 'center',
-  },
-  button: {
-    borderRadius: 70 * PX,
-  },
-});
 
 export default ForgotPassword;

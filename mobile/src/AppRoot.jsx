@@ -6,6 +6,7 @@ import './theme';
 
 import { AppProvider, AppContext } from './context/app';
 import { AuthProvider, AuthContext } from './context/auth';
+import { ToastProvider } from './context/toast';
 
 import Loading from './screens/Loading';
 import Main from './navigators/Main';
@@ -43,6 +44,7 @@ function App() {
 const provider = combineProviders();
 provider.push(AppProvider);
 provider.push(AuthProvider);
+provider.push(ToastProvider);
 provider.push(BaseNavigationContainer);
 
 const MasterProvider = provider.master();

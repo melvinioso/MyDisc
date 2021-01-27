@@ -1,19 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button as UIButton, Colors } from 'react-native-ui-lib';
-import { StyleSheet } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import React, { useEffect, useContext } from 'react';
+import { View, Text, Button, Colors } from 'react-native-ui-lib';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { get } from 'lodash';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 
-import TextInput from '../../components/TextInput';
-import BackButton from '../../components/BackButton';
-import BaseScreen from '../../components/BaseScreen';
-import ErrorMessage from '../../components/ErrorMessage';
-import { PX } from '../../theme';
+import TextField from '../../components/TextField';
 
 import { AuthContext } from '../../context/auth';
+import { ToastContext } from '../../context/toast';
 
 const schema = yup.object().shape({
   providerId: yup
@@ -24,9 +20,9 @@ const schema = yup.object().shape({
 });
 
 function SignIn({ navigation }) {
-  const [serverError, setServerError] = useState(null);
+  const { notify } = useContext(ToastContext);
   const { login } = useContext(AuthContext);
-  const { register, handleSubmit, setValue, errors } = useForm({
+  const { register, handleSubmit, setValue, errors, formState } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -37,87 +33,91 @@ function SignIn({ navigation }) {
 
   async function onSubmit(values) {
     try {
-      setServerError(null);
       await login(values);
     } catch (e) {
-      console.log(e);
-      setServerError('Error signing in.');
+      notify({
+        title: 'Oops',
+        message: e.message,
+      });
     }
   }
 
   return (
-    <BaseScreen
-      header={
-        <View>
-          <BackButton onPress={() => navigation.navigate('Welcome')} />
-          <Text text30M mint marginT-40 style={[styles.text]}>
-            Welcome Back
-          </Text>
-        </View>
-      }
-      fixedFooter={
-        <View marginB-40>
-          <UIButton
-            label="Sign In"
-            style={styles.button}
-            backgroundColor={Colors.mint}
-            onPress={handleSubmit(onSubmit)}
-          />
-          <UIButton
-            label="Forgot Password?"
-            style={styles.button}
-            marginT-20
-            backgroundColor={Colors.mint}
-            onPress={() => navigation.navigate('ForgotPassword')}
-          />
-        </View>
-      }
-    >
+    <View flex style={{ width: '100%' }}>
       <KeyboardAwareScrollView
         contentContainerStyle={{
-          // paddingBottom: 200,
-          // height: '100%',
-          // width: '100%',
+          height: '100%',
           justifyContent: 'center',
         }}
         keyboardDismissMode="interactive"
       >
-        <View marginT-80>
+        <View paddingH-30>
           <View>
-            <TextInput
-              placeholder="Email"
-              onChangeText={(text) => setValue('providerId', text)}
-              autoCapitalize="none"
-              error={get(errors, 'providerId')}
-              keyboardType="email-address"
-            />
+            <Text text50BO mint>
+              Sign In
+            </Text>
           </View>
           <View marginT-20>
-            <TextInput
-              placeholder="Password"
-              onChangeText={(text) => setValue('providerKey', text)}
-              autoCapitalize="none"
-              error={get(errors, 'providerKey')}
-              secureTextEntry
-            />
-            {serverError ? <ErrorMessage message={serverError} /> : null}
+            <View marginT-10>
+              <TextField
+                title="Email"
+                autoCapitalize="none"
+                autoCompleteType="email"
+                keyboardType="email-address"
+                clearButtonMode="while-editing"
+                onChangeText={(val) => setValue('providerId', val)}
+                error={errors?.providerId?.message}
+              />
+            </View>
+            <View marginT-10>
+              <TextField
+                title="Password"
+                secureTextEntry
+                onChangeText={(val) => setValue('providerKey', val)}
+                error={errors?.providerKey?.message}
+              />
+            </View>
+          </View>
+          <View marginT-20>
+            <View>
+              <Button
+                marginT-30
+                bg-mint
+                style={[{ paddingVertical: 15 }]}
+                onPress={handleSubmit(onSubmit)}
+              >
+                {formState.isSubmitting ? (
+                  <ActivityIndicator color={Colors.white} />
+                ) : (
+                  <Text text60R white>
+                    Sign In
+                  </Text>
+                )}
+              </Button>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Register');
+                }}
+              >
+                <Text text70L indigo center marginT-20>
+                  I don't have an account
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('ForgotPassword');
+                }}
+              >
+                <Text text70L indigo center marginT-10>
+                  Forgot Password?
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </KeyboardAwareScrollView>
-    </BaseScreen>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  avoid: {
-    display: 'flex',
-  },
-  text: {
-    textAlign: 'center',
-  },
-  button: {
-    borderRadius: 70 * PX,
-  },
-});
 
 export default SignIn;

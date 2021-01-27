@@ -1,3 +1,3 @@
 import '../../src/theme';
 
-import './Button.stories.jsx';
+import './Disc.stories.jsx';
