@@ -1,53 +1,19 @@
 import React, { useContext } from 'react';
 import { Colors } from 'react-native-ui-lib';
-import * as Animatable from 'react-native-animatable';
-import { createStackNavigator } from '@react-navigation/stack';
-import { TouchableOpacity } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useActionSheet } from '@expo/react-native-action-sheet';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { FontAwesome } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
 
-import { defaultScreenOptions as screenOptions } from '../../theme';
+import { defaultHeaderOptions as headerOptions } from '../../theme';
 
 import { ApolloProvider } from '@apollo/client';
 
-import Dashboard from '../../screens/Dashboard';
-import AddDisc from '../../screens/AddDisc';
+import DashboardNavigator from '../Dashboard';
+import AddDiscNavigator from '../AddDisc';
 
 import { AuthContext } from '../../context/auth';
 
-const Stack = createStackNavigator();
-
-function SettingsButton() {
-  const { logout } = useContext(AuthContext);
-  const { showActionSheetWithOptions } = useActionSheet();
-
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        showActionSheetWithOptions(
-          {
-            options: ['Sign Out', 'Cancel'],
-            cancelButtonIndex: 1,
-          },
-          async (buttonIndex) => {
-            if (buttonIndex === 0) {
-              logout();
-              return;
-            }
-          }
-        );
-      }}
-      hitSlop={{
-        top: 10,
-        right: 10,
-        bottom: 10,
-        left: 10,
-      }}
-    >
-      <MaterialIcons name="settings" size={28} color={Colors.smoke} />
-    </TouchableOpacity>
-  );
-}
+const Tab = createMaterialBottomTabNavigator();
 
 function Main() {
   const { token, client } = useContext(AuthContext);
@@ -58,35 +24,35 @@ function Main() {
 
   return (
     <ApolloProvider client={client}>
-      <Stack.Navigator
+      <Tab.Navigator
         initialRouteName="Dashboard"
-        headerMode="screen"
-        screenOptions={screenOptions}
+        headerMode="float"
+        screenOptions={headerOptions}
+        activeColor={Colors.indigo}
+        inactiveColor={Colors.gray}
+        barStyle={{ backgroundColor: `${Colors.white}` }}
       >
-        <Stack.Screen
+        <Tab.Screen
           name="Dashboard"
-          component={Dashboard}
+          component={DashboardNavigator}
           options={{
-            headerShown: true,
-            headerTitle: '',
-            headerRight: () => (
-              <Animatable.View
-                animation="fadeIn"
-                duration={300}
-                style={{
-                  position: 'absolute',
-                  top: 10,
-                  right: 20,
-                  zIndex: 9999,
-                }}
-              >
-                <SettingsButton />
-              </Animatable.View>
+            tabBarLabel: 'My Discs',
+            tabBarIcon: ({ color }) => (
+              <SimpleLineIcons name="disc" size={24} color={color} />
             ),
           }}
         />
-        <Stack.Screen name="AddDisc" component={AddDisc} />
-      </Stack.Navigator>
+        <Tab.Screen
+          name="AddDisc"
+          component={AddDiscNavigator}
+          options={{
+            tabBarLabel: 'Add a Disc',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome name="plus" size={24} color={color} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
     </ApolloProvider>
   );
 }

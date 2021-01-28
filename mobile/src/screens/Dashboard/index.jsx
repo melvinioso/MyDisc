@@ -6,19 +6,21 @@ import Disc from '../../components/Disc';
 
 function Dashboard() {
   return (
-    <View style={styles.container}>
-      <Disc size={80} color={Colors.mint} brand="Discraft" mold="Buzzz" />
+    <View style={{ width: '100%' }}>
+      <View>
+        <Disc
+          marginT-50
+          marginL-20
+          size={80}
+          color={Colors.mint}
+          brand="Discraft"
+          mold="Buzzz"
+        />
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const styles = StyleSheet.create({});
 
 export default Dashboard;

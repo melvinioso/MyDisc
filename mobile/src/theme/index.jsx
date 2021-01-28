@@ -1,3 +1,5 @@
+import React from 'react';
+import * as Animatable from 'react-native-animatable';
 import { PixelRatio, Animated } from 'react-native';
 import {
   Typography,
@@ -10,6 +12,8 @@ import {
 const { multiply } = Animated;
 
 import { forHorizontalIOS, forUIKit } from './transitionConfigs';
+
+import SettingsButton from '../components/SettingsButton';
 
 Colors.loadColors({
   white: '#ffffff',
@@ -63,10 +67,39 @@ export const PX = (() => {
 
 // TODO: Still working with fixed backgrounds in React-navigation
 export const defaultScreenOptions = {
-  title: '',
-  headerTintColor: Colors.blue,
   headerShown: false,
-  headerTransparent: true,
+  transparentCard: true,
+  cardShadowEnabled: false,
+  cardStyle: {
+    // DO NOT REMOVE
+    backgroundColor: 'transparent',
+  },
+  cardStyleInterpolator: forHorizontalIOS,
+  headerStyleInterpolator: forUIKit,
+};
+
+export const defaultHeaderOptions = {
+  headerShown: true,
+  title: 'MyDisc',
+  headerStyle: {
+    backgroundColor: `${Colors.mint}`,
+  },
+  headerTintColor: `${Colors.white}`,
+  headerLeft: null,
+  headerRight: () => (
+    <Animatable.View
+      animation="fadeIn"
+      duration={300}
+      style={{
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        zIndex: 9999,
+      }}
+    >
+      <SettingsButton />
+    </Animatable.View>
+  ),
   transparentCard: true,
   cardShadowEnabled: false,
   cardStyle: {
