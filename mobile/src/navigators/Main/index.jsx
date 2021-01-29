@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import { Colors } from 'react-native-ui-lib';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
 import { defaultHeaderOptions as headerOptions } from '../../theme';
 
 import { ApolloProvider } from '@apollo/client';
 
-import DashboardNavigator from '../Dashboard';
-import AddDiscNavigator from '../AddDisc';
+import MyDiscsNavigator from '../MyDiscs';
+import MyBagsNavigator from '../MyBags';
 
 import { AuthContext } from '../../context/auth';
 
@@ -25,7 +25,7 @@ function Main() {
   return (
     <ApolloProvider client={client}>
       <Tab.Navigator
-        initialRouteName="Dashboard"
+        initialRouteName="MyDiscs"
         headerMode="float"
         screenOptions={headerOptions}
         activeColor={Colors.indigo}
@@ -33,8 +33,8 @@ function Main() {
         barStyle={{ backgroundColor: `${Colors.white}` }}
       >
         <Tab.Screen
-          name="Dashboard"
-          component={DashboardNavigator}
+          name="MyDiscs"
+          component={MyDiscsNavigator}
           options={{
             tabBarLabel: 'My Discs',
             tabBarIcon: ({ color }) => (
@@ -43,12 +43,12 @@ function Main() {
           }}
         />
         <Tab.Screen
-          name="AddDisc"
-          component={AddDiscNavigator}
+          name="AddBag"
+          component={MyBagsNavigator}
           options={{
-            tabBarLabel: 'Add a Disc',
+            tabBarLabel: 'My Bags',
             tabBarIcon: ({ color }) => (
-              <FontAwesome name="plus" size={24} color={color} />
+              <MaterialIcons name="backpack" size={24} color={color} />
             ),
           }}
         />

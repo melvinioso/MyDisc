@@ -33,7 +33,7 @@ function SettingsButton() {
         left: 10,
       }}
     >
-      <MaterialIcons name="settings" size={28} color={Colors.white} />
+      <MaterialIcons name="settings" size={28} color={Colors.indigo} />
     </TouchableOpacity>
   );
 }

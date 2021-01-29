@@ -3,20 +3,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { defaultHeaderOptions as headerOptions } from '../../theme';
 
-import Dashboard from '../../screens/Dashboard';
+import MyDiscs from '../../screens/MyDiscs';
 
 const Stack = createStackNavigator();
 
-function DashboardNavigator() {
+function MyDiscsNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName="Dashboard"
+      initialRouteName="MyDiscs"
       headerMode="float"
       screenOptions={headerOptions}
     >
-      <Stack.Screen name="Dashboard" component={Dashboard} />
+      <Stack.Screen name="MyDiscs" component={MyDiscs} />
     </Stack.Navigator>
   );
 }
 
-export default DashboardNavigator;
+export default MyDiscsNavigator;

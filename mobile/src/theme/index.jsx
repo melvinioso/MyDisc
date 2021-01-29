@@ -82,9 +82,9 @@ export const defaultHeaderOptions = {
   headerShown: true,
   title: 'MyDisc',
   headerStyle: {
-    backgroundColor: `${Colors.mint}`,
+    backgroundColor: `${Colors.white}`,
   },
-  headerTintColor: `${Colors.white}`,
+  headerTintColor: `${Colors.indigo}`,
   headerLeft: null,
   headerRight: () => (
     <Animatable.View
