@@ -5,7 +5,7 @@ import { PX } from '../../theme';
 
 function DiscHeader(props) {
   let customTextColor;
-  const {
+  let {
     brand,
     mold,
     plastic,
@@ -18,7 +18,9 @@ function DiscHeader(props) {
     style,
   } = props;
 
-  color === '#ffffff'
+  color = color || Colors.mint;
+
+  color == '#ffffff'
     ? (customTextColor = '#000000')
     : (customTextColor = '#ffffff');
 

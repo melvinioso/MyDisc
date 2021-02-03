@@ -1,39 +1,43 @@
 import React from 'react';
 import { TouchableOpacity, Text, View } from 'react-native-ui-lib';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
-function Disc({ size, color, brand, mold, onPress, style, ...props }) {
+const { width } = Dimensions.get('window');
+const ITEM_WIDTH = width / 4;
+const CIRCLE = ITEM_WIDTH * 0.8;
+const BR = CIRCLE / 2;
+
+function Disc({ color, brand, mold, onPress, style, index, ...props }) {
   let borderColor;
 
   color === '#ffffff' ? (borderColor = '#000000') : (borderColor = '#ffffff');
 
-  const BR = size / 2;
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[{ height: size }, { width: size }, style]}
-      {...props}
-    >
-      <View flex center>
+    <TouchableOpacity onPress={onPress} style={styles.disc} {...props}>
+      <View centerH marginT-20>
         <View
           style={[
             { backgroundColor: `${color}` },
             { borderColor: borderColor },
             { borderWidth: 1 },
-            { height: size },
-            { width: size },
+            { height: CIRCLE },
+            { width: CIRCLE },
             { borderRadius: BR },
           ]}
         />
-        <View center>
-          <Text>{brand}</Text>
-          <Text>{mold}</Text>
+        <View centerH marginT-5>
+          <Text text90R>{brand}</Text>
+          <Text text90R>{mold}</Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  disc: {
+    width: ITEM_WIDTH,
+  },
+});
 
 export default Disc;

@@ -3,24 +3,24 @@ import { StyleSheet } from 'react-native';
 import { View, Text, Colors } from 'react-native-ui-lib';
 
 import { useQuery } from '@apollo/client';
-// import { QUERY_DISCS } from '../../graphql/queries';
+import { QUERY_BAGS } from '../../graphql/queries';
 
 import BagHeader from '../../components/BagHeader';
 
 function MyBags() {
-  // const { data, loading } = useQuery(QUERY_DISCS);
+  const { data, loading } = useQuery(QUERY_BAGS);
 
-  // const getData = async () => {
-  //   try {
-  //     await data;
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  const getData = async () => {
+    try {
+      await data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  // getData();
+  getData();
 
-  // console.log("DATA: ", data);
+  console.log('BAGS: ', data);
 
   return (
     <View style={{ width: '100%' }}>
@@ -28,7 +28,7 @@ function MyBags() {
         <BagHeader
           name="Falcon Pointe"
           capacity={18}
-          color={Colors.mint}
+          color={Colors.indigo}
           putters={6}
           midranges={4}
           fairways={3}

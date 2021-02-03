@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import { View, Text, Colors } from 'react-native-ui-lib';
 
 import { useQuery } from '@apollo/client';
@@ -8,38 +8,57 @@ import { QUERY_DISCS } from '../../graphql/queries';
 import DiscHeader from '../../components/DiscHeader';
 import Disc from '../../components/Disc';
 
+import { AuthContext } from '../../context/auth';
+
 function MyDiscs() {
-  const { data, loading } = useQuery(QUERY_DISCS);
+  const { user } = useContext(AuthContext);
+  const [discs, setDiscs] = useState(undefined);
+  const [activeDisc, setActiveDisc] = useState(null);
+  const { data, loading } = useQuery(QUERY_DISCS, {
+    variables: { where: { userId: user.id } },
+  });
 
-  const getData = async () => {
-    try {
-      await data;
-    } catch (e) {
-      console.log(e);
+  useEffect(() => {
+    const allDiscs = data?.discs || [];
+    if (!allDiscs || !allDiscs.length) {
+      return;
     }
-  };
 
-  getData();
-
-  console.log('DATA: ', data);
+    setDiscs(allDiscs);
+  }, [data, loading]);
 
   return (
-    <View style={{ width: '100%' }}>
-      <DiscHeader
-        color={Colors.blue}
-        brand="Discraft"
-        mold="Buzzz"
-        plastic="Big Z"
-        weight={168}
-        speed={5}
-        glide={4}
-        turn={-1}
-        fade={1}
+    <SafeAreaView style={styles.container}>
+      <DiscHeader {...activeDisc} />
+      <FlatList
+        data={discs}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{
+          paddingBottom: 100,
+        }}
+        renderItem={({ item, index }) => (
+          <View>
+            <Disc
+              color={`${item.color}`}
+              brand={`${item.brand}`}
+              mold={`${item.mold}`}
+              index={index}
+              onPress={() => {
+                setActiveDisc(item);
+              }}
+            />
+          </View>
+        )}
+        numColumns={4}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default MyDiscs;
