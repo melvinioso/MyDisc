@@ -54,7 +54,7 @@ function CreateAccount({ navigation }) {
       brand: '',
       mold: '',
       plastic: '',
-      color: '#FFFFFF',
+      color: '#FF0000',
       weight: 140,
       speed: 1,
       glide: 1,
@@ -103,7 +103,6 @@ function CreateAccount({ navigation }) {
         refetchQueries: [
           {
             query: QUERY_DISCS,
-            variables: { where: { userId: user.id } },
           },
         ],
         awaitRefetchQueries: true,
@@ -193,6 +192,7 @@ function CreateAccount({ navigation }) {
                       Press color button to select color
                     </Text>
                     <ColorPicker
+                      defaultColor={color}
                       onColorSelected={(val) => {
                         setValue('color', val);
                         toggleOverlay();

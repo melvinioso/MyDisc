@@ -33,8 +33,8 @@ function Main() {
         headerMode="float"
         screenOptions={headerOptions}
         tabBarOptions={{
-          activeTintColor: `${Colors.indigo}`,
-          inactiveTintColor: `${Colors.gray}`,
+          activeTintColor: Colors.indigo,
+          inactiveTintColor: Colors.gray,
           style: {
             height: 340 * PX,
           },
@@ -43,7 +43,7 @@ function Main() {
             fontWeight: '600',
           },
         }}
-        barStyle={{ backgroundColor: `${Colors.white}` }}
+        barStyle={{ backgroundColor: Colors.white }}
       >
         <Tab.Screen
           name="MyDiscs"

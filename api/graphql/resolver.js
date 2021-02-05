@@ -73,7 +73,6 @@ export function update(modelName) {
 
       return record;
     } catch (e) {
-      console.log(e);
       throw new Error(`Error updating ${modelName}.`);
     }
   };
@@ -103,7 +102,6 @@ export function destroy(modelName) {
 
       return record;
     } catch (e) {
-      console.log(e);
       throw new Error(`Error destroying ${modelName}`);
     }
   };

@@ -20,8 +20,6 @@ function MyBags() {
 
   getData();
 
-  console.log('BAGS: ', data);
-
   return (
     <View style={{ width: '100%' }}>
       <View>

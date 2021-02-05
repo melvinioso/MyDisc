@@ -19,8 +19,6 @@ import Background from './components/Background';
 function App() {
   const { booted } = useContext(AppContext);
   const { isAuthenticated } = useContext(AuthContext);
-  console.log('booted', booted);
-  console.log('authenticated', isAuthenticated);
   if (!booted) {
     return (
       <Background source={{}}>
