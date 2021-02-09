@@ -35,7 +35,7 @@ const schema = yup.object().shape({
   plastic: yup.string().required('Plastic is required'),
 });
 
-function CreateAccount({ navigation }) {
+function AddDisc({ navigation }) {
   const { notify } = useContext(ToastContext);
   const { user } = useContext(AuthContext);
   const [createDisc] = useMutation(CREATE_DISC);
@@ -103,6 +103,7 @@ function CreateAccount({ navigation }) {
         refetchQueries: [
           {
             query: QUERY_DISCS,
+            variables: { where: { userId: user.id } },
           },
         ],
         awaitRefetchQueries: true,
@@ -166,7 +167,9 @@ function CreateAccount({ navigation }) {
                 </View>
               </View>
               <View centerV marginT-10>
-                <Text>Color</Text>
+                <Text text80M slate>
+                  Color
+                </Text>
                 <TouchableOpacity onPress={toggleOverlay} style={styles.color}>
                   <View marginT-10>
                     <View
@@ -188,7 +191,7 @@ function CreateAccount({ navigation }) {
                       { height: PICKER_WIDTH * 1.5 },
                     ]}
                   >
-                    <Text text80R center>
+                    <Text text80R center text80M slate>
                       Press color button to select color
                     </Text>
                     <ColorPicker
@@ -204,7 +207,9 @@ function CreateAccount({ navigation }) {
               </View>
             </View>
             <View spread row center marginT-20>
-              <Text marginR-20>Weight</Text>
+              <Text marginR-20 text80M text80M slate>
+                Weight
+              </Text>
               <Slider
                 style={{ width: 200, height: 40 }}
                 minimumValue={140}
@@ -217,10 +222,14 @@ function CreateAccount({ navigation }) {
                   setValue('weight', val);
                 }}
               />
-              <Text marginL-20>{weight}</Text>
+              <Text marginL-20 text80M slate>
+                {weight}
+              </Text>
             </View>
             <View spread row center marginT-10>
-              <Text marginR-20>Speed</Text>
+              <Text marginR-20 text80M slate>
+                Speed
+              </Text>
               <Slider
                 style={{ width: 200, height: 40 }}
                 minimumValue={1}
@@ -233,10 +242,14 @@ function CreateAccount({ navigation }) {
                   setValue('speed', val);
                 }}
               />
-              <Text marginL-20>{speed}</Text>
+              <Text marginL-20 text80M slate>
+                {speed}
+              </Text>
             </View>
             <View spread row center marginT-10>
-              <Text marginR-20>Glide</Text>
+              <Text marginR-20 text80M slate>
+                Glide
+              </Text>
               <Slider
                 style={{ width: 200, height: 40 }}
                 minimumValue={1}
@@ -249,10 +262,14 @@ function CreateAccount({ navigation }) {
                   setValue('glide', val);
                 }}
               />
-              <Text marginL-20>{glide}</Text>
+              <Text marginL-20 text80M slate>
+                {glide}
+              </Text>
             </View>
             <View spread row center marginT-10>
-              <Text marginR-20>Turn</Text>
+              <Text marginR-20 text80M slate>
+                Turn
+              </Text>
               <Slider
                 style={{ width: 200, height: 40 }}
                 minimumValue={-5}
@@ -266,10 +283,14 @@ function CreateAccount({ navigation }) {
                   setValue('turn', val);
                 }}
               />
-              <Text marginL-20>{turn}</Text>
+              <Text marginL-20 text80M slate>
+                {turn}
+              </Text>
             </View>
             <View spread row center marginT-10>
-              <Text marginR-20>Fade</Text>
+              <Text marginR-20 text80M slate>
+                Fade
+              </Text>
               <Slider
                 style={{ width: 200, height: 40 }}
                 minimumValue={0}
@@ -282,7 +303,9 @@ function CreateAccount({ navigation }) {
                   setValue('fade', val);
                 }}
               />
-              <Text marginL-20>{fade}</Text>
+              <Text marginL-20 text80M slate>
+                {fade}
+              </Text>
             </View>
           </View>
           <View marginT-20>
@@ -314,4 +337,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateAccount;
+export default AddDisc;

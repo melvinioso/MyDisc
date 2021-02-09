@@ -1,42 +1,75 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import { View, Text, Colors } from 'react-native-ui-lib';
 
 import { useQuery } from '@apollo/client';
 import { QUERY_BAGS } from '../../graphql/queries';
 
 import BagHeader from '../../components/BagHeader';
+import Bag from '../../components/Bag';
+
+import { AuthContext } from '../../context/auth';
 
 function MyBags() {
-  const { data, loading } = useQuery(QUERY_BAGS);
+  const { user } = useContext(AuthContext);
+  const [bags, setBags] = useState(undefined);
+  const [activeBag, setActiveBag] = useState(null);
+  const { data, loading } = useQuery(QUERY_BAGS, {
+    variables: { where: { userId: user.id } },
+  });
 
-  const getData = async () => {
-    try {
-      await data;
-    } catch (e) {
-      console.log(e);
+  useEffect(() => {
+    const allBags = data?.bags || [];
+    if (!allBags || !allBags.length) {
+      return;
     }
-  };
 
-  getData();
+    setBags(allBags);
+  }, [data, loading]);
+
+  if (!data?.bags) {
+    return null;
+  }
 
   return (
-    <View style={{ width: '100%' }}>
-      <View>
-        <BagHeader
-          name="Falcon Pointe"
-          capacity={18}
-          color={Colors.indigo}
-          putters={6}
-          midranges={4}
-          fairways={3}
-          distance={3}
-        />
-      </View>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <BagHeader
+        name="Falcon Pointe"
+        capacity={19}
+        color={Colors.mint}
+        putters={6}
+        midranges={4}
+        fairways={3}
+        distance={3}
+      />
+      <FlatList
+        data={bags}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{
+          paddingBottom: 100,
+        }}
+        renderItem={({ item, index }) => (
+          <View>
+            <Bag
+              name={item.name}
+              color={item.color}
+              index={index}
+              onPress={() => {
+                setActiveBag(item);
+              }}
+            />
+          </View>
+        )}
+        numColumns={2}
+      />
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default MyBags;

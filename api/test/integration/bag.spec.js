@@ -71,7 +71,7 @@ describe('Integration - Bag', () => {
     it('should NOT create', async () => {
       const attrs = await factory.attrs('Bag');
       const variables = {
-        bag: attrs
+        bag: attrs,
       };
 
       const res = await mutate(CREATE, variables);
@@ -85,8 +85,8 @@ describe('Integration - Bag', () => {
         bag: {
           id: record.id,
           name: 'new name',
-        }
-      }
+        },
+      };
       const res = await mutate(UPDATE, variables);
 
       expect(res.body.data.updateBag).to.be.null;
@@ -97,8 +97,8 @@ describe('Integration - Bag', () => {
       const variables = {
         bag: {
           id: record.id,
-        }
-      }
+        },
+      };
       const res = await mutate(DESTROY, variables);
 
       expect(res.body.data.destroyBag).to.be.null;
@@ -119,54 +119,64 @@ describe('Integration - Bag', () => {
 
       expect(res.body.data.bags).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for bag.list');
+      expect(res.body.errors[0].message).to.equal(
+        'Missing permission for bag.list'
+      );
     });
     it('should NOT read', async () => {
       const res = await query(READ, { id: record.id }, token);
 
       expect(res.body.data.bag).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for bag.read');
+      expect(res.body.errors[0].message).to.equal(
+        'Missing permission for bag.read'
+      );
     });
     it('should NOT create', async () => {
       const attrs = await factory.attrs('Bag');
       const variables = {
-        bag: attrs
+        bag: attrs,
       };
 
       const res = await mutate(CREATE, variables, token);
 
       expect(res.body.data.createBag).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for bag.create');
+      expect(res.body.errors[0].message).to.equal(
+        'Missing permission for bag.create'
+      );
     });
     it('should NOT update', async () => {
       const variables = {
         bag: {
           id: record.id,
           name: 'new name',
-        }
-      }
+        },
+      };
       const res = await mutate(UPDATE, variables, token);
 
       expect(res.body.data.updateBag).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for bag.update');
+      expect(res.body.errors[0].message).to.equal(
+        'Missing permission for bag.update'
+      );
     });
     it('should NOT destroy', async () => {
       const variables = {
         bag: {
           id: record.id,
-        }
-      }
+        },
+      };
       const res = await mutate(DESTROY, variables, token);
 
       expect(res.body.data.destroyBag).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for bag.destroy');
+      expect(res.body.errors[0].message).to.equal(
+        'Missing permission for bag.destroy'
+      );
     });
   });
-  describe.only('User: with Permissions', () => {
+  describe('User: with Permissions', () => {
     let token;
     let usr;
 
@@ -195,7 +205,7 @@ describe('Integration - Bag', () => {
     it('should list my own', async () => {
       const record = await factory.create('Bag', {
         userId: usr.id,
-        name: "Wells Branch",
+        name: 'Wells Branch',
       });
       const res = await query(LIST, undefined, token);
 
@@ -216,15 +226,15 @@ describe('Integration - Bag', () => {
 
       await factory.create('Bag', {
         userId: usr.id,
-        name: "Falcon Pointe",
+        name: 'Falcon Pointe',
       });
       await factory.create('Bag', {
         userId: usr.id,
-        name: "Northtown",
+        name: 'Northtown',
       });
       const bag3 = await factory.create('Bag', {
         userId: usr.id,
-        name: "All Pro",
+        name: 'All Pro',
       });
 
       const res = await query(LIST_ORDER, undefined, token);
@@ -258,12 +268,14 @@ describe('Integration - Bag', () => {
         bag: {
           ...attrs,
           userId: otherUser.id,
-        }
-      }
+        },
+      };
       const res = await mutate(CREATE, variables, token);
 
       expect(res.body.data.createBag).to.be.null;
-      expect(res.body.errors[0].message).to.equal('You are not the current user.');
+      expect(res.body.errors[0].message).to.equal(
+        'You are not the current user.'
+      );
     });
     it('should create my own', async () => {
       const attrs = await factory.attrs('Bag');
@@ -272,7 +284,7 @@ describe('Integration - Bag', () => {
           ...attrs,
           userId: usr.id,
         },
-      }
+      };
 
       const res = await mutate(CREATE, variables, token);
 
@@ -289,12 +301,14 @@ describe('Integration - Bag', () => {
           id: record.id,
           name: 'new name',
           userId: otherUser.id,
-        }
-      }
+        },
+      };
       const res = await mutate(UPDATE, variables, token);
 
       expect(res.body.data.updateBag).to.be.null;
-      expect(res.body.errors[0].message).to.equal('You can not modify this entry.');
+      expect(res.body.errors[0].message).to.equal(
+        'You can not modify this entry.'
+      );
     });
     it('should update my own', async () => {
       const record = await factory.create('Bag', {
@@ -305,7 +319,7 @@ describe('Integration - Bag', () => {
           id: record.id,
           name: 'new name',
         },
-      }
+      };
       const res = await mutate(UPDATE, variables, token);
 
       expect(res.body.data.updateBag).to.exist;
@@ -318,13 +332,15 @@ describe('Integration - Bag', () => {
       const variables = {
         bag: {
           id: destroy.id,
-        }
-      }
+        },
+      };
 
       const res = await mutate(DESTROY, variables, token);
 
       expect(res.body.data.destroyBag).to.be.null;
-      expect(res.body.errors[0].message).to.equal('You can not destroy this entry.');
+      expect(res.body.errors[0].message).to.equal(
+        'You can not destroy this entry.'
+      );
     });
     it('should destroy my own', async () => {
       const destroy = await factory.create('Bag', {
@@ -334,8 +350,8 @@ describe('Integration - Bag', () => {
       const variables = {
         bag: {
           id: destroy.id,
-        }
-      }
+        },
+      };
 
       const res = await mutate(DESTROY, variables, token);
 

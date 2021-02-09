@@ -1,17 +1,18 @@
 import React, { useContext } from 'react';
 import { Colors } from 'react-native-ui-lib';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-import { defaultHeaderOptions as headerOptions } from '../../theme';
+import { defaultScreenOptions as screenOptions } from '../../theme';
 
 import { ApolloProvider } from '@apollo/client';
 
 import MyDiscsNavigator from '../MyDiscs';
 import MyBagsNavigator from '../MyBags';
 import AddDiscNavigator from '../AddDisc';
+
+import Bag from '../../../assets/svgs/bag';
 
 import { PX } from '../../theme';
 
@@ -31,19 +32,19 @@ function Main() {
       <Tab.Navigator
         initialRouteName="MyDiscs"
         headerMode="float"
-        screenOptions={headerOptions}
+        screenOptions={screenOptions}
         tabBarOptions={{
           activeTintColor: Colors.indigo,
           inactiveTintColor: Colors.gray,
           style: {
-            height: 340 * PX,
+            height: 380 * PX,
+            paddingTop: 16,
           },
           labelStyle: {
-            fontSize: 12,
+            fontSize: 14,
             fontWeight: '600',
           },
         }}
-        barStyle={{ backgroundColor: Colors.white }}
       >
         <Tab.Screen
           name="MyDiscs"
@@ -66,13 +67,11 @@ function Main() {
           }}
         />
         <Tab.Screen
-          name="AddBag"
+          name="MyBags"
           component={MyBagsNavigator}
           options={{
             tabBarLabel: 'My Bags',
-            tabBarIcon: ({ color }) => (
-              <MaterialIcons name="backpack" size={24} color={color} />
-            ),
+            tabBarIcon: ({ color }) => <Bag name="backpack" color={color} />,
           }}
         />
       </Tab.Navigator>

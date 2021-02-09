@@ -1,19 +1,5 @@
-import React from 'react';
-import * as Animatable from 'react-native-animatable';
-import { PixelRatio, Animated } from 'react-native';
-import {
-  Typography,
-  Colors,
-  Constants,
-  Assets,
-  Spacings,
-} from 'react-native-ui-lib';
-
-const { multiply } = Animated;
-
-import { forHorizontalIOS, forUIKit } from './transitionConfigs';
-
-import SettingsButton from '../components/SettingsButton';
+import { PixelRatio } from 'react-native';
+import { Typography, Colors, Assets, Spacings } from 'react-native-ui-lib';
 
 Colors.loadColors({
   white: '#ffffff',
@@ -50,13 +36,12 @@ export const HIT_SLOP = {
   left: 20,
 };
 
-export const AssetImages = {
-  // logo: require('../../assets/logo.png'),
-};
+export const AssetImages = {};
 
 Assets.loadAssetsGroup('general', AssetImages);
 
 export const PIXEL_SIZE = PixelRatio.getPixelSizeForLayoutSize(1);
+
 export const PX = (() => {
   if (PIXEL_SIZE === 2 || PIXEL_SIZE === 3) {
     return 1 / 4;
@@ -65,47 +50,10 @@ export const PX = (() => {
   }
 })();
 
-// TODO: Still working with fixed backgrounds in React-navigation
 export const defaultScreenOptions = {
   headerShown: false,
-  transparentCard: true,
+  headerTransparent: true,
   cardShadowEnabled: false,
-  cardStyle: {
-    // DO NOT REMOVE
-    backgroundColor: 'transparent',
-  },
-  cardStyleInterpolator: forHorizontalIOS,
-  headerStyleInterpolator: forUIKit,
-};
-
-export const defaultHeaderOptions = {
-  headerShown: true,
-  title: 'MyDisc',
-  headerStyle: {
-    backgroundColor: `${Colors.white}`,
-  },
-  headerTintColor: `${Colors.indigo}`,
-  headerLeft: null,
-  headerRight: () => (
-    <Animatable.View
-      animation="fadeIn"
-      duration={300}
-      style={{
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        zIndex: 9999,
-      }}
-    >
-      <SettingsButton />
-    </Animatable.View>
-  ),
-  transparentCard: true,
-  cardShadowEnabled: false,
-  cardStyle: {
-    // DO NOT REMOVE
-    backgroundColor: 'transparent',
-  },
-  cardStyleInterpolator: forHorizontalIOS,
-  headerStyleInterpolator: forUIKit,
+  gestureEnabled: false,
+  headerBackTitleVisible: false,
 };

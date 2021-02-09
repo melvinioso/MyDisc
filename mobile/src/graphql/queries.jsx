@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const QUERY_DISCS = gql`
-  query list {
-    discs(order: "speed") {
+  query($where: JSON) {
+    discs(order: "speed", where: $where) {
       id
       brand
       mold
@@ -19,8 +19,8 @@ export const QUERY_DISCS = gql`
 `;
 
 export const QUERY_BAGS = gql`
-  query list {
-    bags(order: "name") {
+  query($where: JSON) {
+    bags(order: "name", where: $where) {
       id
       name
       capacity

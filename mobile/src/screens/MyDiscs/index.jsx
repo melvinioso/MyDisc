@@ -27,6 +27,10 @@ function MyDiscs() {
     setDiscs(allDiscs);
   }, [data, loading]);
 
+  if (!data?.discs) {
+    return null;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <DiscHeader {...activeDisc} />
@@ -39,9 +43,9 @@ function MyDiscs() {
         renderItem={({ item, index }) => (
           <View>
             <Disc
-              color={`${item.color}`}
-              brand={`${item.brand}`}
-              mold={`${item.mold}`}
+              color={item.color}
+              brand={item.brand}
+              mold={item.mold}
               index={index}
               onPress={() => {
                 setActiveDisc(item);

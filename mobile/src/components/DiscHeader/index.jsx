@@ -83,8 +83,6 @@ const styles = StyleSheet.create({
     borderTopColor: `${Colors.slate}`,
     borderTopWidth: 2,
   },
-  details: {},
-  ratings: {},
 });
 
 export default DiscHeader;
