@@ -39,6 +39,7 @@
     "graphql": "^15.4.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.20",
+    "polished": "^4.1.0",
     "react": "16.13.1",
     "react-combine-providers": "^0.9.6",
     "react-dom": "16.13.1",

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View, Colors } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
+import { darken } from 'polished';
+
 import { PX } from '../../theme';
 
 function DiscHeader(props) {
@@ -25,46 +27,56 @@ function DiscHeader(props) {
     : (customTextColor = '#ffffff');
 
   return (
-    <View style={[styles.header, { backgroundColor: `${color}` }, style]}>
+    <View
+      style={[
+        styles.header,
+        {
+          backgroundColor: color,
+          borderBottomColor: darken(0.1, color),
+          borderTopColor: darken(0.1, color),
+        },
+        style,
+      ]}
+    >
       <View>
         <View>
-          <Text text40BO style={{ color: `${customTextColor}` }}>
+          <Text text40BO style={{ color: customTextColor }}>
             {brand} {mold}
           </Text>
         </View>
         <View row>
-          <Text text80M style={{ color: `${customTextColor}` }}>
+          <Text text80M style={{ color: customTextColor }}>
             Plastic: {plastic}
           </Text>
           <Text
             text80M
-            style={[{ marginLeft: 60 * PX }, { color: `${customTextColor}` }]}
+            style={[{ marginLeft: 60 * PX }, { color: customTextColor }]}
           >
             Weight: {weight}
           </Text>
         </View>
         <View spread row marginT-30>
           <View center>
-            <Text style={{ color: `${customTextColor}` }}>Speed</Text>
-            <Text text30BO style={{ color: `${customTextColor}` }}>
+            <Text style={{ color: customTextColor }}>Speed</Text>
+            <Text text30BO style={{ color: customTextColor }}>
               {speed}
             </Text>
           </View>
           <View center>
-            <Text style={{ color: `${customTextColor}` }}>Glide</Text>
-            <Text text30BO style={{ color: `${customTextColor}` }}>
+            <Text style={{ color: customTextColor }}>Glide</Text>
+            <Text text30BO style={{ color: customTextColor }}>
               {glide}
             </Text>
           </View>
           <View center>
-            <Text style={{ color: `${customTextColor}` }}>Turn</Text>
-            <Text text30BO style={{ color: `${customTextColor}` }}>
+            <Text style={{ color: customTextColor }}>Turn</Text>
+            <Text text30BO style={{ color: customTextColor }}>
               {turn}
             </Text>
           </View>
           <View center>
-            <Text style={{ color: `${customTextColor}` }}>Fade</Text>
-            <Text text30BO style={{ color: `${customTextColor}` }}>
+            <Text style={{ color: customTextColor }}>Fade</Text>
+            <Text text30BO style={{ color: customTextColor }}>
               {fade}
             </Text>
           </View>
@@ -78,9 +90,7 @@ const styles = StyleSheet.create({
   header: {
     padding: 60 * PX,
     height: 800 * PX,
-    borderBottomColor: `${Colors.slate}`,
     borderBottomWidth: 2,
-    borderTopColor: `${Colors.slate}`,
     borderTopWidth: 2,
   },
 });

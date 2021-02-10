@@ -7,3 +7,11 @@ export const CREATE_DISC = gql`
     }
   }
 `;
+
+export const CREATE_BAG = gql`
+  mutation create($bag: BagCreate) {
+    createBag(bag: $bag) {
+      id
+    }
+  }
+`;

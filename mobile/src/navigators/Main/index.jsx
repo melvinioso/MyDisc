@@ -11,6 +11,7 @@ import { ApolloProvider } from '@apollo/client';
 import MyDiscsNavigator from '../MyDiscs';
 import MyBagsNavigator from '../MyBags';
 import AddDiscNavigator from '../AddDisc';
+import AddBagNavigator from '../AddBag';
 
 import Bag from '../../../assets/svgs/bag';
 
@@ -72,6 +73,16 @@ function Main() {
           options={{
             tabBarLabel: 'My Bags',
             tabBarIcon: ({ color }) => <Bag name="backpack" color={color} />,
+          }}
+        />
+        <Tab.Screen
+          name="AddBag"
+          component={AddBagNavigator}
+          options={{
+            tabBarLabel: 'Add Bag',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5 name="plus" size={24} color={color} />
+            ),
           }}
         />
       </Tab.Navigator>

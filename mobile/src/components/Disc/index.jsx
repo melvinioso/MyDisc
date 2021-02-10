@@ -17,7 +17,7 @@ function Disc({ color, brand, mold, onPress, style, index, ...props }) {
       <View centerH marginT-20>
         <View
           style={[
-            { backgroundColor: `${color}` },
+            { backgroundColor: color },
             { borderColor: borderColor },
             { borderWidth: 1 },
             { height: CIRCLE },

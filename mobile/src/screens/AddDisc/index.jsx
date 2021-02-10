@@ -12,8 +12,9 @@ import * as yup from 'yup';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { StyleSheet, ActivityIndicator, Dimensions } from 'react-native';
 import Slider from '@react-native-community/slider';
-import { Overlay } from 'react-native-elements';
 import { ColorPicker } from 'react-native-color-picker';
+import { Overlay } from 'react-native-elements';
+import { darken } from 'polished';
 
 import { useMutation } from '@apollo/client';
 import { CREATE_DISC } from '../../graphql/mutations';
@@ -166,7 +167,7 @@ function AddDisc({ navigation }) {
                   />
                 </View>
               </View>
-              <View centerV marginT-10>
+              <View marginT-10>
                 <Text text80M slate>
                   Color
                 </Text>
@@ -174,8 +175,8 @@ function AddDisc({ navigation }) {
                   <View marginT-10>
                     <View
                       style={[
-                        { backgroundColor: `${color}` },
-                        { borderColor: `${Colors.black}` },
+                        { backgroundColor: color },
+                        { borderColor: darken(0.1, color) },
                         { borderWidth: 1 },
                         { height: COLOR_WIDTH },
                         { width: COLOR_WIDTH },
@@ -184,7 +185,17 @@ function AddDisc({ navigation }) {
                     />
                   </View>
                 </TouchableOpacity>
-                <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+                <Overlay
+                  isVisible={visible}
+                  animationType="fade"
+                  onBackdropPress={toggleOverlay}
+                  backdropStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+                  overlayStyle={{
+                    borderRadius: 20,
+                    margin: 20,
+                    padding: 20,
+                  }}
+                >
                   <View
                     style={[
                       { width: PICKER_WIDTH },

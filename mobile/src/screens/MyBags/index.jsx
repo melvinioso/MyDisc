@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
-import { View, Text, Colors } from 'react-native-ui-lib';
+import { View } from 'react-native-ui-lib';
 
 import { useQuery } from '@apollo/client';
 import { QUERY_BAGS } from '../../graphql/queries';
@@ -33,15 +33,7 @@ function MyBags() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <BagHeader
-        name="Falcon Pointe"
-        capacity={19}
-        color={Colors.mint}
-        putters={6}
-        midranges={4}
-        fairways={3}
-        distance={3}
-      />
+      <BagHeader {...activeBag} />
       <FlatList
         data={bags}
         keyExtractor={(item) => item.id}

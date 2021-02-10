@@ -16,13 +16,17 @@ function Bag({ color, name, onPress, style, index, ...props }) {
           <BagSvg color={color} />
         </View>
         <View centerH marginT-5>
-          <Text text70M>{name}</Text>
+          <Text text80M>{name}</Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  bag: {
+    width: ITEM_WIDTH,
+  },
+});
 
 export default Bag;

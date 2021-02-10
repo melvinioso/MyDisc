@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
-import { View, Text, Colors } from 'react-native-ui-lib';
+import { View } from 'react-native-ui-lib';
 
 import { useQuery } from '@apollo/client';
 import { QUERY_DISCS } from '../../graphql/queries';
