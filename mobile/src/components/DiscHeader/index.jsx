@@ -20,11 +20,31 @@ function DiscHeader(props) {
     style,
   } = props;
 
-  color = color || Colors.mint;
+  color = color || Colors.white;
 
   color == '#ffffff'
     ? (customTextColor = '#000000')
     : (customTextColor = '#ffffff');
+
+  if (Object.keys(props).length === 0) {
+    return (
+      <View
+        style={[
+          styles.header,
+          {
+            backgroundColor: color,
+            borderBottomColor: darken(0.1, color),
+            borderTopColor: darken(0.1, color),
+          },
+          style,
+        ]}
+      >
+        <Text text80M indigo center>
+          Please select a disc to view it's details
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View
@@ -92,6 +112,7 @@ const styles = StyleSheet.create({
     height: 800 * PX,
     borderBottomWidth: 2,
     borderTopWidth: 2,
+    justifyContent: 'center',
   },
 });
 
