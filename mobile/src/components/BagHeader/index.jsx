@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text, View, Colors } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
-import { darken } from 'polished';
+import { LinearGradient } from 'expo-linear-gradient';
+import { darken, lighten } from 'polished';
 
 import { PX } from '../../theme';
 
 function BagHeader(props) {
-  let customTextColor;
   let {
     name,
     capacity,
@@ -20,9 +20,9 @@ function BagHeader(props) {
 
   color = color || Colors.white;
 
-  color === '#ffffff'
-    ? (customTextColor = '#000000')
-    : (customTextColor = '#ffffff');
+  const borderColor = darken(0.1, color);
+  const bgColor = lighten(0.15, color);
+  const textColor = Colors.black;
 
   if (Object.keys(props).length === 0) {
     return (
@@ -30,9 +30,8 @@ function BagHeader(props) {
         style={[
           styles.header,
           {
-            backgroundColor: color,
-            borderBottomColor: darken(0.1, color),
-            borderTopColor: darken(0.1, color),
+            borderBottomColor: borderColor,
+            borderTopColor: borderColor,
           },
           style,
         ]}
@@ -45,63 +44,66 @@ function BagHeader(props) {
   }
 
   return (
-    <View
-      style={[
-        styles.header,
-        {
-          backgroundColor: color,
-          borderBottomColor: darken(0.1, color),
-          borderTopColor: darken(0.1, color),
-        },
-        style,
-      ]}
-    >
-      <View>
-        <View>
-          <Text text40BO style={{ color: customTextColor }}>
-            {name}
-          </Text>
+    <>
+      <LinearGradient
+        colors={[bgColor, 'white']}
+        start={{ x: 1, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
+        style={[styles.header, style]}
+      >
+        <View style={[styles.container]}>
+          <View>
+            <Text text90BO textColor>
+              {' '}
+            </Text>
+            <Text text50BO textColor>
+              {name}
+            </Text>
+          </View>
+          <View row marginT-6>
+            <Text text80M textColor>
+              Capacity: {capacity}
+            </Text>
+          </View>
+          <View spread row marginT-20>
+            <View center>
+              <Text textColor>Putters</Text>
+              <Text text30BO textColor>
+                6
+              </Text>
+            </View>
+            <View center>
+              <Text textColor>Midranges</Text>
+              <Text text30BO textColor>
+                6
+              </Text>
+            </View>
+            <View center>
+              <Text textColor>Fairways</Text>
+              <Text text30BO textColor>
+                8
+              </Text>
+            </View>
+            <View center>
+              <Text textColor>Distance</Text>
+              <Text text30BO textColor>
+                0
+              </Text>
+            </View>
+          </View>
         </View>
-        <View row>
-          <Text text80M style={{ color: customTextColor }}>
-            Capacity: {capacity}
-          </Text>
-        </View>
-        <View spread row marginT-30>
-          <View center>
-            <Text style={{ color: customTextColor }}>Putters</Text>
-            <Text text30BO style={{ color: customTextColor }}>
-              {putters}
-            </Text>
-          </View>
-          <View center>
-            <Text style={{ color: customTextColor }}>Midranges</Text>
-            <Text text30BO style={{ color: customTextColor }}>
-              {midranges}
-            </Text>
-          </View>
-          <View center>
-            <Text style={{ color: customTextColor }}>Fairways</Text>
-            <Text text30BO style={{ color: customTextColor }}>
-              {fairways}
-            </Text>
-          </View>
-          <View center>
-            <Text style={{ color: customTextColor }}>Distance</Text>
-            <Text text30BO style={{ color: customTextColor }}>
-              {distance}
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
+      </LinearGradient>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+  },
   header: {
     padding: 60 * PX,
-    height: 800 * PX,
+    height: 820 * PX,
     borderBottomWidth: 2,
     borderTopWidth: 2,
     justifyContent: 'center',

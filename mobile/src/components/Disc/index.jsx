@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, View } from 'react-native-ui-lib';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Alert } from 'react-native';
 
 const { width } = Dimensions.get('window');
 const ITEM_WIDTH = width / 4;
@@ -13,7 +13,14 @@ function Disc({ color, brand, mold, onPress, style, index, ...props }) {
   color === '#ffffff' ? (borderColor = '#000000') : (borderColor = '#ffffff');
 
   return (
-    <TouchableOpacity onPress={onPress} style={styles.disc} {...props}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={styles.disc}
+      onLongPress={() => {
+        Alert.alert('LONG PRESS!');
+      }}
+      {...props}
+    >
       <View centerH marginT-20>
         <View
           style={[
