@@ -1,12 +1,16 @@
-import React from 'react';
-import { Text, View, Colors } from 'react-native-ui-lib';
+import React, { useState } from 'react';
+import { Text, View, Colors, Button } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { darken, lighten } from 'polished';
+import { darken } from 'polished';
+
+import AddBag from '../../screens/AddBag';
 
 import { PX } from '../../theme';
 
 function BagHeader(props) {
+  const [visible, setVisible] = useState(false);
+
   let {
     name,
     capacity,
@@ -21,8 +25,10 @@ function BagHeader(props) {
   color = color || Colors.white;
 
   const borderColor = darken(0.1, color);
-  const bgColor = lighten(0.15, color);
-  const textColor = Colors.black;
+
+  function close() {
+    setVisible(false);
+  }
 
   if (Object.keys(props).length === 0) {
     return (
@@ -30,8 +36,8 @@ function BagHeader(props) {
         style={[
           styles.header,
           {
+            backgroundColor: Colors.white,
             borderBottomColor: borderColor,
-            borderTopColor: borderColor,
           },
           style,
         ]}
@@ -46,67 +52,70 @@ function BagHeader(props) {
   return (
     <>
       <LinearGradient
-        colors={[bgColor, 'white']}
-        start={{ x: 1, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={[styles.header, style]}
+        colors={[color, 'white']}
+        start={{ x: -0.3, y: 1 }}
+        end={{ x: 0.5, y: -0.3 }}
       >
-        <View style={[styles.container]}>
+        <View
+          style={[
+            styles.header,
+            {
+              borderBottomColor: borderColor,
+              borderTopColor: borderColor,
+            },
+          ]}
+        >
           <View>
-            <Text text90BO textColor>
-              {' '}
-            </Text>
-            <Text text50BO textColor>
-              {name}
-            </Text>
+            <Text text90BO> </Text>
+            <Text text50BO>{name}</Text>
           </View>
           <View row marginT-6>
-            <Text text80M textColor>
-              Capacity: {capacity}
-            </Text>
+            <Text text80M>Capacity: {capacity}</Text>
           </View>
           <View spread row marginT-20>
             <View center>
-              <Text textColor>Putters</Text>
-              <Text text30BO textColor>
-                6
-              </Text>
+              <Text>Putters</Text>
+              <Text text30BO>6</Text>
             </View>
             <View center>
-              <Text textColor>Midranges</Text>
-              <Text text30BO textColor>
-                6
-              </Text>
+              <Text>Midranges</Text>
+              <Text text30BO>6</Text>
             </View>
             <View center>
-              <Text textColor>Fairways</Text>
-              <Text text30BO textColor>
-                8
-              </Text>
+              <Text>Fairways</Text>
+              <Text text30BO>8</Text>
             </View>
             <View center>
-              <Text textColor>Distance</Text>
-              <Text text30BO textColor>
-                0
-              </Text>
+              <Text>Distance</Text>
+              <Text text30BO>0</Text>
             </View>
           </View>
         </View>
+        <Button
+          outline
+          outlineColor={Colors.black}
+          label="Add A Bag"
+          style={[styles.addABag, Colors.black]}
+          size="small"
+          onPress={() => setVisible(true)}
+        />
       </LinearGradient>
+      <AddBag visible={visible} close={close} />
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-  },
   header: {
     padding: 60 * PX,
     height: 820 * PX,
-    borderBottomWidth: 2,
-    borderTopWidth: 2,
+    borderBottomWidth: 1,
     justifyContent: 'center',
+  },
+  addABag: {
+    position: 'absolute',
+    top: 20,
+    right: 10,
   },
 });
 

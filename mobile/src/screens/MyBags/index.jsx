@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import { View } from 'react-native-ui-lib';
+import { get } from 'lodash';
 
 import { useQuery } from '@apollo/client';
 import { QUERY_BAGS } from '../../graphql/queries';
@@ -10,35 +11,35 @@ import Bag from '../../components/Bag';
 
 import { AuthContext } from '../../context/auth';
 
+import { PX } from '../../theme';
+
 function MyBags() {
   const { user } = useContext(AuthContext);
-  const [bags, setBags] = useState(undefined);
+  const [bagFilter, setBagFilter] = useState(null);
   const [activeBag, setActiveBag] = useState(null);
   const { data, loading } = useQuery(QUERY_BAGS, {
     variables: { where: { userId: user.id } },
   });
 
-  useEffect(() => {
-    const allBags = data?.bags || [];
-    if (!allBags || !allBags.length) {
-      return;
+  const filteredBags = get(data, 'bags', []).filter((i) => {
+    if (!bagFilter) {
+      return true;
     }
 
-    setBags(allBags);
-  }, [data, loading]);
+    // const { min, max } = speedFilter;
 
-  if (!data?.bags) {
-    return null;
-  }
+    // return i.speed >= min && i.speed <= max;
+  });
 
   return (
     <SafeAreaView style={styles.container}>
       <BagHeader {...activeBag} />
       <FlatList
-        data={bags}
+        data={filteredBags}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{
-          paddingBottom: 100,
+          paddingBottom: 500 * PX,
+          paddingTop: 60 * PX,
         }}
         renderItem={({ item, index }) => (
           <View>

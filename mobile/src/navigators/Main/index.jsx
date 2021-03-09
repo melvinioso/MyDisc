@@ -57,7 +57,7 @@ function Main() {
             ),
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="AddDisc"
           component={AddDiscNavigator}
           options={{
@@ -66,7 +66,7 @@ function Main() {
               <FontAwesome5 name="plus" size={24} color={color} />
             ),
           }}
-        />
+        /> */}
         <Tab.Screen
           name="MyBags"
           component={MyBagsNavigator}
@@ -75,7 +75,7 @@ function Main() {
             tabBarIcon: ({ color }) => <Bag name="backpack" color={color} />,
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="AddBag"
           component={AddBagNavigator}
           options={{
@@ -84,7 +84,7 @@ function Main() {
               <FontAwesome5 name="plus" size={24} color={color} />
             ),
           }}
-        />
+        /> */}
       </Tab.Navigator>
     </ApolloProvider>
   );

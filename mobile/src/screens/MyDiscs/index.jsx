@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import { View, TabBar, Colors, Text } from 'react-native-ui-lib';
 import { get } from 'lodash';
+import { darken } from 'polished';
 
 import { useQuery } from '@apollo/client';
 import { QUERY_DISCS } from '../../graphql/queries';
@@ -10,6 +11,8 @@ import DiscHeader from '../../components/DiscHeader';
 import Disc from '../../components/Disc';
 
 import { AuthContext } from '../../context/auth';
+
+import { PX } from '../../theme';
 
 function MyDiscs() {
   const { user } = useContext(AuthContext);
@@ -29,10 +32,12 @@ function MyDiscs() {
     return i.speed >= min && i.speed <= max;
   });
 
+  const borderColor = darken(0.1, Colors.white);
+
   return (
     <SafeAreaView style={styles.container}>
       <DiscHeader {...activeDisc} />
-      <View style={styles.filter}>
+      <View style={[styles.filter, { borderTopColor: borderColor }]}>
         <Text text90M gray borderTop center marginT-5>
           Filter by Speed:
         </Text>
@@ -82,8 +87,8 @@ function MyDiscs() {
         data={filteredDiscs}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{
-          paddingBottom: 100,
-          paddingTop: 10,
+          paddingBottom: 500 * PX,
+          paddingTop: 60 * PX,
         }}
         renderItem={({ item, index }) => (
           <View>
@@ -110,6 +115,7 @@ const styles = StyleSheet.create({
   },
   tabbar: {},
   filter: {
+    borderTopWidth: 1,
     backgroundColor: Colors.white,
   },
   labelStyle: {

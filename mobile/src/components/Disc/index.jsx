@@ -1,31 +1,35 @@
 import React from 'react';
 import { TouchableOpacity, Text, View } from 'react-native-ui-lib';
-import { StyleSheet, Dimensions, Alert } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+import { darken } from 'polished';
 
 const { width } = Dimensions.get('window');
 const ITEM_WIDTH = width / 4;
 const CIRCLE = ITEM_WIDTH * 0.8;
 const BR = CIRCLE / 2;
 
-function Disc({ color, brand, mold, onPress, style, index, ...props }) {
-  let borderColor;
-
-  color === '#ffffff' ? (borderColor = '#000000') : (borderColor = '#ffffff');
-
+function Disc({
+  color,
+  brand,
+  mold,
+  onPress,
+  onLongPress,
+  style,
+  index,
+  ...props
+}) {
   return (
     <TouchableOpacity
       onPress={onPress}
+      onLongPress={onLongPress}
       style={styles.disc}
-      onLongPress={() => {
-        Alert.alert('LONG PRESS!');
-      }}
       {...props}
     >
       <View centerH marginT-20>
         <View
           style={[
             { backgroundColor: color },
-            { borderColor: borderColor },
+            { borderColor: darken(0.1, color) },
             { borderWidth: 1 },
             { height: CIRCLE },
             { width: CIRCLE },
