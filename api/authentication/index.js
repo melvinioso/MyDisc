@@ -81,7 +81,6 @@ export function useAuthentication(app) {
 
       res.json({ success: true, token });
     } catch (err) {
-      console.log(err);
       return res.status(500).send('Internal server error');
     }
   });

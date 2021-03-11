@@ -39,7 +39,6 @@ function CreateAccount({ navigation }) {
   }, [register]);
 
   async function onSubmit(values) {
-    console.log(values);
     try {
       await createAccount({
         name: values.name,

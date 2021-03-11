@@ -5,7 +5,7 @@ import { StyleSheet, TextInput } from 'react-native';
 function TextField({ style, title, error, ...props }) {
   return (
     <View style={[style]}>
-      <Text text80 slate>
+      <Text text80M slate>
         {title}
       </Text>
       <TextInput style={[styles.input]} {...props} />
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 10,
     paddingVertical: 15,
-    fontSize: 20,
+    fontSize: 16,
     borderRadius: 5,
   },
 });

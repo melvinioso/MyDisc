@@ -73,7 +73,6 @@ export function AuthProvider({ children }) {
 
       setUser(usr);
     } catch (e) {
-      console.log(e);
       throw new Error('Error signing in.');
     }
   }
@@ -98,7 +97,6 @@ export function AuthProvider({ children }) {
       await AsyncStorage.setItem('@token', newToken);
       setToken(newToken);
     } catch (e) {
-      console.log(e);
       throw new Error('Error signing in.');
     }
   }

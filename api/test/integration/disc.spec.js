@@ -168,9 +168,10 @@ describe('Integration - Disc', () => {
   });
   describe('User: with Permissions', () => {
     let token;
+    let usr;
 
     before(async () => {
-      const usr = await factory.create('User');
+      usr = await factory.create('User');
       await usr.addPermissions([
         'disc.list',
         'disc.read',
@@ -181,14 +182,68 @@ describe('Integration - Disc', () => {
       token = await usr.token();
     });
 
-    it('should list', async () => {
+    it('should not list other users', async () => {
+      const otherUser = await factory.create('User');
+      await factory.create('Disc', {
+        userId: otherUser.id,
+      });
+      const res = await query(LIST, undefined, token);
+
+      expect(res.body.data.discs.length).to.equal(0);
+      expect(res.body.errors).to.be.undefined;
+    });
+    it('should list my own', async () => {
+      const record = await factory.create('Disc', {
+        userId: usr.id,
+        speed: 14,
+      });
       const res = await query(LIST, undefined, token);
 
       expect(res.body.data.discs).to.exist;
-      expect(res.body.data.discs.length).to.exist;
+      expect(res.body.data.discs.length).to.equal(1);
+      expect(res.body.data.discs[0].id).to.equal(record.id);
       expect(res.body.errors).to.be.undefined;
     });
-    it('should read', async () => {
+    it('should list my own with ordering', async () => {
+      const LIST_ORDER = `
+        query list {
+          discs (order: "speed") {
+            id
+            speed
+          }
+        }
+      `;
+
+      await factory.create('Disc', {
+        userId: usr.id,
+        speed: 6,
+      });
+      await factory.create('Disc', {
+        userId: usr.id,
+        speed: 9,
+      });
+      const disc3 = await factory.create('Disc', {
+        userId: usr.id,
+        speed: 1,
+      });
+
+      const res = await query(LIST_ORDER, undefined, token);
+
+      expect(res.body.data.discs).to.exist;
+      expect(res.body.data.discs.length).to.equal(4);
+      expect(res.body.data.discs[0].id).to.equal(disc3.id);
+      expect(res.body.errors).to.be.undefined;
+    });
+    it('should NOT read', async () => {
+      const res = await query(READ, { id: record.id }, token);
+
+      expect(res.body.data.disc).to.equal(null);
+      expect(res.body.errors).to.be.undefined;
+    });
+    it('should read my own', async () => {
+      const record = await factory.create('Disc', {
+        userId: usr.id,
+      });
       const res = await query(READ, { id: record.id }, token);
 
       expect(res.body.data.disc).to.exist;
@@ -196,11 +251,29 @@ describe('Integration - Disc', () => {
       expect(res.body.data.disc.user.id).to.exist;
       expect(res.body.errors).to.be.undefined;
     });
-    it('should create', async () => {
+    it('should NOT create', async () => {
+      const otherUser = await factory.create('User');
       const attrs = await factory.attrs('Disc');
       const variables = {
-        disc: attrs
+        disc: {
+          ...attrs,
+          userId: otherUser.id,
+        }
       }
+      const res = await mutate(CREATE, variables, token);
+
+      expect(res.body.data.createDisc).to.be.null;
+      expect(res.body.errors[0].message).to.equal('You are not the current user.');
+    });
+    it('should create my own', async () => {
+      const attrs = await factory.attrs('Disc');
+      const variables = {
+        disc: {
+          ...attrs,
+          userId: usr.id,
+        },
+      }
+
       const res = await mutate(CREATE, variables, token);
 
       expect(res.body.data.createDisc).to.exist;
@@ -209,12 +282,29 @@ describe('Integration - Disc', () => {
       const found = await db.Disc.findByPk(res.body.data.createDisc.id);
       expect(found).to.exist;
     });
-    it('should update', async () => {
+    it('should NOT update', async () => {
+      const otherUser = await factory.create('User');
       const variables = {
         disc: {
           id: record.id,
           brand: 'new brand',
+          userId: otherUser.id,
         }
+      }
+      const res = await mutate(UPDATE, variables, token);
+
+      expect(res.body.data.updateDisc).to.be.null;
+      expect(res.body.errors[0].message).to.equal('You can not modify this entry.');
+    });
+    it('should update my own', async () => {
+      const record = await factory.create('Disc', {
+        userId: usr.id,
+      });
+      const variables = {
+        disc: {
+          id: record.id,
+          brand: 'new brand',
+        },
       }
       const res = await mutate(UPDATE, variables, token);
 
@@ -222,8 +312,24 @@ describe('Integration - Disc', () => {
       expect(res.body.data.updateDisc.brand).to.equal('new brand');
       expect(res.body.errors).to.be.undefined;
     });
-    it('should destroy', async () => {
+    it('should NOT destroy', async () => {
       const destroy = await factory.create('Disc');
+
+      const variables = {
+        disc: {
+          id: destroy.id,
+        }
+      }
+
+      const res = await mutate(DESTROY, variables, token);
+
+      expect(res.body.data.destroyDisc).to.be.null;
+      expect(res.body.errors[0].message).to.equal('You can not destroy this entry.');
+    });
+    it('should destroy my own', async () => {
+      const destroy = await factory.create('Disc', {
+        userId: usr.id,
+      });
 
       const variables = {
         disc: {

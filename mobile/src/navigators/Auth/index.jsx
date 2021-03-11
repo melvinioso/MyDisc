@@ -13,7 +13,7 @@ function Auth() {
   return (
     <Stack.Navigator
       initialRouteName="SignIn"
-      headerMode="screen"
+      headerMode="float"
       screenOptions={screenOptions}
     >
       <Stack.Screen name="SignIn" component={SignIn} />

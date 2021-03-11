@@ -1,15 +1,5 @@
-import { PixelRatio, Animated } from 'react-native';
-import {
-  Typography,
-  Colors,
-  Constants,
-  Assets,
-  Spacings,
-} from 'react-native-ui-lib';
-
-const { multiply } = Animated;
-
-import { forHorizontalIOS, forUIKit } from './transitionConfigs';
+import { PixelRatio } from 'react-native';
+import { Typography, Colors, Assets, Spacings } from 'react-native-ui-lib';
 
 Colors.loadColors({
   white: '#ffffff',
@@ -46,13 +36,12 @@ export const HIT_SLOP = {
   left: 20,
 };
 
-export const AssetImages = {
-  // logo: require('../../assets/logo.png'),
-};
+export const AssetImages = {};
 
 Assets.loadAssetsGroup('general', AssetImages);
 
 export const PIXEL_SIZE = PixelRatio.getPixelSizeForLayoutSize(1);
+
 export const PX = (() => {
   if (PIXEL_SIZE === 2 || PIXEL_SIZE === 3) {
     return 1 / 4;
@@ -61,18 +50,10 @@ export const PX = (() => {
   }
 })();
 
-// TODO: Still working with fixed backgrounds in React-navigation
 export const defaultScreenOptions = {
-  title: '',
-  headerTintColor: Colors.blue,
   headerShown: false,
   headerTransparent: true,
-  transparentCard: true,
   cardShadowEnabled: false,
-  cardStyle: {
-    // DO NOT REMOVE
-    backgroundColor: 'transparent',
-  },
-  cardStyleInterpolator: forHorizontalIOS,
-  headerStyleInterpolator: forUIKit,
+  gestureEnabled: false,
+  headerBackTitleVisible: false,
 };
