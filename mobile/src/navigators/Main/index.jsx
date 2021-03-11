@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Colors } from 'react-native-ui-lib';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SimpleLineIcons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { defaultScreenOptions as screenOptions } from '../../theme';
 
@@ -10,8 +10,7 @@ import { ApolloProvider } from '@apollo/client';
 
 import MyDiscsNavigator from '../MyDiscs';
 import MyBagsNavigator from '../MyBags';
-import AddDiscNavigator from '../AddDisc';
-import AddBagNavigator from '../AddBag';
+import BuildABagNavigator from '../BuildABag';
 
 import Bag from '../../../assets/svgs/bag';
 
@@ -53,20 +52,20 @@ function Main() {
           options={{
             tabBarLabel: 'My Discs',
             tabBarIcon: ({ color }) => (
-              <SimpleLineIcons name="disc" size={24} color={color} />
+              <FontAwesome name="circle" size={24} color={color} />
             ),
           }}
         />
-        {/* <Tab.Screen
-          name="AddDisc"
-          component={AddDiscNavigator}
+        <Tab.Screen
+          name="BuildABag"
+          component={BuildABagNavigator}
           options={{
-            tabBarLabel: 'Add Disc',
+            tabBarLabel: 'Build A Bag',
             tabBarIcon: ({ color }) => (
-              <FontAwesome5 name="plus" size={24} color={color} />
+              <MaterialCommunityIcons name="tools" size={24} color={color} />
             ),
           }}
-        /> */}
+        />
         <Tab.Screen
           name="MyBags"
           component={MyBagsNavigator}
@@ -75,16 +74,6 @@ function Main() {
             tabBarIcon: ({ color }) => <Bag name="backpack" color={color} />,
           }}
         />
-        {/* <Tab.Screen
-          name="AddBag"
-          component={AddBagNavigator}
-          options={{
-            tabBarLabel: 'Add Bag',
-            tabBarIcon: ({ color }) => (
-              <FontAwesome5 name="plus" size={24} color={color} />
-            ),
-          }}
-        /> */}
       </Tab.Navigator>
     </ApolloProvider>
   );
