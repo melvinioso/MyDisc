@@ -8,7 +8,7 @@ const { width } = Dimensions.get('window');
 const ITEM_WIDTH = width / 2;
 const BAG = ITEM_WIDTH * 0.8;
 
-function Bag({ color, name, onPress, style, index, ...props }) {
+function Bag({ color, name, onPress, style, ...props }) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.bag} {...props}>
       <View centerH marginT-20>

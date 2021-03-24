@@ -9,6 +9,7 @@ import { QUERY_DISCS } from '../../graphql/queries';
 
 import DiscHeader from '../../components/DiscHeader';
 import Disc from '../../components/Disc';
+import SwipeableRow from '../../components/SwipeableRow';
 
 import { AuthContext } from '../../context/auth';
 
@@ -34,6 +35,25 @@ function MyDiscs() {
 
   const borderColor = darken(0.1, Colors.white);
 
+  const deleteItem = (item) => {
+    console.log('Deleting: ', item);
+  };
+
+  const editItem = (item) => {
+    console.log('Editing: ', item);
+  };
+
+  const DiscRow = ({ item, index }) => {
+    return (
+      <SwipeableRow
+        handleDelete={() => deleteItem(item)}
+        handleEdit={() => editItem(item)}
+      >
+        <Disc {...item} index={index} />
+      </SwipeableRow>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <DiscHeader {...activeDisc} />
@@ -43,7 +63,6 @@ function MyDiscs() {
         </Text>
       </View>
       <TabBar
-        style={styles.tabbar}
         selectedIndex={0}
         enableShadow
         indicatorStyle={{ backgroundColor: Colors.indigo }}
@@ -85,25 +104,12 @@ function MyDiscs() {
       </TabBar>
       <FlatList
         data={filteredDiscs}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{
           paddingBottom: 500 * PX,
-          paddingTop: 60 * PX,
         }}
-        renderItem={({ item, index }) => (
-          <View>
-            <Disc
-              color={item.color}
-              brand={item.brand}
-              mold={item.mold}
-              index={index}
-              onPress={() => {
-                setActiveDisc(item);
-              }}
-            />
-          </View>
-        )}
-        numColumns={4}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item, index }) => <DiscRow item={item} index={index} />}
       />
     </SafeAreaView>
   );
@@ -112,10 +118,9 @@ function MyDiscs() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.white,
   },
-  tabbar: {},
   filter: {
-    borderTopWidth: 1,
     backgroundColor: Colors.white,
   },
   labelStyle: {

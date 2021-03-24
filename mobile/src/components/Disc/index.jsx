@@ -1,53 +1,77 @@
 import React from 'react';
-import { TouchableOpacity, Text, View } from 'react-native-ui-lib';
+import { Text, View } from 'react-native-ui-lib';
 import { StyleSheet, Dimensions } from 'react-native';
 import { darken } from 'polished';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Entypo } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
-const ITEM_WIDTH = width / 4;
-const CIRCLE = ITEM_WIDTH * 0.8;
-const BR = CIRCLE / 2;
+const HEIGHT = width / 4;
+const LINE_HEIGHT = HEIGHT * 0.9;
+const ITEM_HEIGHT = LINE_HEIGHT * 0.7;
+const BR = ITEM_HEIGHT / 2;
 
-function Disc({
-  color,
-  brand,
-  mold,
-  onPress,
-  onLongPress,
-  style,
-  index,
-  ...props
-}) {
+function type(speed) {
+  if (speed >= 1 && speed <= 3) return 'Putter';
+  if (speed >= 4 && speed <= 5) return 'Midrange';
+  if (speed >= 6 && speed <= 8) return 'Fairway Driver';
+  if (speed >= 9 && speed <= 14) return 'Distance Driver';
+}
+
+function Disc({ ...props }) {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      onLongPress={onLongPress}
-      style={styles.disc}
-      {...props}
+    <View
+      row
+      style={[
+        { backgroundColor: Colors.white },
+        { borderColor: Colors.slate },
+        { borderBottomWidth: 0.5 },
+        { height: LINE_HEIGHT },
+        { width: width },
+        { alignItems: 'center' },
+      ]}
     >
-      <View centerH marginT-20>
-        <View
-          style={[
-            { backgroundColor: color },
-            { borderColor: darken(0.1, color) },
+      <View
+        marginL-14
+        marginR-14
+        style={
+          (styles.disc,
+          [
+            { backgroundColor: props.color },
+            { borderColor: darken(0.1, props.color) },
             { borderWidth: 1 },
-            { height: CIRCLE },
-            { width: CIRCLE },
+            { height: ITEM_HEIGHT },
+            { width: ITEM_HEIGHT },
             { borderRadius: BR },
-          ]}
-        />
-        <View centerH marginT-5>
-          <Text text90R>{brand}</Text>
-          <Text text90R>{mold}</Text>
+          ])
+        }
+      />
+      <View style={[{ alignItems: 'left', justifyContent: 'center' }]}>
+        <View>
+          <Text text70H>{props.mold}</Text>
+        </View>
+        <View row centerV>
+          <Text text90M>{props.brand.toUpperCase()}</Text>
+          <Entypo name="dot-single" size={12} color={Colors.black} />
+          <Text text90M>{props.plastic.toUpperCase()}</Text>
+        </View>
+        <View row centerV>
+          <Text text90T>{type(props.speed).toUpperCase()}</Text>
+          <Text text90T marginL-14>
+            {props.speed} | {props.glide} | {props.turn} | {props.fade}
+          </Text>
+          <Text text90T marginL-14>
+            {props.weight}g
+          </Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   disc: {
-    width: ITEM_WIDTH,
+    position: 'absolute',
   },
 });
 

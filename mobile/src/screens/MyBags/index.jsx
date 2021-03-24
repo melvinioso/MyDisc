@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
-import { View } from 'react-native-ui-lib';
+import { View, Colors, Text } from 'react-native-ui-lib';
 import { get } from 'lodash';
+import { darken } from 'polished';
 
 import { useQuery } from '@apollo/client';
 import { QUERY_BAGS } from '../../graphql/queries';
@@ -21,21 +22,13 @@ function MyBags() {
     variables: { where: { userId: user.id } },
   });
 
-  const filteredBags = get(data, 'bags', []).filter((i) => {
-    if (!bagFilter) {
-      return true;
-    }
-
-    // const { min, max } = speedFilter;
-
-    // return i.speed >= min && i.speed <= max;
-  });
+  const bags = get(data, 'bags', []);
 
   return (
     <SafeAreaView style={styles.container}>
       <BagHeader {...activeBag} />
       <FlatList
-        data={filteredBags}
+        data={bags}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{
           paddingBottom: 500 * PX,
