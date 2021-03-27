@@ -35,16 +35,14 @@ function MyBags() {
           paddingTop: 60 * PX,
         }}
         renderItem={({ item, index }) => (
-          <View>
-            <Bag
-              name={item.name}
-              color={item.color}
-              index={index}
-              onPress={() => {
-                setActiveBag(item);
-              }}
-            />
-          </View>
+          <Bag
+            name={item.name}
+            color={item.color}
+            index={index}
+            onPress={() => {
+              setActiveBag(item);
+            }}
+          />
         )}
         numColumns={2}
       />

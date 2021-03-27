@@ -18,7 +18,19 @@ function type(speed) {
   if (speed >= 9 && speed <= 14) return 'Distance Driver';
 }
 
-function Disc({ ...props }) {
+function Disc(props) {
+  const {
+    brand,
+    mold,
+    plastic,
+    color,
+    weight,
+    speed,
+    glide,
+    turn,
+    fade,
+  } = props;
+
   return (
     <View
       row
@@ -37,8 +49,8 @@ function Disc({ ...props }) {
         style={
           (styles.disc,
           [
-            { backgroundColor: props.color },
-            { borderColor: darken(0.1, props.color) },
+            { backgroundColor: color },
+            { borderColor: darken(0.1, color) },
             { borderWidth: 1 },
             { height: ITEM_HEIGHT },
             { width: ITEM_HEIGHT },
@@ -48,20 +60,20 @@ function Disc({ ...props }) {
       />
       <View style={[{ alignItems: 'left', justifyContent: 'center' }]}>
         <View>
-          <Text text70H>{props.mold}</Text>
+          <Text text70H>{mold}</Text>
         </View>
         <View row centerV>
-          <Text text90M>{props.brand.toUpperCase()}</Text>
+          <Text text90M>{brand.trim().toUpperCase()}</Text>
           <Entypo name="dot-single" size={12} color={Colors.black} />
-          <Text text90M>{props.plastic.toUpperCase()}</Text>
+          <Text text90M>{plastic.toUpperCase()}</Text>
         </View>
         <View row centerV>
-          <Text text90T>{type(props.speed).toUpperCase()}</Text>
-          <Text text90T marginL-14>
-            {props.speed} | {props.glide} | {props.turn} | {props.fade}
+          <Text text90L>{type(speed).toUpperCase()}</Text>
+          <Text text90L marginL-14>
+            {speed} | {glide} | {turn} | {fade}
           </Text>
-          <Text text90T marginL-14>
-            {props.weight}g
+          <Text text90L marginL-14>
+            {weight}g
           </Text>
         </View>
       </View>

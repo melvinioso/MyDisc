@@ -4,21 +4,23 @@ import { StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { darken } from 'polished';
 
-import AddBag from '../../screens/AddBag';
+import AddDisc from '../../screens/AddDisc';
 
 import { PX } from '../../theme';
 
-function BagHeader(props) {
+function DiscHeader(props) {
   const [visible, setVisible] = useState(false);
 
   let {
-    name,
-    capacity,
+    brand,
+    mold,
+    plastic,
+    weight,
     color,
-    putters,
-    midranges,
-    fairways,
-    distance,
+    speed,
+    glide,
+    turn,
+    fade,
     style,
   } = props;
 
@@ -43,7 +45,7 @@ function BagHeader(props) {
         ]}
       >
         <Text text80M indigo center>
-          Please select a bag to view it's details
+          Please select a disc to view it's details
         </Text>
       </View>
     );
@@ -66,33 +68,44 @@ function BagHeader(props) {
           ]}
         >
           <View>
-            <Text text90BO> </Text>
-            <Text text50BO>{name}</Text>
+            <Text text90BO>{brand}</Text>
+            <Text text50BO>{mold}</Text>
           </View>
           <View row marginT-6>
-            <Text text80M>Capacity: {capacity}</Text>
+            <Text text80M>Plastic: {plastic}</Text>
+            <Text text80M style={[{ marginLeft: 60 * PX }]}>
+              Weight: {weight}
+            </Text>
           </View>
           <View spread row marginT-20>
             <View center>
-              <Text>Putters</Text>
-              <Text text30BO>6</Text>
+              <Text>Speed</Text>
+              <Text text30BO>{speed}</Text>
             </View>
             <View center>
-              <Text>Midranges</Text>
-              <Text text30BO>6</Text>
+              <Text>Glide</Text>
+              <Text text30BO>{glide}</Text>
             </View>
             <View center>
-              <Text>Fairways</Text>
-              <Text text30BO>8</Text>
+              <Text>Turn</Text>
+              <Text text30BO>{turn}</Text>
             </View>
             <View center>
-              <Text>Distance</Text>
-              <Text text30BO>0</Text>
+              <Text>Fade</Text>
+              <Text text30BO>{fade}</Text>
             </View>
           </View>
         </View>
+        <Button
+          outline
+          outlineColor={Colors.black}
+          label="Add A Disc"
+          style={[styles.addADisc, Colors.black]}
+          size="small"
+          onPress={() => setVisible(true)}
+        />
       </LinearGradient>
-      <AddBag visible={visible} close={close} />
+      <AddDisc visible={visible} close={close} />
     </>
   );
 }
@@ -104,6 +117,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     justifyContent: 'center',
   },
+  addADisc: {
+    position: 'absolute',
+    top: 20,
+    right: 10,
+  },
 });
 
-export default BagHeader;
+export default DiscHeader;

@@ -8,6 +8,22 @@ export const CREATE_DISC = gql`
   }
 `;
 
+export const UPDATE_DISC = gql`
+  mutation update($disc: DiscUpdate) {
+    updateDisc(disc: $disc) {
+      id
+    }
+  }
+`;
+
+export const DESTROY_DISC = gql`
+  mutation destroy($disc: DiscDestroy) {
+    destroyDisc(disc: $disc) {
+      id
+    }
+  }
+`;
+
 export const CREATE_BAG = gql`
   mutation create($bag: BagCreate) {
     createBag(bag: $bag) {

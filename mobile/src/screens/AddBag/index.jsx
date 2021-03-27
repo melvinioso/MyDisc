@@ -1,16 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react';
-import {
-  View,
-  Text,
-  Button,
-  Colors,
-  TouchableOpacity,
-} from 'react-native-ui-lib';
+import { View, Text, Colors, TouchableOpacity } from 'react-native-ui-lib';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { StyleSheet, ActivityIndicator, Dimensions, Modal } from 'react-native';
+import { StyleSheet, Dimensions, Modal } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { ColorPicker } from 'react-native-color-picker';
 import { Overlay } from 'react-native-elements';
@@ -104,11 +98,20 @@ function AddBag({ visible, close }) {
 
   return (
     <Modal visible={visible} animationType="slide" animated>
-      <View right>
+      <View
+        centerV
+        row
+        spread
+        // height needs to be calculated headerHeight
+        style={{ backgroundColor: Colors.slate, height: 92 }}
+      >
         <TouchableOpacity
-          marginT-80
-          marginR-20
-          onPress={() => close && close()}
+          marginT-50
+          marginL-20
+          onPress={() => {
+            close && close();
+            reset();
+          }}
           hitSlop={{
             top: 10,
             right: 10,
@@ -116,7 +119,25 @@ function AddBag({ visible, close }) {
             left: 10,
           }}
         >
-          <Ionicons name="ios-close" size={36} color={Colors.indigo} />
+          <Ionicons name="ios-close" size={36} color={Colors.white} />
+        </TouchableOpacity>
+        <Text white marginT-50 text70BO>
+          Add A Bag
+        </Text>
+        <TouchableOpacity
+          marginT-50
+          marginR-20
+          onPress={handleSubmit(onSubmit)}
+          hitSlop={{
+            top: 10,
+            right: 10,
+            bottom: 10,
+            left: 10,
+          }}
+        >
+          <Text white text70BO>
+            Save
+          </Text>
         </TouchableOpacity>
       </View>
       <View flex useSafeArea>
@@ -187,23 +208,6 @@ function AddBag({ visible, close }) {
                   />
                 </View>
               </Overlay>
-            </View>
-            <View marginT-40>
-              <View>
-                <Button
-                  bg-indigo
-                  style={[{ paddingVertical: 15 }]}
-                  onPress={handleSubmit(onSubmit)}
-                >
-                  {formState.isSubmitting ? (
-                    <ActivityIndicator color={Colors.white} />
-                  ) : (
-                    <Text text60R white>
-                      Add Bag
-                    </Text>
-                  )}
-                </Button>
-              </View>
             </View>
           </View>
         </KeyboardAwareScrollView>

@@ -56,7 +56,7 @@ function AppContainer() {
   return (
     <MasterProvider>
       <App />
-      <StatusBar style="dark" animated={true} />
+      <StatusBar style="light" animated={true} />
     </MasterProvider>
   );
 }

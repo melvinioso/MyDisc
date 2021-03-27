@@ -35,7 +35,7 @@ function Main() {
         screenOptions={screenOptions}
         tabBarOptions={{
           activeTintColor: Colors.indigo,
-          inactiveTintColor: Colors.gray,
+          inactiveTintColor: Colors.slate,
           style: {
             height: 380 * PX,
             paddingTop: 16,

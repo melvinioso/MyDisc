@@ -72,7 +72,7 @@ function MyBags() {
         showsHorizontalScrollIndicator={false}
         horizontal
         data={spacedBags}
-        keyExtractor={(item) => item.id && item.id.toString()}
+        keyExtractor={(item) => `${item.id}`}
         snapToInterval={ITEM_SIZE}
         decelerationRate={0}
         bounces={false}
@@ -101,7 +101,7 @@ function MyBags() {
           const variant = brightness(item.color) > 130 ? 'black' : 'white';
 
           return (
-            <View style={{ width: ITEM_SIZE, marginTop: 280 * PX }}>
+            <View key={index} style={{ width: ITEM_SIZE, marginTop: 280 * PX }}>
               <Animated.View
                 style={{
                   marginHorizontal: SPACING,
