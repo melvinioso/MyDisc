@@ -56,7 +56,7 @@ function Main() {
             ),
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="BuildABag"
           component={BuildABagNavigator}
           options={{
@@ -65,7 +65,7 @@ function Main() {
               <MaterialCommunityIcons name="tools" size={24} color={color} />
             ),
           }}
-        />
+        /> */}
         <Tab.Screen
           name="MyBags"
           component={MyBagsNavigator}

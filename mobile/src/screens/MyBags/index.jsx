@@ -1,8 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
-import { View, Colors, Text } from 'react-native-ui-lib';
+import { StyleSheet, FlatList, SafeAreaView, Dimensions } from 'react-native';
 import { get } from 'lodash';
-import { darken } from 'polished';
 
 import { useQuery } from '@apollo/client';
 import { QUERY_BAGS } from '../../graphql/queries';
@@ -13,6 +11,10 @@ import Bag from '../../components/Bag';
 import { AuthContext } from '../../context/auth';
 
 import { PX } from '../../theme';
+
+const { width } = Dimensions.get('window');
+const ITEM_WIDTH = width / 2;
+const BAG = ITEM_WIDTH * 0.8;
 
 function MyBags() {
   const { user } = useContext(AuthContext);
@@ -38,6 +40,8 @@ function MyBags() {
           <Bag
             name={item.name}
             color={item.color}
+            size={BAG}
+            columnWidth={ITEM_WIDTH}
             index={index}
             onPress={() => {
               setActiveBag(item);

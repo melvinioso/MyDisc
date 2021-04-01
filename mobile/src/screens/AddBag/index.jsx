@@ -33,15 +33,7 @@ function AddBag({ visible, close }) {
   const { user } = useContext(AuthContext);
   const [createBag] = useMutation(CREATE_BAG);
   const [pickerVisible, setPickerVisible] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    errors,
-    formState,
-    reset,
-    watch,
-  } = useForm({
+  const { register, handleSubmit, setValue, errors, reset, watch } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       name: '',

@@ -8,7 +8,7 @@ import { Entypo } from '@expo/vector-icons';
 const { width } = Dimensions.get('window');
 const HEIGHT = width / 4;
 const LINE_HEIGHT = HEIGHT * 0.9;
-const ITEM_HEIGHT = LINE_HEIGHT * 0.7;
+const ITEM_HEIGHT = LINE_HEIGHT * 0.75;
 const BR = ITEM_HEIGHT / 2;
 
 function type(speed) {
@@ -36,8 +36,6 @@ function Disc(props) {
       row
       style={[
         { backgroundColor: Colors.white },
-        { borderColor: Colors.slate },
-        { borderBottomWidth: 0.5 },
         { height: LINE_HEIGHT },
         { width: width },
         { alignItems: 'center' },

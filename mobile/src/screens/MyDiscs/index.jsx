@@ -1,14 +1,23 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  Dimensions,
+  Platform,
+} from 'react-native';
 import { View, TabBar, Colors, Text } from 'react-native-ui-lib';
 import { get } from 'lodash';
 import { darken } from 'polished';
-import { useHeaderHeight } from '@react-navigation/stack';
+import DropDownPicker from 'react-native-dropdown-picker';
+import Icon from 'react-native-vector-icons/Feather';
+import BagSvg from '../../../assets/svgs/bag';
 
 import { useQuery } from '@apollo/client';
 import { useMutation } from '@apollo/client';
 import { DESTROY_DISC } from '../../graphql/mutations';
 import { QUERY_DISCS } from '../../graphql/queries';
+import { QUERY_BAGS } from '../../graphql/queries';
 
 import EditDisc from '../EditDisc';
 import Disc from '../../components/Disc';
@@ -18,17 +27,26 @@ import { AuthContext } from '../../context/auth';
 
 import { PX } from '../../theme';
 
+const { width } = Dimensions.get('window');
+const HEIGHT = width / 4;
+const LINE_HEIGHT = HEIGHT * 0.7;
+const ITEM_HEIGHT = LINE_HEIGHT * 0.4;
+
 function MyDiscs() {
   const { user } = useContext(AuthContext);
   const [speedFilter, setSpeedFilter] = useState(null);
   const [activeDisc, setActiveDisc] = useState(null);
+  const [activeBag, setActiveBag] = useState(null);
   const [visible, setVisible] = useState(false);
   const [destroyDisc] = useMutation(DESTROY_DISC);
-  const { data, loading } = useQuery(QUERY_DISCS, {
+  const { data: discsData } = useQuery(QUERY_DISCS, {
+    variables: { where: { userId: user.id } },
+  });
+  const { data: bagData } = useQuery(QUERY_BAGS, {
     variables: { where: { userId: user.id } },
   });
 
-  const filteredDiscs = get(data, 'discs', []).filter((i) => {
+  const filteredDiscs = get(discsData, 'discs', []).filter((i) => {
     if (!speedFilter) {
       return true;
     }
@@ -38,9 +56,9 @@ function MyDiscs() {
     return i.speed >= min && i.speed <= max;
   });
 
-  const borderColor = darken(0.1, Colors.white);
+  const bags = get(bagData, 'bags', []);
 
-  const headerHeight = useHeaderHeight();
+  const borderColor = darken(0.1, Colors.white);
 
   function close() {
     setVisible(false);
@@ -84,9 +102,66 @@ function MyDiscs() {
     );
   };
 
+  const ITEM_SEPARATOR = () => {
+    return (
+      <View
+        style={{ height: 0.5, backgroundColor: Colors.slate, width: width }}
+      />
+    );
+  };
+
   return (
     <>
       <SafeAreaView style={styles.container}>
+        {/* <Text text90M gray center marginT-5>
+          Select a Bag
+        </Text> */}
+        <View
+          center
+          marginT-14
+          marginL-14
+          marginR-14
+          style={{
+            height: LINE_HEIGHT,
+            ...(Platform.OS !== 'android' && {
+              zIndex: 1111,
+            }),
+          }}
+        >
+          <DropDownPicker
+            items={bags.map((bag, index) => {
+              return {
+                label: bag.name,
+                value: bag,
+                icon: () => (
+                  <View style={[{ height: 20 }, { width: 20 }]}>
+                    <BagSvg color={bag.color} />
+                  </View>
+                ),
+              };
+            })}
+            style={{ backgroundColor: '#fafafa' }}
+            containerStyle={{ height: 50, width: width * 0.6 }}
+            placeholder="Select a bag"
+            placeholderStyle={{
+              fontWeight: 'bold',
+              textAlign: 'center',
+            }}
+            dropDownMaxHeight={'100%'}
+            dropDownStyle={{ backgroundColor: '#fafafa' }}
+            labelStyle={{
+              fontSize: 14,
+              fontWeight: '500',
+              color: '#000',
+            }}
+            selectedLabelStyle={{
+              fontSize: 15,
+              fontWeight: '600',
+              color: Colors.indigo,
+            }}
+            onChangeItem={(item) => setActiveBag(item)}
+          />
+        </View>
         <View style={[styles.filter, { borderTopColor: borderColor }]}>
           <Text text90M gray borderTop center marginT-5>
             Filter by Speed:
@@ -135,6 +210,7 @@ function MyDiscs() {
         <FlatList
           data={filteredDiscs}
           keyExtractor={(item) => item.id.toString()}
+          ItemSeparatorComponent={ITEM_SEPARATOR}
           contentContainerStyle={{
             paddingBottom: 500 * PX,
           }}

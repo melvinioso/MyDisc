@@ -1,16 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react';
-import {
-  View,
-  Text,
-  Button,
-  Colors,
-  TouchableOpacity,
-} from 'react-native-ui-lib';
+import { View, Text, Colors, TouchableOpacity } from 'react-native-ui-lib';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { StyleSheet, ActivityIndicator, Dimensions, Modal } from 'react-native';
+import { StyleSheet, Dimensions, Modal } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { ColorPicker } from 'react-native-color-picker';
 import { Overlay } from 'react-native-elements';
@@ -42,15 +36,7 @@ function AddDisc({ visible, close, headerHeight }) {
   const { user } = useContext(AuthContext);
   const [createDisc] = useMutation(CREATE_DISC);
   const [pickerVisible, setPickerVisible] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    errors,
-    formState,
-    reset,
-    watch,
-  } = useForm({
+  const { register, handleSubmit, setValue, errors, reset, watch } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       brand: '',
@@ -153,7 +139,7 @@ function AddDisc({ visible, close, headerHeight }) {
           <Ionicons name="ios-close" size={36} color={Colors.white} />
         </TouchableOpacity>
         <Text white marginT-50 text70BO>
-          Add Disc
+          Add A Disc
         </Text>
         <TouchableOpacity
           marginT-50
