@@ -15,7 +15,7 @@ import { CREATE_BAG } from '../../graphql/mutations';
 import { QUERY_BAGS } from '../../graphql/queries';
 
 import TextField from '../../components/TextField';
-import Bag from '../../components/Bag';
+import BagSvg from '../../../assets/svgs/bag';
 
 import { AuthContext } from '../../context/auth';
 import { ToastContext } from '../../context/toast';
@@ -137,6 +137,7 @@ function AddBag({ visible, close }) {
           <View paddingH-30>
             <View marginT-30>
               <TextField
+                autoFocus={true}
                 title="Name"
                 autoCapitalize="words"
                 clearButtonMode="while-editing"
@@ -169,37 +170,43 @@ function AddBag({ visible, close }) {
               <Text text80M slate>
                 Color
               </Text>
-              <Bag color={color} style={styles.color} onPress={toggleOverlay} />
-              <Overlay
-                isVisible={pickerVisible}
-                animationType="fade"
-                onBackdropPress={toggleOverlay}
-                backdropStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
-                overlayStyle={{
-                  borderRadius: 20,
-                  margin: 20,
-                  padding: 20,
-                }}
-              >
-                <View
-                  style={[
-                    { width: PICKER_WIDTH },
-                    { height: PICKER_WIDTH * 1.5 },
-                  ]}
+              <View>
+                <TouchableOpacity onPress={toggleOverlay}>
+                  <View>
+                    <BagSvg color={color} />
+                  </View>
+                </TouchableOpacity>
+                <Overlay
+                  isVisible={pickerVisible}
+                  animationType="fade"
+                  onBackdropPress={toggleOverlay}
+                  backdropStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+                  overlayStyle={{
+                    borderRadius: 20,
+                    margin: 20,
+                    padding: 20,
+                  }}
                 >
-                  <Text text80R center text80M slate>
-                    Press color button to select color
-                  </Text>
-                  <ColorPicker
-                    defaultColor={color}
-                    onColorSelected={(val) => {
-                      setValue('color', val);
-                      toggleOverlay();
-                    }}
-                    style={{ flex: 1 }}
-                  />
-                </View>
-              </Overlay>
+                  <View
+                    style={[
+                      { width: PICKER_WIDTH },
+                      { height: PICKER_WIDTH * 1.5 },
+                    ]}
+                  >
+                    <Text text80R center text80M slate>
+                      Press color button to select color
+                    </Text>
+                    <ColorPicker
+                      defaultColor={color}
+                      onColorSelected={(val) => {
+                        setValue('color', val);
+                        toggleOverlay();
+                      }}
+                      style={{ flex: 1 }}
+                    />
+                  </View>
+                </Overlay>
+              </View>
             </View>
           </View>
         </KeyboardAwareScrollView>

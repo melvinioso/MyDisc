@@ -69,5 +69,21 @@ export default generateResolvers('Disc', ['user'], {
       });
       return true;
     },
+    createDiscBag: async (_, args, ctx) => {
+      const currentUserId = ctx.user.user.id;
+      const { userId } = args.disc;
+
+      // if (currentUserId !== userId || !currentUserId) {
+      //   throw new Error('You are not the current user.');
+      // }
+
+      const record = await ctx.db.DiscBag.create(args.disc, {
+        where: {
+          discId: args.disc.discId,
+          bagId: args.disc.bagId,
+        },
+      });
+      return record;
+    },
   },
 });

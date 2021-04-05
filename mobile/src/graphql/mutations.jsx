@@ -31,3 +31,28 @@ export const CREATE_BAG = gql`
     }
   }
 `;
+
+export const UPDATE_BAG = gql`
+  mutation update($bag: BagUpdate) {
+    updateBag(bag: $bag) {
+      id
+    }
+  }
+`;
+
+export const DESTROY_BAG = gql`
+  mutation destroy($bag: BagDestroy) {
+    destroyBag(bag: $bag) {
+      id
+    }
+  }
+`;
+
+export const CREATE_DISCBAG = gql`
+  mutation create($disc: DiscBagCreate) {
+    createDiscBag(disc: $disc) {
+      discId
+      bagId
+    }
+  }
+`;

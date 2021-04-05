@@ -165,6 +165,7 @@ function AddDisc({ visible, close, headerHeight }) {
                 <View>
                   <View marginT-10>
                     <TextField
+                      autoFocus={true}
                       title="Mold"
                       autoCapitalize="words"
                       clearButtonMode="while-editing"

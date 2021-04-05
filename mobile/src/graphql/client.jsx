@@ -15,6 +15,9 @@ export const createClient = ({ token, logout = () => {} }) => {
           discs: {
             merge: false,
           },
+          bags: {
+            merge: false,
+          },
         },
       },
     },

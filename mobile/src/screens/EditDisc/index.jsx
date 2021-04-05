@@ -37,21 +37,21 @@ const schema = yup.object().shape({
   plastic: yup.string().required('Plastic is required'),
 });
 
-function EditDisc({ visible, close, item }) {
+function EditDisc({ visible, close, disc }) {
   const { notify } = useContext(ToastContext);
   const { user } = useContext(AuthContext);
   const [updateDisc] = useMutation(UPDATE_DISC);
   const [pickerVisible, setPickerVisible] = useState(false);
   const preloadedValues = {
-    brand: item?.brand,
-    mold: item?.mold,
-    plastic: item?.plastic,
-    color: item?.color || '#FF0000',
-    weight: item?.weight,
-    speed: item?.speed,
-    glide: item?.glide,
-    turn: item?.turn,
-    fade: item?.fade,
+    brand: disc?.brand,
+    mold: disc?.mold,
+    plastic: disc?.plastic,
+    color: disc?.color || '#FF0000',
+    weight: disc?.weight,
+    speed: disc?.speed,
+    glide: disc?.glide,
+    turn: disc?.turn,
+    fade: disc?.fade,
   };
   const {
     register,
@@ -66,17 +66,17 @@ function EditDisc({ visible, close, item }) {
     defaultValues: preloadedValues,
   });
 
-  useEffect(() => {
-    register('brand');
-    register('mold');
-    register('plastic');
-    register('color');
-    register('weight');
-    register('speed');
-    register('glide');
-    register('turn');
-    register('fade');
-  }, [register]);
+  // useEffect(() => {
+  //   register('brand');
+  //   register('mold');
+  //   register('plastic');
+  //   register('color');
+  //   register('weight');
+  //   register('speed');
+  //   register('glide');
+  //   register('turn');
+  //   register('fade');
+  // }, [register]);
 
   const {
     brand,
@@ -100,7 +100,7 @@ function EditDisc({ visible, close, item }) {
         variables: {
           disc: {
             ...values,
-            id: item.id,
+            id: disc.id,
           },
         },
         refetchQueries: [

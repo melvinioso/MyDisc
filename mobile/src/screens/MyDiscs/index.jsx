@@ -10,12 +10,11 @@ import { View, TabBar, Colors, Text } from 'react-native-ui-lib';
 import { get } from 'lodash';
 import { darken } from 'polished';
 import DropDownPicker from 'react-native-dropdown-picker';
-import Icon from 'react-native-vector-icons/Feather';
 import BagSvg from '../../../assets/svgs/bag';
 
 import { useQuery } from '@apollo/client';
 import { useMutation } from '@apollo/client';
-import { DESTROY_DISC } from '../../graphql/mutations';
+import { DESTROY_DISC, CREATE_DISCBAG } from '../../graphql/mutations';
 import { QUERY_DISCS } from '../../graphql/queries';
 import { QUERY_BAGS } from '../../graphql/queries';
 
@@ -29,8 +28,7 @@ import { PX } from '../../theme';
 
 const { width } = Dimensions.get('window');
 const HEIGHT = width / 4;
-const LINE_HEIGHT = HEIGHT * 0.7;
-const ITEM_HEIGHT = LINE_HEIGHT * 0.4;
+const LINE_HEIGHT = HEIGHT;
 
 function MyDiscs() {
   const { user } = useContext(AuthContext);
@@ -39,11 +37,12 @@ function MyDiscs() {
   const [activeBag, setActiveBag] = useState(null);
   const [visible, setVisible] = useState(false);
   const [destroyDisc] = useMutation(DESTROY_DISC);
+  const [createDiscBag] = useMutation(CREATE_DISCBAG);
   const { data: discsData } = useQuery(QUERY_DISCS, {
-    variables: { where: { userId: user.id } },
+    variables: { where: { userId: user?.id } },
   });
   const { data: bagData } = useQuery(QUERY_BAGS, {
-    variables: { where: { userId: user.id } },
+    variables: { where: { userId: user?.id } },
   });
 
   const filteredDiscs = get(discsData, 'discs', []).filter((i) => {
@@ -85,9 +84,31 @@ function MyDiscs() {
     }
   }
 
+  async function addItem(item) {
+    try {
+      await createDiscBag({
+        variables: {
+          disc: {
+            discId: item.id,
+            bagId: activeBag.id,
+          },
+        },
+        // refetchQueries: [
+        //   {
+        //     query: QUERY_DISCS,
+        //     variables: { where: { userId: user.id } },
+        //   },
+        // ],
+        // awaitRefetchQueries: true,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   function editItem(item) {
     setActiveDisc(item);
-    console.log(activeDisc?.id);
+    console.log('editing discid:', activeDisc?.id);
     setVisible(true);
   }
 
@@ -95,7 +116,10 @@ function MyDiscs() {
     return (
       <SwipeableRow
         handleDelete={() => deleteItem(item)}
-        handleEdit={() => editItem(item)}
+        handleEdit={() => {
+          editItem(item);
+        }}
+        handleAddDisc={() => addItem(item)}
       >
         <Disc {...item} index={index} />
       </SwipeableRow>
@@ -113,14 +137,10 @@ function MyDiscs() {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        {/* <Text text90M gray center marginT-5>
-          Select a Bag
-        </Text> */}
         <View
-          center
-          marginT-14
-          marginL-14
-          marginR-14
+          row
+          centerV
+          margin-14
           style={{
             height: LINE_HEIGHT,
             ...(Platform.OS !== 'android' && {
@@ -141,7 +161,7 @@ function MyDiscs() {
               };
             })}
             style={{ backgroundColor: '#fafafa' }}
-            containerStyle={{ height: 50, width: width * 0.6 }}
+            containerStyle={{ height: 50, width: width * 0.55 }}
             placeholder="Select a bag"
             placeholderStyle={{
               fontWeight: 'bold',
@@ -159,11 +179,23 @@ function MyDiscs() {
               fontWeight: '600',
               color: Colors.indigo,
             }}
-            onChangeItem={(item) => setActiveBag(item)}
+            onChangeItem={(item) => {
+              setActiveBag(item.value);
+            }}
           />
+          <View center marginL-10>
+            <Text text80R>Discs:</Text>
+          </View>
+          <View center marginL-10>
+            {activeBag ? (
+              <Text indigo text60BO>
+                20 / {activeBag?.capacity}
+              </Text>
+            ) : null}
+          </View>
         </View>
         <View style={[styles.filter, { borderTopColor: borderColor }]}>
-          <Text text90M gray borderTop center marginT-5>
+          <Text text90M gray borderTop center>
             Filter by Speed:
           </Text>
         </View>
@@ -220,7 +252,7 @@ function MyDiscs() {
           )}
         />
       </SafeAreaView>
-      <EditDisc visible={visible} close={close} item={activeDisc} />
+      <EditDisc visible={visible} close={close} disc={activeDisc} />
     </>
   );
 }
