@@ -18,13 +18,16 @@ function BuildABagNavigator() {
           headerShown: true,
           headerTitle: 'Build A Bag',
           headerTitleStyle: {
-            color: Colors.indigo,
+            color: Colors.white,
           },
-          headerRight: () => (
+          headerStyle: {
+            backgroundColor: Colors.slate,
+          },
+          headerLeft: () => (
             <Animatable.View
               animation="fadeIn"
               duration={300}
-              style={{ position: 'absolute', top: 10, right: 20, zIndex: 9999 }}
+              style={{ position: 'absolute', top: 10, left: 20, zIndex: 9999 }}
             >
               <SettingsButton />
             </Animatable.View>

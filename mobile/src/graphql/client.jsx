@@ -8,7 +8,20 @@ import { get, includes } from 'lodash';
 const API_HOST = `${Constants.manifest.extra.apiHost}/graphql`;
 
 export const createClient = ({ token, logout = () => {} }) => {
-  const cache = new InMemoryCache({});
+  const cache = new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          discs: {
+            merge: false,
+          },
+          bags: {
+            merge: false,
+          },
+        },
+      },
+    },
+  });
 
   const authLink = setContext((_, { headers }) => {
     return {

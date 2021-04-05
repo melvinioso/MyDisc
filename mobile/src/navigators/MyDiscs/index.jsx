@@ -5,6 +5,7 @@ import { Colors } from 'react-native-ui-lib';
 
 import MyDiscs from '../../screens/MyDiscs';
 import SettingsButton from '../../components/SettingsButton';
+import AddButton from '../../components/AddButton';
 
 const Stack = createStackNavigator();
 
@@ -18,15 +19,27 @@ function MyDiscsNavigator() {
           headerShown: true,
           headerTitle: 'My Discs',
           headerTitleStyle: {
-            color: Colors.indigo,
+            color: Colors.white,
           },
+          headerStyle: {
+            backgroundColor: Colors.slate,
+          },
+          headerLeft: () => (
+            <Animatable.View
+              animation="fadeIn"
+              duration={300}
+              style={{ position: 'absolute', top: 10, left: 20, zIndex: 9999 }}
+            >
+              <SettingsButton />
+            </Animatable.View>
+          ),
           headerRight: () => (
             <Animatable.View
               animation="fadeIn"
               duration={300}
               style={{ position: 'absolute', top: 10, right: 20, zIndex: 9999 }}
             >
-              <SettingsButton />
+              <AddButton mode={'disc'} />
             </Animatable.View>
           ),
         }}

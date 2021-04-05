@@ -35,7 +35,7 @@ function Main() {
         screenOptions={screenOptions}
         tabBarOptions={{
           activeTintColor: Colors.indigo,
-          inactiveTintColor: Colors.gray,
+          inactiveTintColor: Colors.slate,
           style: {
             height: 380 * PX,
             paddingTop: 16,
@@ -56,7 +56,7 @@ function Main() {
             ),
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="BuildABag"
           component={BuildABagNavigator}
           options={{
@@ -65,7 +65,7 @@ function Main() {
               <MaterialCommunityIcons name="tools" size={24} color={color} />
             ),
           }}
-        />
+        /> */}
         <Tab.Screen
           name="MyBags"
           component={MyBagsNavigator}

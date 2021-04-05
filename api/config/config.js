@@ -35,6 +35,11 @@ const config = {
       logging: () => process.env.LOG_SQL,
     },
   },
+  email: {
+    sendGrid: {
+      apiKey: process.env.SENDGRID_API_KEY,
+    },
+  },
 };
 
 export default config;

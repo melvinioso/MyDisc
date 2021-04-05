@@ -1,10 +1,16 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { View, Text, Colors, TouchableOpacity } from 'react-native-ui-lib';
+import {
+  View,
+  Text,
+  Button,
+  Colors,
+  TouchableOpacity,
+} from 'react-native-ui-lib';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { StyleSheet, Dimensions, Modal } from 'react-native';
+import { StyleSheet, ActivityIndicator, Dimensions, Modal } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { ColorPicker } from 'react-native-color-picker';
 import { Overlay } from 'react-native-elements';
@@ -12,7 +18,7 @@ import { darken } from 'polished';
 import { Ionicons } from '@expo/vector-icons';
 
 import { useMutation } from '@apollo/client';
-import { CREATE_DISC } from '../../graphql/mutations';
+import { UPDATE_DISC } from '../../graphql/mutations';
 import { QUERY_DISCS } from '../../graphql/queries';
 
 import TextField from '../../components/TextField';
@@ -31,37 +37,46 @@ const schema = yup.object().shape({
   plastic: yup.string().required('Plastic is required'),
 });
 
-function AddDisc({ visible, close, headerHeight }) {
+function EditDisc({ visible, close, disc }) {
   const { notify } = useContext(ToastContext);
   const { user } = useContext(AuthContext);
-  const [createDisc] = useMutation(CREATE_DISC);
+  const [updateDisc] = useMutation(UPDATE_DISC);
   const [pickerVisible, setPickerVisible] = useState(false);
-  const { register, handleSubmit, setValue, errors, reset, watch } = useForm({
+  const preloadedValues = {
+    brand: disc?.brand,
+    mold: disc?.mold,
+    plastic: disc?.plastic,
+    color: disc?.color || '#FF0000',
+    weight: disc?.weight,
+    speed: disc?.speed,
+    glide: disc?.glide,
+    turn: disc?.turn,
+    fade: disc?.fade,
+  };
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    errors,
+    formState,
+    reset,
+    watch,
+  } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      brand: '',
-      mold: '',
-      plastic: '',
-      color: '#FF0000',
-      weight: 140,
-      speed: 1,
-      glide: 1,
-      turn: 0,
-      fade: 0,
-    },
+    defaultValues: preloadedValues,
   });
 
-  useEffect(() => {
-    register('brand');
-    register('mold');
-    register('plastic');
-    register('color');
-    register('weight');
-    register('speed');
-    register('glide');
-    register('turn');
-    register('fade');
-  }, [register]);
+  // useEffect(() => {
+  //   register('brand');
+  //   register('mold');
+  //   register('plastic');
+  //   register('color');
+  //   register('weight');
+  //   register('speed');
+  //   register('glide');
+  //   register('turn');
+  //   register('fade');
+  // }, [register]);
 
   const {
     brand,
@@ -81,11 +96,11 @@ function AddDisc({ visible, close, headerHeight }) {
 
   async function onSubmit(values) {
     try {
-      await createDisc({
+      await updateDisc({
         variables: {
           disc: {
             ...values,
-            userId: user.id,
+            id: disc.id,
           },
         },
         refetchQueries: [
@@ -101,8 +116,8 @@ function AddDisc({ visible, close, headerHeight }) {
       reset();
 
       notify({
-        title: 'Created!',
-        message: 'Your new disc has been created.',
+        title: 'Saved!',
+        message: 'Your changed have been saved.',
         duration: 3000,
       });
     } catch (e) {
@@ -115,36 +130,11 @@ function AddDisc({ visible, close, headerHeight }) {
 
   return (
     <Modal visible={visible} animationType="slide" animated>
-      <View
-        centerV
-        row
-        spread
-        // height needs to be calculated headerHeight
-        style={{ backgroundColor: Colors.slate, height: 92 }}
-      >
+      <View right>
         <TouchableOpacity
-          marginT-50
-          marginL-20
-          onPress={() => {
-            close && close();
-            reset();
-          }}
-          hitSlop={{
-            top: 10,
-            right: 10,
-            bottom: 10,
-            left: 10,
-          }}
-        >
-          <Ionicons name="ios-close" size={36} color={Colors.white} />
-        </TouchableOpacity>
-        <Text white marginT-50 text70BO>
-          Add A Disc
-        </Text>
-        <TouchableOpacity
-          marginT-50
+          marginT-80
           marginR-20
-          onPress={handleSubmit(onSubmit)}
+          onPress={() => close && close()}
           hitSlop={{
             top: 10,
             right: 10,
@@ -152,9 +142,7 @@ function AddDisc({ visible, close, headerHeight }) {
             left: 10,
           }}
         >
-          <Text white text70BO>
-            Save
-          </Text>
+          <Ionicons name="ios-close" size={36} color={Colors.indigo} />
         </TouchableOpacity>
       </View>
       <View flex useSafeArea>
@@ -165,7 +153,17 @@ function AddDisc({ visible, close, headerHeight }) {
                 <View>
                   <View marginT-10>
                     <TextField
-                      autoFocus={true}
+                      title="Brand"
+                      autoCapitalize="words"
+                      clearButtonMode="while-editing"
+                      style={[{ width: FIELD_WIDTH }]}
+                      value={brand}
+                      onChangeText={(val) => setValue('brand', val)}
+                      error={errors?.brand?.message}
+                    />
+                  </View>
+                  <View marginT-10>
+                    <TextField
                       title="Mold"
                       autoCapitalize="words"
                       clearButtonMode="while-editing"
@@ -177,13 +175,13 @@ function AddDisc({ visible, close, headerHeight }) {
                   </View>
                   <View marginT-10>
                     <TextField
-                      title="Brand"
+                      title="Plastic"
                       autoCapitalize="words"
                       clearButtonMode="while-editing"
                       style={[{ width: FIELD_WIDTH }]}
-                      value={brand}
-                      onChangeText={(val) => setValue('brand', val)}
-                      error={errors?.brand?.message}
+                      value={plastic}
+                      onChangeText={(val) => setValue('plastic', val)}
+                      error={errors?.plastic?.message}
                     />
                   </View>
                 </View>
@@ -239,17 +237,6 @@ function AddDisc({ visible, close, headerHeight }) {
                     </View>
                   </Overlay>
                 </View>
-              </View>
-              <View marginT-10>
-                <TextField
-                  title="Plastic"
-                  autoCapitalize="words"
-                  clearButtonMode="while-editing"
-                  style={[{ width: '100%' }]}
-                  value={plastic}
-                  onChangeText={(val) => setValue('plastic', val)}
-                  error={errors?.plastic?.message}
-                />
               </View>
               <View spread row center marginT-20>
                 <Text marginR-20 text80M text80M slate>
@@ -353,6 +340,23 @@ function AddDisc({ visible, close, headerHeight }) {
                 </Text>
               </View>
             </View>
+            <View marginT-20>
+              <View>
+                <Button
+                  bg-indigo
+                  style={[{ paddingVertical: 15 }]}
+                  onPress={handleSubmit(onSubmit)}
+                >
+                  {formState.isSubmitting ? (
+                    <ActivityIndicator color={Colors.white} />
+                  ) : (
+                    <Text text60R white>
+                      Save Changes
+                    </Text>
+                  )}
+                </Button>
+              </View>
+            </View>
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -366,4 +370,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddDisc;
+export default EditDisc;

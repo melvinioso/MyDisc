@@ -1,16 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react';
-import {
-  View,
-  Text,
-  Button,
-  Colors,
-  TouchableOpacity,
-} from 'react-native-ui-lib';
+import { View, Text, Colors, TouchableOpacity } from 'react-native-ui-lib';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { StyleSheet, ActivityIndicator, Dimensions, Modal } from 'react-native';
+import { StyleSheet, Dimensions, Modal } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { ColorPicker } from 'react-native-color-picker';
 import { Overlay } from 'react-native-elements';
@@ -21,7 +15,7 @@ import { CREATE_BAG } from '../../graphql/mutations';
 import { QUERY_BAGS } from '../../graphql/queries';
 
 import TextField from '../../components/TextField';
-import Bag from '../../components/Bag';
+import BagSvg from '../../../assets/svgs/bag';
 
 import { AuthContext } from '../../context/auth';
 import { ToastContext } from '../../context/toast';
@@ -39,15 +33,7 @@ function AddBag({ visible, close }) {
   const { user } = useContext(AuthContext);
   const [createBag] = useMutation(CREATE_BAG);
   const [pickerVisible, setPickerVisible] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    errors,
-    formState,
-    reset,
-    watch,
-  } = useForm({
+  const { register, handleSubmit, setValue, errors, reset, watch } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       name: '',
@@ -104,11 +90,20 @@ function AddBag({ visible, close }) {
 
   return (
     <Modal visible={visible} animationType="slide" animated>
-      <View right>
+      <View
+        centerV
+        row
+        spread
+        // height needs to be calculated headerHeight
+        style={{ backgroundColor: Colors.slate, height: 92 }}
+      >
         <TouchableOpacity
-          marginT-80
-          marginR-20
-          onPress={() => close && close()}
+          marginT-50
+          marginL-20
+          onPress={() => {
+            close && close();
+            reset();
+          }}
           hitSlop={{
             top: 10,
             right: 10,
@@ -116,7 +111,25 @@ function AddBag({ visible, close }) {
             left: 10,
           }}
         >
-          <Ionicons name="ios-close" size={36} color={Colors.indigo} />
+          <Ionicons name="ios-close" size={36} color={Colors.white} />
+        </TouchableOpacity>
+        <Text white marginT-50 text70BO>
+          Add A Bag
+        </Text>
+        <TouchableOpacity
+          marginT-50
+          marginR-20
+          onPress={handleSubmit(onSubmit)}
+          hitSlop={{
+            top: 10,
+            right: 10,
+            bottom: 10,
+            left: 10,
+          }}
+        >
+          <Text white text70BO>
+            Save
+          </Text>
         </TouchableOpacity>
       </View>
       <View flex useSafeArea>
@@ -124,6 +137,7 @@ function AddBag({ visible, close }) {
           <View paddingH-30>
             <View marginT-30>
               <TextField
+                autoFocus={true}
                 title="Name"
                 autoCapitalize="words"
                 clearButtonMode="while-editing"
@@ -156,53 +170,42 @@ function AddBag({ visible, close }) {
               <Text text80M slate>
                 Color
               </Text>
-              <Bag color={color} style={styles.color} onPress={toggleOverlay} />
-              <Overlay
-                isVisible={pickerVisible}
-                animationType="fade"
-                onBackdropPress={toggleOverlay}
-                backdropStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
-                overlayStyle={{
-                  borderRadius: 20,
-                  margin: 20,
-                  padding: 20,
-                }}
-              >
-                <View
-                  style={[
-                    { width: PICKER_WIDTH },
-                    { height: PICKER_WIDTH * 1.5 },
-                  ]}
-                >
-                  <Text text80R center text80M slate>
-                    Press color button to select color
-                  </Text>
-                  <ColorPicker
-                    defaultColor={color}
-                    onColorSelected={(val) => {
-                      setValue('color', val);
-                      toggleOverlay();
-                    }}
-                    style={{ flex: 1 }}
-                  />
-                </View>
-              </Overlay>
-            </View>
-            <View marginT-40>
               <View>
-                <Button
-                  bg-indigo
-                  style={[{ paddingVertical: 15 }]}
-                  onPress={handleSubmit(onSubmit)}
+                <TouchableOpacity onPress={toggleOverlay}>
+                  <View>
+                    <BagSvg color={color} />
+                  </View>
+                </TouchableOpacity>
+                <Overlay
+                  isVisible={pickerVisible}
+                  animationType="fade"
+                  onBackdropPress={toggleOverlay}
+                  backdropStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+                  overlayStyle={{
+                    borderRadius: 20,
+                    margin: 20,
+                    padding: 20,
+                  }}
                 >
-                  {formState.isSubmitting ? (
-                    <ActivityIndicator color={Colors.white} />
-                  ) : (
-                    <Text text60R white>
-                      Add Bag
+                  <View
+                    style={[
+                      { width: PICKER_WIDTH },
+                      { height: PICKER_WIDTH * 1.5 },
+                    ]}
+                  >
+                    <Text text80R center text80M slate>
+                      Press color button to select color
                     </Text>
-                  )}
-                </Button>
+                    <ColorPicker
+                      defaultColor={color}
+                      onColorSelected={(val) => {
+                        setValue('color', val);
+                        toggleOverlay();
+                      }}
+                      style={{ flex: 1 }}
+                    />
+                  </View>
+                </Overlay>
               </View>
             </View>
           </View>
