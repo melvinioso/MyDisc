@@ -108,23 +108,8 @@ function MyDiscs() {
 
   function editItem(item) {
     setActiveDisc(item);
-    console.log('editing discid:', activeDisc?.id);
     setVisible(true);
   }
-
-  const DiscRow = ({ item, index }) => {
-    return (
-      <SwipeableRow
-        handleDelete={() => deleteItem(item)}
-        handleEdit={() => {
-          editItem(item);
-        }}
-        handleAddDisc={() => addItem(item)}
-      >
-        <Disc {...item} index={index} />
-      </SwipeableRow>
-    );
-  };
 
   const ITEM_SEPARATOR = () => {
     return (
@@ -248,7 +233,15 @@ function MyDiscs() {
           }}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
-            <DiscRow item={item} index={index} />
+            <SwipeableRow
+              handleDelete={() => deleteItem(item)}
+              handleEdit={() => {
+                editItem(item);
+              }}
+              handleAddDisc={() => addItem(item)}
+            >
+              <Disc {...item} index={index} />
+            </SwipeableRow>
           )}
         />
       </SafeAreaView>

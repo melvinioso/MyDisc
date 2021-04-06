@@ -69,21 +69,15 @@ export default generateResolvers('Disc', ['user'], {
       });
       return true;
     },
-    createDiscBag: async (_, args, ctx) => {
-      const currentUserId = ctx.user.user.id;
-      const { userId } = args.disc;
+    addDiscToBag: async (_, args, ctx) => {
+      const { discId, bagId } = args;
 
-      // if (currentUserId !== userId || !currentUserId) {
-      //   throw new Error('You are not the current user.');
-      // }
+      const disc = await ctx.db.Disc.findByPk(discId);
+      const bag = await ctx.db.Bag.findByPk(bagId);
 
-      const record = await ctx.db.DiscBag.create(args.disc, {
-        where: {
-          discId: args.disc.discId,
-          bagId: args.disc.bagId,
-        },
-      });
-      return record;
+      await disc.addToBag(bag);
+
+      return disc;
     },
   },
 });

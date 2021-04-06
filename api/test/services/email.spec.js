@@ -8,7 +8,7 @@ const mock = sinon.mock('@sendgrid/mail', () => {
   };
 });
 
-describe.only('Services - Email Service', () => {
+describe('Services - Email Service', () => {
   afterEach(() => {
     jest.clearAllMocks();
     jest.restoreAllMocks();
