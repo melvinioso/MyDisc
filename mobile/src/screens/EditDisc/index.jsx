@@ -1,16 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react';
-import {
-  View,
-  Text,
-  Button,
-  Colors,
-  TouchableOpacity,
-} from 'react-native-ui-lib';
+import { View, Text, Colors, TouchableOpacity } from 'react-native-ui-lib';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { StyleSheet, ActivityIndicator, Dimensions, Modal } from 'react-native';
+import { StyleSheet, Dimensions, Modal } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { ColorPicker } from 'react-native-color-picker';
 import { Overlay } from 'react-native-elements';
@@ -58,17 +52,17 @@ function EditDiscForm({ disc, close }) {
     defaultValues: preloadedValues,
   });
 
-  // useEffect(() => {
-  //   register('brand');
-  //   register('mold');
-  //   register('plastic');
-  //   register('color');
-  //   register('weight');
-  //   register('speed');
-  //   register('glide');
-  //   register('turn');
-  //   register('fade');
-  // }, [register]);
+  useEffect(() => {
+    register('brand');
+    register('mold');
+    register('plastic');
+    register('color');
+    register('weight');
+    register('speed');
+    register('glide');
+    register('turn');
+    register('fade');
+  }, [register]);
 
   const {
     brand,
@@ -109,7 +103,7 @@ function EditDiscForm({ disc, close }) {
 
       notify({
         title: 'Saved!',
-        message: 'Your changed have been saved.',
+        message: 'Your changes have been saved.',
         duration: 3000,
       });
     } catch (e) {
@@ -119,6 +113,7 @@ function EditDiscForm({ disc, close }) {
       });
     }
   }
+
   return (
     <>
       <View

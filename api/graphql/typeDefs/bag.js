@@ -25,6 +25,7 @@ export default gql`
     ${fields}
 
     user: User
+    discs: [Disc]
 
     createdAt: DateTime
     updatedAt: DateTime

@@ -2,7 +2,7 @@ import { resolver } from 'graphql-sequelize';
 import argsToFindOptions from 'graphql-sequelize/lib/argsToFindOptions';
 import { generateResolvers } from '../resolver';
 
-export default generateResolvers('Bag', ['user'], {
+export default generateResolvers('Bag', ['user', 'discs'], {
   Query: {
     bags: async (root, args, ctx, info) => {
       if (ctx.user.user) {

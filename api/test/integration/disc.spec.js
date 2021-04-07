@@ -176,7 +176,7 @@ describe('Integration - Disc', () => {
       );
     });
   });
-  describe.only('User: with Permissions', () => {
+  describe('User: with Permissions', () => {
     let token;
     let usr;
 
@@ -360,6 +360,34 @@ describe('Integration - Disc', () => {
 
       const found = await db.Disc.findByPk(res.body.data.destroyDisc.id);
       expect(found).to.be.null;
+    });
+    it('should not add another users disc', async () => {
+      const otherUser = await factory.create('User');
+      const disc = await factory.create('Disc', {
+        userId: otherUser.id,
+      });
+
+      const bag = await factory.create('Bag', {
+        userId: otherUser.id,
+      });
+
+      const QUERY = `
+      mutation addDiscToBag($discId: Int!, $bagId: Int!) {
+        addDiscToBag(discId: $discId, bagId: $bagId) {
+          id
+        }
+      }`;
+
+      const variables = {
+        discId: disc.id,
+        bagId: bag.id,
+      };
+
+      const res = await mutate(QUERY, variables, token);
+      expect(res.body.data.addDiscToBag).to.be.null;
+      expect(res.body.errors[0].message).to.equal(
+        'You are not the current user.'
+      );
     });
     it('should add a disc to a bag', async () => {
       const disc = await factory.create('Disc', {

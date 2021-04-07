@@ -70,9 +70,15 @@ export default generateResolvers('Disc', ['user'], {
       return true;
     },
     addDiscToBag: async (_, args, ctx) => {
+      const currentUserId = ctx.user.user.id;
       const { discId, bagId } = args;
 
       const disc = await ctx.db.Disc.findByPk(discId);
+
+      if (currentUserId !== disc.userId || !currentUserId) {
+        throw new Error('You are not the current user.');
+      }
+
       const bag = await ctx.db.Bag.findByPk(bagId);
 
       await disc.addToBag(bag);
