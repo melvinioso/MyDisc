@@ -14,9 +14,8 @@ import BagSvg from '../../../assets/svgs/bag';
 
 import { useQuery } from '@apollo/client';
 import { useMutation } from '@apollo/client';
-import { DESTROY_DISC, CREATE_DISCBAG } from '../../graphql/mutations';
-import { QUERY_DISCS } from '../../graphql/queries';
-import { QUERY_BAGS } from '../../graphql/queries';
+import { DESTROY_DISC } from '../../graphql/mutations';
+import { QUERY_DISCS, QUERY_BAGS } from '../../graphql/queries';
 
 import EditDisc from '../EditDisc';
 import Disc from '../../components/Disc';
@@ -37,7 +36,6 @@ function MyDiscs() {
   const [activeBag, setActiveBag] = useState(null);
   const [visible, setVisible] = useState(false);
   const [destroyDisc] = useMutation(DESTROY_DISC);
-  const [createDiscBag] = useMutation(CREATE_DISCBAG);
   const { data: discsData } = useQuery(QUERY_DISCS, {
     variables: { where: { userId: user?.id } },
   });
@@ -86,21 +84,19 @@ function MyDiscs() {
 
   async function addItem(item) {
     try {
-      await createDiscBag({
-        variables: {
-          disc: {
-            discId: item.id,
-            bagId: activeBag.id,
-          },
-        },
-        // refetchQueries: [
-        //   {
-        //     query: QUERY_DISCS,
-        //     variables: { where: { userId: user.id } },
-        //   },
-        // ],
-        // awaitRefetchQueries: true,
-      });
+      // await addDiscToBag({
+      //   variables: {
+      //     discId: item.id,
+      //     bagId: activeBag.id,
+      //   },
+      // refetchQueries: [
+      //   {
+      //     query: QUERY_DISCS,
+      //     variables: { where: { userId: user.id } },
+      //   },
+      // ],
+      // awaitRefetchQueries: true,
+      // });
     } catch (e) {
       console.log(e);
     }
@@ -108,23 +104,8 @@ function MyDiscs() {
 
   function editItem(item) {
     setActiveDisc(item);
-    console.log('editing discid:', activeDisc?.id);
     setVisible(true);
   }
-
-  const DiscRow = ({ item, index }) => {
-    return (
-      <SwipeableRow
-        handleDelete={() => deleteItem(item)}
-        handleEdit={() => {
-          editItem(item);
-        }}
-        handleAddDisc={() => addItem(item)}
-      >
-        <Disc {...item} index={index} />
-      </SwipeableRow>
-    );
-  };
 
   const ITEM_SEPARATOR = () => {
     return (
@@ -189,7 +170,7 @@ function MyDiscs() {
           <View center marginL-10>
             {activeBag ? (
               <Text indigo text60BO>
-                20 / {activeBag?.capacity}
+                0 / {activeBag?.capacity}
               </Text>
             ) : null}
           </View>
@@ -248,7 +229,13 @@ function MyDiscs() {
           }}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
-            <DiscRow item={item} index={index} />
+            <SwipeableRow
+              handleDelete={() => deleteItem(item)}
+              handleEdit={() => editItem(item)}
+              handleAddDisc={() => addItem(item)}
+            >
+              <Disc {...item} index={index} />
+            </SwipeableRow>
           )}
         />
       </SafeAreaView>

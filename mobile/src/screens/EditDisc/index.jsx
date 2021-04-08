@@ -1,16 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react';
-import {
-  View,
-  Text,
-  Button,
-  Colors,
-  TouchableOpacity,
-} from 'react-native-ui-lib';
+import { View, Text, Colors, TouchableOpacity } from 'react-native-ui-lib';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { StyleSheet, ActivityIndicator, Dimensions, Modal } from 'react-native';
+import { StyleSheet, Dimensions, Modal } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { ColorPicker } from 'react-native-color-picker';
 import { Overlay } from 'react-native-elements';
@@ -37,7 +31,7 @@ const schema = yup.object().shape({
   plastic: yup.string().required('Plastic is required'),
 });
 
-function EditDisc({ visible, close, disc }) {
+function EditDiscForm({ disc, close }) {
   const { notify } = useContext(ToastContext);
   const { user } = useContext(AuthContext);
   const [updateDisc] = useMutation(UPDATE_DISC);
@@ -53,30 +47,22 @@ function EditDisc({ visible, close, disc }) {
     turn: disc?.turn,
     fade: disc?.fade,
   };
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    errors,
-    formState,
-    reset,
-    watch,
-  } = useForm({
+  const { register, handleSubmit, setValue, errors, reset, watch } = useForm({
     resolver: yupResolver(schema),
     defaultValues: preloadedValues,
   });
 
-  // useEffect(() => {
-  //   register('brand');
-  //   register('mold');
-  //   register('plastic');
-  //   register('color');
-  //   register('weight');
-  //   register('speed');
-  //   register('glide');
-  //   register('turn');
-  //   register('fade');
-  // }, [register]);
+  useEffect(() => {
+    register('brand');
+    register('mold');
+    register('plastic');
+    register('color');
+    register('weight');
+    register('speed');
+    register('glide');
+    register('turn');
+    register('fade');
+  }, [register]);
 
   const {
     brand,
@@ -117,7 +103,7 @@ function EditDisc({ visible, close, disc }) {
 
       notify({
         title: 'Saved!',
-        message: 'Your changed have been saved.',
+        message: 'Your changes have been saved.',
         duration: 3000,
       });
     } catch (e) {
@@ -129,12 +115,21 @@ function EditDisc({ visible, close, disc }) {
   }
 
   return (
-    <Modal visible={visible} animationType="slide" animated>
-      <View right>
+    <>
+      <View
+        centerV
+        row
+        spread
+        // height needs to be calculated headerHeight
+        style={{ backgroundColor: Colors.slate, height: 92 }}
+      >
         <TouchableOpacity
-          marginT-80
-          marginR-20
-          onPress={() => close && close()}
+          marginT-50
+          marginL-20
+          onPress={() => {
+            close && close();
+            reset();
+          }}
           hitSlop={{
             top: 10,
             right: 10,
@@ -142,7 +137,25 @@ function EditDisc({ visible, close, disc }) {
             left: 10,
           }}
         >
-          <Ionicons name="ios-close" size={36} color={Colors.indigo} />
+          <Ionicons name="ios-close" size={36} color={Colors.white} />
+        </TouchableOpacity>
+        <Text white marginT-50 text70BO>
+          Edit Disc
+        </Text>
+        <TouchableOpacity
+          marginT-50
+          marginR-20
+          onPress={handleSubmit(onSubmit)}
+          hitSlop={{
+            top: 10,
+            right: 10,
+            bottom: 10,
+            left: 10,
+          }}
+        >
+          <Text white text70BO>
+            Save
+          </Text>
         </TouchableOpacity>
       </View>
       <View flex useSafeArea>
@@ -340,26 +353,17 @@ function EditDisc({ visible, close, disc }) {
                 </Text>
               </View>
             </View>
-            <View marginT-20>
-              <View>
-                <Button
-                  bg-indigo
-                  style={[{ paddingVertical: 15 }]}
-                  onPress={handleSubmit(onSubmit)}
-                >
-                  {formState.isSubmitting ? (
-                    <ActivityIndicator color={Colors.white} />
-                  ) : (
-                    <Text text60R white>
-                      Save Changes
-                    </Text>
-                  )}
-                </Button>
-              </View>
-            </View>
           </View>
         </KeyboardAwareScrollView>
       </View>
+    </>
+  );
+}
+
+function EditDisc({ visible, close, disc }) {
+  return (
+    <Modal visible={visible} animationType="slide" animated>
+      {disc ? <EditDiscForm disc={disc} close={close} /> : null}
     </Modal>
   );
 }

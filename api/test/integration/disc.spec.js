@@ -71,7 +71,7 @@ describe('Integration - Disc', () => {
     it('should NOT create', async () => {
       const attrs = await factory.attrs('Disc');
       const variables = {
-        disc: attrs
+        disc: attrs,
       };
 
       const res = await mutate(CREATE, variables);
@@ -85,8 +85,8 @@ describe('Integration - Disc', () => {
         disc: {
           id: record.id,
           brand: 'new brand',
-        }
-      }
+        },
+      };
       const res = await mutate(UPDATE, variables);
 
       expect(res.body.data.updateDisc).to.be.null;
@@ -97,8 +97,8 @@ describe('Integration - Disc', () => {
       const variables = {
         disc: {
           id: record.id,
-        }
-      }
+        },
+      };
       const res = await mutate(DESTROY, variables);
 
       expect(res.body.data.destroyDisc).to.be.null;
@@ -119,51 +119,61 @@ describe('Integration - Disc', () => {
 
       expect(res.body.data.discs).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for disc.list');
+      expect(res.body.errors[0].message).to.equal(
+        'Missing permission for disc.list'
+      );
     });
     it('should NOT read', async () => {
       const res = await query(READ, { id: record.id }, token);
 
       expect(res.body.data.disc).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for disc.read');
+      expect(res.body.errors[0].message).to.equal(
+        'Missing permission for disc.read'
+      );
     });
     it('should NOT create', async () => {
       const attrs = await factory.attrs('Disc');
       const variables = {
-        disc: attrs
+        disc: attrs,
       };
 
       const res = await mutate(CREATE, variables, token);
 
       expect(res.body.data.createDisc).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for disc.create');
+      expect(res.body.errors[0].message).to.equal(
+        'Missing permission for disc.create'
+      );
     });
     it('should NOT update', async () => {
       const variables = {
         disc: {
           id: record.id,
           brand: 'new brand',
-        }
-      }
+        },
+      };
       const res = await mutate(UPDATE, variables, token);
 
       expect(res.body.data.updateDisc).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for disc.update');
+      expect(res.body.errors[0].message).to.equal(
+        'Missing permission for disc.update'
+      );
     });
     it('should NOT destroy', async () => {
       const variables = {
         disc: {
           id: record.id,
-        }
-      }
+        },
+      };
       const res = await mutate(DESTROY, variables, token);
 
       expect(res.body.data.destroyDisc).to.be.null;
       expect(res.body.errors).to.exist;
-      expect(res.body.errors[0].message).to.equal('Missing permission for disc.destroy');
+      expect(res.body.errors[0].message).to.equal(
+        'Missing permission for disc.destroy'
+      );
     });
   });
   describe('User: with Permissions', () => {
@@ -258,12 +268,14 @@ describe('Integration - Disc', () => {
         disc: {
           ...attrs,
           userId: otherUser.id,
-        }
-      }
+        },
+      };
       const res = await mutate(CREATE, variables, token);
 
       expect(res.body.data.createDisc).to.be.null;
-      expect(res.body.errors[0].message).to.equal('You are not the current user.');
+      expect(res.body.errors[0].message).to.equal(
+        'You are not the current user.'
+      );
     });
     it('should create my own', async () => {
       const attrs = await factory.attrs('Disc');
@@ -272,7 +284,7 @@ describe('Integration - Disc', () => {
           ...attrs,
           userId: usr.id,
         },
-      }
+      };
 
       const res = await mutate(CREATE, variables, token);
 
@@ -289,12 +301,14 @@ describe('Integration - Disc', () => {
           id: record.id,
           brand: 'new brand',
           userId: otherUser.id,
-        }
-      }
+        },
+      };
       const res = await mutate(UPDATE, variables, token);
 
       expect(res.body.data.updateDisc).to.be.null;
-      expect(res.body.errors[0].message).to.equal('You can not modify this entry.');
+      expect(res.body.errors[0].message).to.equal(
+        'You can not modify this entry.'
+      );
     });
     it('should update my own', async () => {
       const record = await factory.create('Disc', {
@@ -305,7 +319,7 @@ describe('Integration - Disc', () => {
           id: record.id,
           brand: 'new brand',
         },
-      }
+      };
       const res = await mutate(UPDATE, variables, token);
 
       expect(res.body.data.updateDisc).to.exist;
@@ -318,13 +332,15 @@ describe('Integration - Disc', () => {
       const variables = {
         disc: {
           id: destroy.id,
-        }
-      }
+        },
+      };
 
       const res = await mutate(DESTROY, variables, token);
 
       expect(res.body.data.destroyDisc).to.be.null;
-      expect(res.body.errors[0].message).to.equal('You can not destroy this entry.');
+      expect(res.body.errors[0].message).to.equal(
+        'You can not destroy this entry.'
+      );
     });
     it('should destroy my own', async () => {
       const destroy = await factory.create('Disc', {
@@ -334,8 +350,8 @@ describe('Integration - Disc', () => {
       const variables = {
         disc: {
           id: destroy.id,
-        }
-      }
+        },
+      };
 
       const res = await mutate(DESTROY, variables, token);
 
@@ -344,6 +360,61 @@ describe('Integration - Disc', () => {
 
       const found = await db.Disc.findByPk(res.body.data.destroyDisc.id);
       expect(found).to.be.null;
+    });
+    it('should not add another users disc', async () => {
+      const otherUser = await factory.create('User');
+      const disc = await factory.create('Disc', {
+        userId: otherUser.id,
+      });
+
+      const bag = await factory.create('Bag', {
+        userId: otherUser.id,
+      });
+
+      const QUERY = `
+      mutation addDiscToBag($discId: Int!, $bagId: Int!) {
+        addDiscToBag(discId: $discId, bagId: $bagId) {
+          id
+        }
+      }`;
+
+      const variables = {
+        discId: disc.id,
+        bagId: bag.id,
+      };
+
+      const res = await mutate(QUERY, variables, token);
+      expect(res.body.data.addDiscToBag).to.be.null;
+      expect(res.body.errors[0].message).to.equal(
+        'You are not the current user.'
+      );
+    });
+    it('should add a disc to a bag', async () => {
+      const disc = await factory.create('Disc', {
+        userId: usr.id,
+      });
+
+      const bag = await factory.create('Bag', {
+        userId: usr.id,
+      });
+
+      const QUERY = `
+      mutation addDiscToBag($discId: Int!, $bagId: Int!) {
+        addDiscToBag(discId: $discId, bagId: $bagId) {
+          id
+        }
+      }`;
+
+      const variables = {
+        discId: disc.id,
+        bagId: bag.id,
+      };
+
+      const res = await mutate(QUERY, variables, token);
+      expect(res.body.data.addDiscToBag.id).to.equal(disc.id);
+
+      const discs = (await bag.getDiscs()).map((item) => item.id);
+      expect(discs).to.include.members([disc.id]);
     });
   });
 });

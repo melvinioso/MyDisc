@@ -13,25 +13,18 @@ const fields = `
   userId: Int
 `;
 
-const discBagFields = `
-  discId: Int
-  bagId: Int
-`;
-
 export default gql`
 
   extend type Query {
     discs: [Disc] @listArgs
     disc: Disc @defaultArgs
-    discBags: [DiscBag] @listArgs
-    discBag: DiscBag @defaultArgs
   }
 
   extend type Mutation {
     createDisc(disc: DiscCreate): Disc
     updateDisc(disc: DiscUpdate): Disc
     destroyDisc(disc: DiscDestroy): Disc
-    createDiscBag(disc: DiscBagCreate): DiscBag
+    addDiscToBag(discId: Int!, bagId: Int!): Disc
   }
 
   type Disc {
@@ -39,16 +32,6 @@ export default gql`
     ${fields}
 
     user: User
-
-    createdAt: DateTime
-    updatedAt: DateTime
-  }
-
-  type DiscBag {
-    ${discBagFields}
-
-    disc: Disc
-    bag: Bag
 
     createdAt: DateTime
     updatedAt: DateTime
@@ -65,9 +48,5 @@ export default gql`
 
   input DiscDestroy {
     id: Int!
-  }
-
-  input DiscBagCreate {
-    ${discBagFields}
   }
 `;

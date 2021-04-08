@@ -15,6 +15,9 @@ const READ = `
       user {
         id
       }
+      discs {
+        id
+      }
     }
   }
 `;
@@ -260,6 +263,23 @@ describe('Integration - Bag', () => {
       expect(res.body.data.bag.id).to.equal(record.id);
       expect(res.body.data.bag.user.id).to.exist;
       expect(res.body.errors).to.be.undefined;
+    });
+    it('should read my own discs', async () => {
+      const disc = await factory.create('Disc', {
+        userId: usr.id,
+      });
+
+      const bag = await factory.create('Bag', {
+        userId: usr.id,
+      });
+
+      await disc.addToBag(bag);
+      const res = await query(READ, { id: bag.id }, token);
+
+      expect(res.body.data.bag.discs).to.exist;
+      expect(res.body.data.bag.discs.length).to.equal(1);
+      expect(res.body.errors).to.be.undefined;
+      expect(res.body.data.bag.discs[0].id).to.equal(disc.id);
     });
     it('should NOT create', async () => {
       const otherUser = await factory.create('User');

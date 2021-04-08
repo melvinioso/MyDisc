@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { Colors } from 'react-native-ui-lib';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { defaultScreenOptions as screenOptions } from '../../theme';
 
@@ -10,7 +9,6 @@ import { ApolloProvider } from '@apollo/client';
 
 import MyDiscsNavigator from '../MyDiscs';
 import MyBagsNavigator from '../MyBags';
-import BuildABagNavigator from '../BuildABag';
 
 import Bag from '../../../assets/svgs/bag';
 
@@ -56,16 +54,6 @@ function Main() {
             ),
           }}
         />
-        {/* <Tab.Screen
-          name="BuildABag"
-          component={BuildABagNavigator}
-          options={{
-            tabBarLabel: 'Build A Bag',
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="tools" size={24} color={color} />
-            ),
-          }}
-        /> */}
         <Tab.Screen
           name="MyBags"
           component={MyBagsNavigator}

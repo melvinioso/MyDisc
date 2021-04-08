@@ -48,11 +48,10 @@ export const DESTROY_BAG = gql`
   }
 `;
 
-export const CREATE_DISCBAG = gql`
-  mutation create($disc: DiscBagCreate) {
-    createDiscBag(disc: $disc) {
-      discId
-      bagId
+export const ADD_DISC_TO_BAG = gql`
+  mutation addDiscToBag($discId: Int!, $bagId: Int!) {
+    addDiscToBag(discId: $discId, bagId: $bagId) {
+      id
     }
   }
 `;
