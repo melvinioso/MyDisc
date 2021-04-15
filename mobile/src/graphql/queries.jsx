@@ -8,6 +8,7 @@ export const QUERY_DISCS = gql`
       mold
       plastic
       color
+      type
       weight
       speed
       glide
@@ -26,6 +27,10 @@ export const QUERY_BAGS = gql`
       capacity
       color
       userId
+      discs {
+        id
+        type
+      }
     }
   }
 `;

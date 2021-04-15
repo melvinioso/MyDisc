@@ -10,7 +10,7 @@ const HEIGHT = width / 4;
 const ITEM_HEIGHT = HEIGHT * 0.75;
 
 function Bag(props) {
-  const { name, capacity, color } = props;
+  const { name, capacity, color, discs } = props;
 
   return (
     <View
@@ -36,7 +36,7 @@ function Bag(props) {
           </Text>
           <View row marginL-20>
             <Text text80M mint>
-              Discs: 20 / {capacity}
+              Discs: {discs.length} / {capacity}
             </Text>
           </View>
         </View>

@@ -24,6 +24,7 @@ Factory.define('Disc', DB.Disc, {
   mold: faker.lorem.word,
   plastic: faker.lorem.word,
   color: faker.commerce.color,
+  type: faker.lorem.word,
   weight: faker.random.number({
     min: 150,
     max: 175,

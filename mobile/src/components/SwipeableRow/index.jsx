@@ -71,6 +71,8 @@ export default class SwipeableRow extends Component {
 
   renderLeftActions = (progress) => {
     const { handleAddDisc } = this.props;
+    if (handleAddDisc === null) return null;
+
     return (
       <View
         style={{

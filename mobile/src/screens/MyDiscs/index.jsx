@@ -14,7 +14,7 @@ import BagSvg from '../../../assets/svgs/bag';
 
 import { useQuery } from '@apollo/client';
 import { useMutation } from '@apollo/client';
-import { DESTROY_DISC } from '../../graphql/mutations';
+import { DESTROY_DISC, ADD_DISC_TO_BAG } from '../../graphql/mutations';
 import { QUERY_DISCS, QUERY_BAGS } from '../../graphql/queries';
 
 import EditDisc from '../EditDisc';
@@ -36,6 +36,7 @@ function MyDiscs() {
   const [activeBag, setActiveBag] = useState(null);
   const [visible, setVisible] = useState(false);
   const [destroyDisc] = useMutation(DESTROY_DISC);
+  const [addDiscToBag] = useMutation(ADD_DISC_TO_BAG);
   const { data: discsData } = useQuery(QUERY_DISCS, {
     variables: { where: { userId: user?.id } },
   });
@@ -54,6 +55,7 @@ function MyDiscs() {
   });
 
   const bags = get(bagData, 'bags', []);
+  console.log(bags);
 
   const borderColor = darken(0.1, Colors.white);
 
@@ -83,20 +85,22 @@ function MyDiscs() {
   }
 
   async function addItem(item) {
+    if (!activeBag) return;
+
     try {
-      // await addDiscToBag({
-      //   variables: {
-      //     discId: item.id,
-      //     bagId: activeBag.id,
-      //   },
-      // refetchQueries: [
-      //   {
-      //     query: QUERY_DISCS,
-      //     variables: { where: { userId: user.id } },
-      //   },
-      // ],
-      // awaitRefetchQueries: true,
-      // });
+      await addDiscToBag({
+        variables: {
+          discId: item.id,
+          bagId: activeBag.id,
+        },
+        refetchQueries: [
+          {
+            query: QUERY_BAGS,
+            variables: { where: { userId: user.id } },
+          },
+        ],
+        awaitRefetchQueries: true,
+      });
     } catch (e) {
       console.log(e);
     }
@@ -170,7 +174,7 @@ function MyDiscs() {
           <View center marginL-10>
             {activeBag ? (
               <Text indigo text60BO>
-                0 / {activeBag?.capacity}
+                {activeBag?.discs.length} / {activeBag?.capacity}
               </Text>
             ) : null}
           </View>
@@ -232,7 +236,7 @@ function MyDiscs() {
             <SwipeableRow
               handleDelete={() => deleteItem(item)}
               handleEdit={() => editItem(item)}
-              handleAddDisc={() => addItem(item)}
+              handleAddDisc={activeBag ? () => addItem(item) : null}
             >
               <Disc {...item} index={index} />
             </SwipeableRow>
