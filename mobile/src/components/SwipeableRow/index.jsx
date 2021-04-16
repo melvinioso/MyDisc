@@ -70,8 +70,8 @@ export default class SwipeableRow extends Component {
   };
 
   renderLeftActions = (progress) => {
-    const { handleAddDisc } = this.props;
-    if (handleAddDisc === null) return null;
+    const { handleAdd } = this.props;
+    if (handleAdd === null) return null;
 
     return (
       <View
@@ -84,7 +84,7 @@ export default class SwipeableRow extends Component {
           'Add to bag',
           Colors.mint,
           width,
-          handleAddDisc,
+          handleAdd,
           progress
         )}
       </View>

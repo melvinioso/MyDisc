@@ -82,6 +82,7 @@ function MyBags() {
             <SwipeableRow
               handleDelete={() => deleteItem(item)}
               handleEdit={() => editItem(item)}
+              handleAdd={null}
             >
               <Bag {...item} index={index} />
             </SwipeableRow>

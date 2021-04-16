@@ -49,13 +49,10 @@ function MyDiscs() {
       return true;
     }
 
-    const { min, max } = speedFilter;
-
-    return i.speed >= min && i.speed <= max;
+    return i.type === speedFilter;
   });
 
   const bags = get(bagData, 'bags', []);
-  console.log(bags);
 
   const borderColor = darken(0.1, Colors.white);
 
@@ -201,27 +198,27 @@ function MyDiscs() {
             labelStyle={styles.labelStyle}
             selectedLabelStyle={{ color: Colors.indigo }}
             showDivider
-            onPress={() => setSpeedFilter({ min: 1, max: 3 })}
+            onPress={() => setSpeedFilter('Putter')}
           />
           <TabBar.Item
             label="4-5"
             labelStyle={styles.labelStyle}
             selectedLabelStyle={{ color: Colors.indigo }}
             showDivider
-            onPress={() => setSpeedFilter({ min: 4, max: 5 })}
+            onPress={() => setSpeedFilter('Midrange')}
           />
           <TabBar.Item
             label="6-8"
             labelStyle={styles.labelStyle}
             selectedLabelStyle={{ color: Colors.indigo }}
             showDivider
-            onPress={() => setSpeedFilter({ min: 6, max: 8 })}
+            onPress={() => setSpeedFilter('Fairway')}
           />
           <TabBar.Item
             label="9-14"
             labelStyle={styles.labelStyle}
             selectedLabelStyle={{ color: Colors.indigo }}
-            onPress={() => setSpeedFilter({ min: 9, max: 14 })}
+            onPress={() => setSpeedFilter('Distance')}
           />
         </TabBar>
         <FlatList
@@ -236,7 +233,7 @@ function MyDiscs() {
             <SwipeableRow
               handleDelete={() => deleteItem(item)}
               handleEdit={() => editItem(item)}
-              handleAddDisc={activeBag ? () => addItem(item) : null}
+              handleAdd={activeBag ? () => addItem(item) : null}
             >
               <Disc {...item} index={index} />
             </SwipeableRow>
