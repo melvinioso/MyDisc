@@ -233,7 +233,11 @@ function MyDiscs() {
             <SwipeableRow
               handleDelete={() => deleteItem(item)}
               handleEdit={() => editItem(item)}
-              handleAdd={activeBag ? () => addItem(item) : null}
+              handleAdd={
+                activeBag && activeBag.discs.length <= activeBag.capacity
+                  ? () => addItem(item)
+                  : null
+              }
             >
               <Disc {...item} index={index} />
             </SwipeableRow>
