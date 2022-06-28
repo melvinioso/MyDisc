@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react';
 import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import decode from 'jwt-decode';
 import Constants from 'expo-constants';
 
