@@ -10,7 +10,15 @@ const HEIGHT = width / 4;
 const ITEM_HEIGHT = HEIGHT * 0.75;
 
 function Bag(props) {
-  const { name, capacity, color } = props;
+  const { name, capacity, color, discs } = props;
+
+  const discTypes = (type) => {
+    let filtered = discs.filter((disc) => {
+      return disc.type === type;
+    });
+
+    return filtered.length;
+  };
 
   return (
     <View
@@ -36,7 +44,7 @@ function Bag(props) {
           </Text>
           <View row marginL-20>
             <Text text80M mint>
-              Discs: 20 / {capacity}
+              Discs: {discs.length} / {capacity}
             </Text>
           </View>
         </View>
@@ -46,16 +54,16 @@ function Bag(props) {
             <Text text90L>Midranges:</Text>
           </View>
           <View column marginL-10>
-            <Text text90M>6</Text>
-            <Text text90M>6</Text>
+            <Text text90M>{discTypes('Putter')}</Text>
+            <Text text90M>{discTypes('Midrange')}</Text>
           </View>
           <View column marginL-20>
             <Text text90L>Fairways:</Text>
             <Text text90L>Distance:</Text>
           </View>
           <View column marginL-10>
-            <Text text90M>8</Text>
-            <Text text90M>0</Text>
+            <Text text90M>{discTypes('Fairway')}</Text>
+            <Text text90M>{discTypes('Distance')}</Text>
           </View>
         </View>
       </View>

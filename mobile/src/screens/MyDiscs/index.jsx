@@ -14,7 +14,7 @@ import BagSvg from '../../../assets/svgs/bag';
 
 import { useQuery } from '@apollo/client';
 import { useMutation } from '@apollo/client';
-import { DESTROY_DISC } from '../../graphql/mutations';
+import { DESTROY_DISC, ADD_DISC_TO_BAG } from '../../graphql/mutations';
 import { QUERY_DISCS, QUERY_BAGS } from '../../graphql/queries';
 
 import EditDisc from '../EditDisc';
@@ -36,6 +36,7 @@ function MyDiscs() {
   const [activeBag, setActiveBag] = useState(null);
   const [visible, setVisible] = useState(false);
   const [destroyDisc] = useMutation(DESTROY_DISC);
+  const [addDiscToBag] = useMutation(ADD_DISC_TO_BAG);
   const { data: discsData } = useQuery(QUERY_DISCS, {
     variables: { where: { userId: user?.id } },
   });
@@ -48,9 +49,7 @@ function MyDiscs() {
       return true;
     }
 
-    const { min, max } = speedFilter;
-
-    return i.speed >= min && i.speed <= max;
+    return i.type === speedFilter;
   });
 
   const bags = get(bagData, 'bags', []);
@@ -83,20 +82,22 @@ function MyDiscs() {
   }
 
   async function addItem(item) {
+    if (!activeBag) return;
+
     try {
-      // await addDiscToBag({
-      //   variables: {
-      //     discId: item.id,
-      //     bagId: activeBag.id,
-      //   },
-      // refetchQueries: [
-      //   {
-      //     query: QUERY_DISCS,
-      //     variables: { where: { userId: user.id } },
-      //   },
-      // ],
-      // awaitRefetchQueries: true,
-      // });
+      await addDiscToBag({
+        variables: {
+          discId: item.id,
+          bagId: activeBag.id,
+        },
+        refetchQueries: [
+          {
+            query: QUERY_BAGS,
+            variables: { where: { userId: user.id } },
+          },
+        ],
+        awaitRefetchQueries: true,
+      });
     } catch (e) {
       console.log(e);
     }
@@ -170,7 +171,7 @@ function MyDiscs() {
           <View center marginL-10>
             {activeBag ? (
               <Text indigo text60BO>
-                0 / {activeBag?.capacity}
+                {activeBag?.discs.length} / {activeBag?.capacity}
               </Text>
             ) : null}
           </View>
@@ -197,27 +198,27 @@ function MyDiscs() {
             labelStyle={styles.labelStyle}
             selectedLabelStyle={{ color: Colors.indigo }}
             showDivider
-            onPress={() => setSpeedFilter({ min: 1, max: 3 })}
+            onPress={() => setSpeedFilter('Putter')}
           />
           <TabBar.Item
             label="4-5"
             labelStyle={styles.labelStyle}
             selectedLabelStyle={{ color: Colors.indigo }}
             showDivider
-            onPress={() => setSpeedFilter({ min: 4, max: 5 })}
+            onPress={() => setSpeedFilter('Midrange')}
           />
           <TabBar.Item
             label="6-8"
             labelStyle={styles.labelStyle}
             selectedLabelStyle={{ color: Colors.indigo }}
             showDivider
-            onPress={() => setSpeedFilter({ min: 6, max: 8 })}
+            onPress={() => setSpeedFilter('Fairway')}
           />
           <TabBar.Item
             label="9-14"
             labelStyle={styles.labelStyle}
             selectedLabelStyle={{ color: Colors.indigo }}
-            onPress={() => setSpeedFilter({ min: 9, max: 14 })}
+            onPress={() => setSpeedFilter('Distance')}
           />
         </TabBar>
         <FlatList
@@ -232,7 +233,11 @@ function MyDiscs() {
             <SwipeableRow
               handleDelete={() => deleteItem(item)}
               handleEdit={() => editItem(item)}
-              handleAddDisc={() => addItem(item)}
+              handleAdd={
+                activeBag && activeBag.discs.length <= activeBag.capacity
+                  ? () => addItem(item)
+                  : null
+              }
             >
               <Disc {...item} index={index} />
             </SwipeableRow>

@@ -36,6 +36,9 @@ export const UPDATE_BAG = gql`
   mutation update($bag: BagUpdate) {
     updateBag(bag: $bag) {
       id
+      name
+      capacity
+      color
     }
   }
 `;

@@ -80,12 +80,20 @@ function EditDiscForm({ disc, close }) {
     setPickerVisible(!pickerVisible);
   };
 
+  const discType = (speed) => {
+    if (speed >= 1 && speed <= 3) return 'Putter';
+    if (speed >= 4 && speed <= 5) return 'Midrange';
+    if (speed >= 6 && speed <= 8) return 'Fairway';
+    if (speed >= 9 && speed <= 14) return 'Distance';
+  };
+
   async function onSubmit(values) {
     try {
       await updateDisc({
         variables: {
           disc: {
             ...values,
+            type: discType(values.speed),
             id: disc.id,
           },
         },

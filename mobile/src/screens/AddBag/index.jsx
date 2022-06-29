@@ -147,7 +147,7 @@ function AddBag({ visible, close }) {
               />
             </View>
             <View spread row center marginT-20>
-              <Text marginR-20 text80M text80M slate>
+              <Text marginR-20 text80M slate>
                 Capacity
               </Text>
               <Slider
