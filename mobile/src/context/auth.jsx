@@ -78,6 +78,7 @@ export function AuthProvider({ children }) {
   }
 
   async function createAccount({ name, providerId, providerKey }) {
+    console.log(name, providerId, providerKey);
     try {
       const res = await axios.post(
         `${API_HOST}/auth/user/register`,
@@ -88,6 +89,7 @@ export function AuthProvider({ children }) {
         },
         { headers: { 'content-type': 'application/json' } }
       );
+      console.log(res);
 
       const { token: newToken } = res.data;
       if (!newToken) {
